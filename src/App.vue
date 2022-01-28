@@ -97,7 +97,7 @@
         </v-row>
         <v-row id="row__tools">
           <!-- <live-date-time /> -->
-          <!-- <local-weather /> -->
+          <local-weather />
         </v-row>
       
         <!-- <v-row v-if="$route.path === '/todo' ">
@@ -116,18 +116,27 @@
 
     <v-main>
       <!--  -->
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
   export default {
+    components: {
+    // 'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
+    // 'snackbar': require('@/components/Shared/Snackbar.vue').default,
+    // 'search': require('@/components/Tools/Search.vue').default,
+    // 'live-date-time': require('@/components/Tools/LiveDateTime.vue').default,
+    // 'rigth-side-toolbar': require('@/components/Tools/RigthSideToolbar.vue').default,
+    'local-weather': require('@/components/Tools/LocalWeather.vue').default
+  },
     data: () => ({ 
       drawer: null,
       defaultImage: 'https://lenguajejs.com/javascript/logo.svg',
       title: 'Inspection',
       items: [
-      { title: 'Todo', icon: 'mdi-format-list-checks', to: '/todo' },
+      { title: 'Inspection', icon: 'mdi-format-list-checks', to: '/inspection' },
       { title: 'About', icon: 'mdi-help-box', to: '/about' },
       { title: 'Profile', icon: 'mdi-emoticon-cool-outline', to: '/profile' },
       { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
