@@ -17,15 +17,14 @@
           class="mb-2"
         >
           <img
-            v-if="userDB"
-            :src="userDB.image ? userDB.image : defaultImage "
-            alt="User Avatar"
-          >
-          <img
-            v-if="!userDB"
             :src="defaultImage"
             alt="User Avatar"
           >
+          <!-- <img
+            v-if="!userDB"
+            :src="defaultImage"
+            alt="User Avatar"
+          > -->
         </v-avatar>
         <!-- <div v-if="userDB">
           <div class="white--text text-subtitle-1 font-weight-bold">{{ userDB.name ? userDB.name : ''}}</div>
@@ -96,7 +95,7 @@
           </v-app-bar-title>
         </v-row>
         <v-row id="row__tools">
-          <!-- <live-date-time /> -->
+          <live-date-time />
           <local-weather />
         </v-row>
       
@@ -124,10 +123,11 @@
 <script>
   export default {
     components: {
+      // 'form': require('@/components/Form.vue').default,
     // 'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
     // 'snackbar': require('@/components/Shared/Snackbar.vue').default,
     // 'search': require('@/components/Tools/Search.vue').default,
-    // 'live-date-time': require('@/components/Tools/LiveDateTime.vue').default,
+    'live-date-time': require('@/components/Tools/LiveDateTime.vue').default,
     // 'rigth-side-toolbar': require('@/components/Tools/RigthSideToolbar.vue').default,
     'local-weather': require('@/components/Tools/LocalWeather.vue').default
   },

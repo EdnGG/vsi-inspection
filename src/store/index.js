@@ -15,10 +15,8 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getLocalWeather({ commit }) {
-      // console.log('object navigation: ', navigatior.geolocation)
-      return navigator.geolocation.getCurrentPosition(position => {
-        //  console.log('Position: ', position)
+    async getLocalWeather({ commit }) {
+      return await navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude
         const lon = position.coords.longitude
         // need to find the client location 
@@ -29,7 +27,6 @@ export default new Vuex.Store({
           .then(data => {
             commit('SET_LOCAL_WEATHER', data)
           })
-          // console.log(data)
           .catch(error => {
             console.log(error)
           })

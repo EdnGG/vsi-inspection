@@ -1,6 +1,6 @@
 <template>
   <div class="text-subtitle-1 ml-4">
-  {{weather.name}} - {{weather.sys.country}} - {{weather.weather[0].main}} - {{Math.round(weather.main.temp)}}°F
+  {{weather.name}} - {{weather.sys.country}} - {{weather.weather[0].description}} - {{Math.round(weather.main.temp)}}°F
   
   </div>
 </template>
