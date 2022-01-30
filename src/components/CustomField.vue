@@ -26,7 +26,6 @@
 <script>
   export default {
     props: ['val1', 'val2', 'val3', 'val4', 'val5'],
-    // props: ['val11', 'val12'],
     data () {
       return {
         select: { state: 'Good', item: 'Looks good' },
