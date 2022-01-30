@@ -4,7 +4,7 @@
       <v-row>
         <v-col
           cols="12"
-          md="4"
+          md="3"
         >
           <v-text-field
             v-model="inspection"
@@ -17,7 +17,7 @@
 
         <v-col
           cols="12"
-          md="4"
+          md="3"
         >
           <v-text-field
             v-model="date"
@@ -30,7 +30,7 @@
 
         <v-col
           cols="12"
-          md="4"
+          md="3"
         >
           <v-text-field
             v-model="technical"
@@ -39,36 +39,40 @@
             required
           ></v-text-field>
         </v-col>
+        <v-col
+          cols="12"
+          md="3"
+        >
+          <v-text-field
+            v-model="actuator"
+            :rules="inspectionRules"
+            label="Actuator Model"
+            required
+          ></v-text-field>
+        </v-col>
       </v-row>
     </v-container>
 
 <!--  -->
 
-<custom-field />
+<!-- <custom-field :val2="val2"/> -->
+<custom-field :val1="val1"/>
+<custom-field :val2="val2"/>
+<custom-field :val3="val3"/>
+<custom-field :val4="val4"/>
+<custom-field :val5="val5"/>
 
-<!-- <v-container fluid>
-    <v-row align="center">
-      <v-col cols="6">
-        <v-subheader>
-          Custom items
-        </v-subheader>
-      </v-col>
+    <!-- <v-btn
+      v-model="valid"
+      :disabled="!valid"
+      color="primary"
+      type="submit"
+    >
+      Submit
+    </v-btn> -->
+  
 
-      <v-col cols="6">
-        <v-select
-          v-model="select"
-          :hint="`${select.state}, ${select.abbr}`"
-          :items="items"
-          item-text="state"
-          item-value="abbr"
-          label="Select"
-          persistent-hint
-          return-object
-          single-line
-        ></v-select>
-      </v-col>
-    </v-row>
-  </v-container> -->
+
 
 <!--  -->
 
@@ -82,15 +86,17 @@
     },
     data: () => ({
 
-      // select: { state: 'Florida', abbr: 'FL' },
-      //   items: [
-      //     { state: 'Florida', abbr: 'FL' },
-      //     { state: 'Georgia', abbr: 'GA' },
-      //     { state: 'Nebraska', abbr: 'NE' },
-      //     { state: 'California', abbr: 'CA' },
-      //     { state: 'New York', abbr: 'NY' },
-      //   ],
+      val1: 'Wire compartiment',
+      val2: 'Body',
+      val3: 'Water',
+      val4: 'Apperiance',
+      val5: 'Bolt Circle',
 
+      // state: {
+      //   state1: 'Wire compartiment',
+      //   state2: 'Body',
+      //   state3: 'Water',
+      // },
 
       valid: false,
       inspection: '',
@@ -100,6 +106,7 @@
         v => v.length <= 10 || 'Field must be less than 10 characters',
       ],
       technical: '',
+      actuator: '',
       emailRules: [
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid',

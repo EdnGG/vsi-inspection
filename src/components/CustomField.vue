@@ -3,14 +3,14 @@
     <v-row align="center">
       <v-col cols="6">
         <v-subheader>
-          Custom
+         {{val1}} {{val2}} {{val3}} {{val4}} {{val5}}
         </v-subheader>
       </v-col>
 
       <v-col cols="6">
         <v-select
           v-model="select"
-          :hint="`${select.state}, ${select.item}`"
+          :hint="`${select.item}`"
           :items="items"
           item-text="state"
           label="Select"
@@ -25,12 +25,14 @@
 
 <script>
   export default {
+    props: ['val1', 'val2', 'val3', 'val4', 'val5'],
+    // props: ['val11', 'val12'],
     data () {
       return {
-        select: { state: 'Good', item: 'Good Actuator' },
+        select: { state: 'Good', item: 'Looks good' },
         items: [
-          { state: 'Good', item: 'Good Actuator' },
-          { state: 'Bad', item: 'Bad Actuator' },
+          { state: 'Good', item: 'Looks good' },
+          { state: 'Bad', item: 'Looks Bad' },
           { state: 'Not sure', item: 'Not sure condition' },
         ],
       }

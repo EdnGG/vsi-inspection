@@ -137,9 +137,10 @@
       title: 'Inspection',
       items: [
       { title: 'Inspection', icon: 'mdi-format-list-checks', to: '/inspection' },
+      { title: 'Belimo', icon: 'mdi-emoticon-cool-outline', to: '/belimo' },
       { title: 'About', icon: 'mdi-help-box', to: '/about' },
-      { title: 'Profile', icon: 'mdi-emoticon-cool-outline', to: '/profile' },
-      { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
+      
+      // { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
     ],
   }),
   }
