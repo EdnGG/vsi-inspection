@@ -76,17 +76,11 @@ export default {
     "custom-field": require("@/components/CustomField.vue").default,
   },
   data: () => ({
-    val1: "Wire compartiment",
-    val2: "Body",
-    val3: "Water",
-    val4: "Apperiance",
-    val5: "Bolt Circle",
-
-    // state: {
-    //   state1: 'Wire compartiment',
-    //   state2: 'Body',
-    //   state3: 'Water',
-    // },
+    val1: "Visual",
+    val2: "Water Inspection",
+    val3: "Operational Test",
+    val4: "Wire Compartment",
+    val5: "Handwheel Bolt Patern",
 
     valid: false,
     inspection: "",
