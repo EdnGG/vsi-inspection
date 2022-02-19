@@ -9,7 +9,7 @@
     <v-row class="text-center">
       <v-col justify-center align-center cols="12" sm="12" class="text-center">
         <form-actuators />
-      </v-col>
+      </v-col> 
     </v-row>
     <!-- <actuator /> -->
   </v-container>

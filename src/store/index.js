@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    weather: {}
+    weather: {},
+    description: []
   },
   mutations: {
     // SET_LOCAL_WEATHER(state, payload) {

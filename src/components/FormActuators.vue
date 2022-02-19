@@ -1,35 +1,30 @@
 <template>
   <v-container fluid mt-5 pa-5>
-    <!-- <v-row justify-center align-center class="text-center"> -->
-      <!-- <v-col cols="12"> -->
         <!--  -->
         <v-form v-model="valid">
-          <!-- <v-container> -->
           <v-container>
           <v-row class="d-flex justify-space-around" >
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection"
+                v-model="inspection.inspection"
                 :rules="inspectionRules"
                 :counter="10"
                 label="Inspection #"
                 required
               ></v-text-field>
             </v-col>
-
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="date"
+                v-model="inspection.date"
                 :rules="inspectionRules"
                 :counter="10"
                 label="Date"
                 required
               ></v-text-field>
             </v-col>
-
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="technical"
+                v-model="inspection.technical"
                 :rules="inspectionRules"
                 label="Technical Name"
                 required
@@ -46,8 +41,7 @@
                   elevation="2"
                 >
                   Next
-                </v-btn>
-                  
+                </v-btn> 
               </v-col>
             </v-row>
           </v-container>
@@ -55,7 +49,7 @@
           <v-row class="d-flex justify-space-around">
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="actuator"
+                v-model="inspection.actuator"
                 :rules="inspectionRules"
                 label="Actuator Model"
                 required
@@ -63,7 +57,7 @@
             </v-col>
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="controlPack"
+                v-model="inspection.controlPack"
                 :rules="inspectionRules"
                 label="Control Pack Model"
                 required
@@ -73,123 +67,17 @@
           <v-row>
             <v-col cols="12">
               <v-container fluid>
-                <!-- <v-container fluid> -->
-                <v-row justify-center align-center class="text-center">
-                  <v-col cols="6">
-                    <v-subheader>
-                      Visual
-                    <!-- {{val1}} {{val2}} {{val3}} {{val4}} {{val5}} -->
-                    </v-subheader>
-                  </v-col>
-
-                  <v-col cols="6">
-                    <v-select
-                      v-model="select"
-                      :hint="`${select.item}`"
-                      :items="items"
-                      item-text="state"
-                      label="Select"
-                      persistent-hint
-                      return-object
-                      single-line
-                    ></v-select>
-                  </v-col>
-                  
-                </v-row>
-                <v-row align="center">
-                  <v-col cols="6">
-                    <v-subheader>
-                      Water Inspection
-                    <!-- {{val1}} {{val2}} {{val3}} {{val4}} {{val5}} -->
-                    </v-subheader>
-                  </v-col>
-
-                  <v-col cols="6">
-                    <v-select
-                      v-model="select"
-                      :hint="`${select.item}`"
-                      :items="items"
-                      item-text="state"
-                      label="Select"
-                      persistent-hint
-                      return-object
-                      single-line
-                    ></v-select>
-                  </v-col>
-                  
-                </v-row>
-                <v-row align="center">
-                  <v-col cols="6">
-                    <v-subheader>
-                      Operational Test
-                    <!-- {{val1}} {{val2}} {{val3}} {{val4}} {{val5}} -->
-                    </v-subheader>
-                  </v-col>
-
-                  <v-col cols="6">
-                    <v-select
-                      v-model="select"
-                      :hint="`${select.item}`"
-                      :items="items"
-                      item-text="state"
-                      label="Select"
-                      persistent-hint
-                      return-object
-                      single-line
-                    ></v-select>
-                  </v-col>
-                  
-                </v-row>
-                <v-row align="center">
-                  <v-col cols="6">
-                    <v-subheader>
-                      Wire Compartment
-                    <!-- {{val1}} {{val2}} {{val3}} {{val4}} {{val5}} -->
-                    </v-subheader>
-                  </v-col>
-
-                  <v-col cols="6">
-                    <v-select
-                      v-model="select"
-                      :hint="`${select.item}`"
-                      :items="items"
-                      item-text="state"
-                      label="Select"
-                      persistent-hint
-                      return-object
-                      single-line
-                    ></v-select>
-                  </v-col>
-                  
-                </v-row>
-                <v-row align="center">
-                  <v-col cols="6">
-                    <v-subheader>
-                      Handwheel Bolt Patern
-                    <!-- {{val1}} {{val2}} {{val3}} {{val4}} {{val5}} -->
-                    </v-subheader>
-                  </v-col>
-
-                  <v-col cols="6">
-                    <v-select
-                      v-model="select"
-                      :hint="`${select.item}`"
-                      :items="items"
-                      item-text="state"
-                      label="Select"
-                      persistent-hint
-                      return-object
-                      single-line
-                    ></v-select>
-                  </v-col>
-                  
-                </v-row>
-              <!-- </v-container> -->
-                <!-- <custom-field :val1="val1" />
-                <custom-field :val2="val2" />
-                <custom-field :val3="val3" />
-                <custom-field :val4="val4" />
-                <custom-field :val5="val5" /> -->
+                <!-- By components -->
+                <!-- <custom-field :val1="val1" :items="items" :select="select"/>
+                <custom-field :val2="val2" :items="items" :select="select"/>
+                <custom-field :val3="val3" :items="items" :select="select"/>
+                <custom-field :val4="val4" :items="items" :select="select"/>
+                <custom-field :val5="val5" :items="items" :select="select"/>  -->
+                <custom-field :title1="title1" />
+                <custom-field :title2="title2" />
+                <custom-field :title3="title3" />
+                <custom-field :title4="title4" />
+                <custom-field :title5="title5" /> 
               </v-container>
             </v-col>
           </v-row>
@@ -200,18 +88,21 @@
                   clearable
                   clear-icon="mdi-close-circle"
                   label="Notes:"
-                  v-model="observaciones"
+                  v-model="inspection.observaciones"
                 ></v-textarea>
               </v-container>
             </v-col>
           </v-row>
-          <!-- <v-spacer></v-spacer> -->
-          <v-container>
-          <v-row>
-            <v-col cols="12" md="6" class="block">
-              <v-btn color="warning" :disabled="valid"> Add Actuator </v-btn>
+          <v-container class="button-container">
+          <v-row align-center justify-space-around>
+            <v-col  class="button-container" cols="12" xs="6" text-xs-center>
+              <v-btn class="ma-5 col-xs-6" xs="6" color="warning" :disabled="!prevButton"> Prev Actuator </v-btn>
+              <v-btn class="ma-5 col-xs-6" xs="6" color="warning" :disabled="nextButton"> Next Actuator </v-btn>
             </v-col>
-            <v-col cols="12" md="6">
+             <!-- <v-col cols="12" md="6"> -->
+              <!-- <v-btn color="warning" :disabled="valid"> Next Actuator </v-btn> -->
+            <!-- </v-col> -->
+            <!-- <v-col cols="12" md="6">
               <v-btn
                 color="success"
                 type="submit"
@@ -220,47 +111,61 @@
               >
                 Submit Inspection
               </v-btn>
-            </v-col>
+            </v-col> -->
           </v-row>
+          </v-container>
+          <v-col cols="12">
+              <v-btn
+                color="success"
+                type="submit"
+                block
+                :disabled="valid"
+                @click="submit"
+              >
+                Submit Inspection
+              </v-btn>
+            </v-col>
+          <v-container>
+
           </v-container>
           </v-container>
         </v-form>
-    <!--  -->
-      <!-- </v-col> -->
-    <!-- </v-row> -->
   </v-container>
 </template>
 
 <script>
 export default {
   components: {
-    // "custom-field": require("@/components/CustomField.vue").default,
+    "custom-field": require("@/components/CustomField.vue").default,
   },
   data: () => ({
-    firstVal: false,
-    select: { state: "Good", item: "Looks good" },
-    items: [
-      { state: "Good", item: "Looks good" },
-      { state: "Bad", item: "Looks Bad" },
-      { state: "Not sure", item: "Not sure condition" },
-    ],
-    // val1: "Visual",
-    // val2: "Water Inspection",
-    // val3: "Operational Test",
-    // val4: "Wire Compartment",
-    // val5: "Handwheel Bolt Patern",
-
+    firstVal: !false,
+    prevButon: false,
+    nextButton: false,
+    // select: { state: "God", item: "Looks good" },
+    // items: [
+    //   { state: "Good", item: "Looks good" },
+    //   { state: "Bad", item: "Looks Bad" },
+    //   { state: "Not sure", item: "Not sure condition" },
+    // ],
+    title1: "Visual",
+    title2: "Water Inspection",
+    title3: "Operational Test",
+    title4: "Wire Compartment",
+    title5: "Handwheel Bolt Patern",
     valid: false,
-    inspection: "",
-    date: "",
-    technical: "",
+    inspection: {
+      inspection: "",
+      date: "",
+      technical: "",
+      actuator: "",
+      observaciones: "",
+      controlPack: "",
+    },
     inspectionRules: [
       (v) => !!v || "Field is required",
       (v) => v.length <= 20 || "Field must be less than 10 characters",
     ],
-    actuator: "",
-    observaciones: "",
-    controlPack: "",
     emailRules: [
       (v) => !!v || "E-mail is required",
       (v) => /.+@.+/.test(v) || "E-mail must be valid",
@@ -295,3 +200,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  width: 70%;
+}
+</style>
