@@ -142,9 +142,9 @@ export default {
         to: "/inspection",
       },
       {
-        title: "view Inspectio",
+        title: "view Inspection",
         icon: "mdi-emoticon-cool-outline",
-        to: "/belimo",
+        to: "/view-inspection",
       },
       { title: "About", icon: "mdi-help-box", to: "/about" },
 

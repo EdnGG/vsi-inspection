@@ -22,9 +22,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Inspection.vue')
   },
   {
-    path: '/belimo',
-    name: 'Belimo',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Belimo.vue')
+    path: '/view-inspection',
+    name: 'ViewInspection',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ViewInspection.vue')
   }
 ]
 
