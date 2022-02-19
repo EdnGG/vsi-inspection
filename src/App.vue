@@ -121,29 +121,37 @@
 </template>
 
 <script>
-  export default {
-    components: {
-      // 'form': require('@/components/Form.vue').default,
+export default {
+  components: {
+    // 'form': require('@/components/Form.vue').default,
     // 'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
     // 'snackbar': require('@/components/Shared/Snackbar.vue').default,
     // 'search': require('@/components/Tools/Search.vue').default,
-    'live-date-time': require('@/components/Tools/LiveDateTime.vue').default,
+    "live-date-time": require("@/components/Tools/LiveDateTime.vue").default,
     // 'rigth-side-toolbar': require('@/components/Tools/RigthSideToolbar.vue').default,
-    'local-weather': require('@/components/Tools/LocalWeather.vue').default
+    "local-weather": require("@/components/Tools/LocalWeather.vue").default,
   },
-    data: () => ({ 
-      drawer: null,
-      defaultImage: 'https://lenguajejs.com/javascript/logo.svg',
-      title: 'Inspection',
-      items: [
-      { title: 'Inspection', icon: 'mdi-format-list-checks', to: '/inspection' },
-      { title: 'Belimo', icon: 'mdi-emoticon-cool-outline', to: '/belimo' },
-      { title: 'About', icon: 'mdi-help-box', to: '/about' },
-      
+  data: () => ({
+    drawer: null,
+    defaultImage: "https://lenguajejs.com/javascript/logo.svg",
+    title: "Inspection",
+    items: [
+      {
+        title: "Add Inspection",
+        icon: "mdi-format-list-checks",
+        to: "/inspection",
+      },
+      {
+        title: "view Inspectio",
+        icon: "mdi-emoticon-cool-outline",
+        to: "/belimo",
+      },
+      { title: "About", icon: "mdi-help-box", to: "/about" },
+
       // { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
     ],
   }),
-  }
+};
 </script>
 
 <style lang="sass">

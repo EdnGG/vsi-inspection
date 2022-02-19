@@ -1,12 +1,12 @@
 <template>
   <v-container fluid mt-5 pa-5>
         <!--  -->
-        <v-form v-model="valid">
+        <v-form  @submit.prevent="addActuator" v-model="valid">
           <v-container>
           <v-row class="d-flex justify-space-around" >
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection.inspection"
+                v-model.trim="inspection.inspection.number"
                 :rules="inspectionRules"
                 :counter="10"
                 label="Inspection #"
@@ -15,7 +15,7 @@
             </v-col>
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection.date"
+                v-model.trim="inspection.inspection.date"
                 :rules="inspectionRules"
                 :counter="10"
                 label="Date"
@@ -24,7 +24,7 @@
             </v-col>
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection.technical"
+                v-model.trim="inspection.inspection.technical"
                 :rules="inspectionRules"
                 label="Technical Name"
                 required
@@ -49,7 +49,7 @@
           <v-row class="d-flex justify-space-around">
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection.actuator"
+                v-model.trim="inspection.actuator"
                 :rules="inspectionRules"
                 label="Actuator Model"
                 required
@@ -57,7 +57,7 @@
             </v-col>
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection.controlPack"
+                v-model.trim="inspection.controlPack"
                 :rules="inspectionRules"
                 label="Control Pack Model"
                 required
@@ -78,6 +78,7 @@
                 <custom-field :title3="title3" />
                 <custom-field :title4="title4" />
                 <custom-field :title5="title5" /> 
+                <p>{{results}}</p>
               </v-container>
             </v-col>
           </v-row>
@@ -88,7 +89,7 @@
                   clearable
                   clear-icon="mdi-close-circle"
                   label="Notes:"
-                  v-model="inspection.observaciones"
+                  v-model.trim="inspection.observaciones"
                 ></v-textarea>
               </v-container>
             </v-col>
@@ -96,22 +97,19 @@
           <v-container class="button-container">
           <v-row align-center justify-space-around>
             <v-col  class="button-container" cols="12" xs="6" text-xs-center>
-              <v-btn class="ma-5 col-xs-6" xs="6" color="warning" :disabled="!prevButton"> Prev Actuator </v-btn>
-              <v-btn class="ma-5 col-xs-6" xs="6" color="warning" :disabled="nextButton"> Next Actuator </v-btn>
-            </v-col>
-             <!-- <v-col cols="12" md="6"> -->
-              <!-- <v-btn color="warning" :disabled="valid"> Next Actuator </v-btn> -->
-            <!-- </v-col> -->
-            <!-- <v-col cols="12" md="6">
-              <v-btn
-                color="success"
-                type="submit"
-                :disabled="valid"
-                @click="submit"
-              >
-                Submit Inspection
+              <v-btn 
+                class="ma-5 col-xs-6" 
+                xs="6" color="warning" 
+                :disabled="!prevButton"
+              > Prev Actuator 
               </v-btn>
-            </v-col> -->
+              <v-btn 
+                class="ma-5 col-xs-6" 
+                xs="6" color="warning" 
+                :disabled="nextButton"
+                @click="addActuator"
+              > Next Actuator </v-btn>
+            </v-col>
           </v-row>
           </v-container>
           <v-col cols="12">
@@ -140,7 +138,7 @@ export default {
   },
   data: () => ({
     firstVal: !false,
-    prevButon: false,
+    prevButton: false,
     nextButton: false,
     // select: { state: "God", item: "Looks good" },
     // items: [
@@ -148,16 +146,19 @@ export default {
     //   { state: "Bad", item: "Looks Bad" },
     //   { state: "Not sure", item: "Not sure condition" },
     // ],
+    results: [],
     title1: "Visual",
     title2: "Water Inspection",
     title3: "Operational Test",
-    title4: "Wire Compartment",
+    title4: "Wire Compartiment",
     title5: "Handwheel Bolt Patern",
     valid: false,
     inspection: {
-      inspection: "",
-      date: "",
-      technical: "",
+      inspection: {
+        number: "",
+        date: "",
+        technical: "",
+      },
       actuator: "",
       observaciones: "",
       controlPack: "",
@@ -192,10 +193,27 @@ export default {
     validate() {
       return this.$refs.form.validate();
     },
+    addActuator() {
+      console.log("inspection: ", this.results);
+      this.results.push(this.inspection);
+      this.inspection = {
+        inspection: {
+          number: "",
+          date: "",
+          technical: "",
+        },
+        actuator: "",
+        observaciones: "",
+        controlPack: "",
+      };
+    },
     submit() {
-      console.log("clicked");
+      /* 
+        Aqui se envia ya todo el formulario a firebase 
+        a travez de una accion de vuex
+      */
+      console.log("Enviando inspeccion a firebase");
       this.$refs.form.validate();
-      // return this.$refs.form.validate()
     },
   },
 };
