@@ -137,7 +137,7 @@ export default {
     "custom-field": require("@/components/CustomField.vue").default,
   },
   data: () => ({
-    firstVal: !false,
+    firstVal: false,
     prevButton: false,
     nextButton: false,
     // select: { state: "God", item: "Looks good" },
@@ -184,7 +184,11 @@ export default {
   },
   methods: {
     validateFirstSection() {
-      if (this.inspection && this.date && this.technical) {
+      if (
+        this.inspection.inspection.number &&
+        this.inspection.inspection.date &&
+        this.inspection.inspection.technical
+      ) {
         return (this.firstVal = true);
         // display: this.firstVal ? "none" : "block",
       }
