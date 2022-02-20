@@ -2,7 +2,7 @@
   <v-container fluid mt-5 pa-5>
         <!--  -->
         <v-form  @submit.prevent="addActuator" v-model="valid">
-          <v-container>
+          <v-container v-if="!firstVal">
           <v-row class="d-flex justify-space-around" >
             <v-col cols="12" md="3">
               <v-text-field
@@ -67,17 +67,11 @@
           <v-row>
             <v-col cols="12">
               <v-container fluid>
-                <!-- By components -->
-                <!-- <custom-field :val1="val1" :items="items" :select="select"/>
-                <custom-field :val2="val2" :items="items" :select="select"/>
-                <custom-field :val3="val3" :items="items" :select="select"/>
-                <custom-field :val4="val4" :items="items" :select="select"/>
-                <custom-field :val5="val5" :items="items" :select="select"/>  -->
-                <custom-field :title1="title1" />
-                <custom-field :title2="title2" />
-                <custom-field :title3="title3" />
-                <custom-field :title4="title4" />
-                <custom-field :title5="title5" /> 
+                <custom-field :setState="setState" title1="Visual"  @accion="visual"/>
+                <custom-field :setState="setState" title2="Water Inspection"  @accion="waterInspection"/>
+                <custom-field :setState="setState" title3="Operational Test"  @accion="operationalTest"/>
+                <custom-field :setState="setState" title4="Wire Compartiment"  @accion="wireCompartiment"/>
+                <custom-field :setState="setState" title5="Handwheel Bolt Patern"  @accion="handwheelBoltPatern"/> 
                 <p>{{results}}</p>
               </v-container>
             </v-col>
@@ -140,18 +134,8 @@ export default {
     firstVal: false,
     prevButton: false,
     nextButton: false,
-    // select: { state: "God", item: "Looks good" },
-    // items: [
-    //   { state: "Good", item: "Looks good" },
-    //   { state: "Bad", item: "Looks Bad" },
-    //   { state: "Not sure", item: "Not sure condition" },
-    // ],
+    setState: "",
     results: [],
-    title1: "Visual",
-    title2: "Water Inspection",
-    title3: "Operational Test",
-    title4: "Wire Compartiment",
-    title5: "Handwheel Bolt Patern",
     valid: false,
     inspection: {
       inspection: {
@@ -162,15 +146,20 @@ export default {
       actuator: "",
       observaciones: "",
       controlPack: "",
+      visual: "",
+      waterInspection: "",
+      operationalTest: "",
+      wireCompartiment: "",
+      handwheelBoltPatern: "",
     },
     inspectionRules: [
       (v) => !!v || "Field is required",
       (v) => v.length <= 20 || "Field must be less than 10 characters",
     ],
-    emailRules: [
-      (v) => !!v || "E-mail is required",
-      (v) => /.+@.+/.test(v) || "E-mail must be valid",
-    ],
+    // emailRules: [
+    //   (v) => !!v || "E-mail is required",
+    //   (v) => /.+@.+/.test(v) || "E-mail must be valid",
+    // ],
   }),
   computed: {
     hide: function () {
@@ -183,6 +172,21 @@ export default {
     },
   },
   methods: {
+    visual(value) {
+      this.inspection.visual = value;
+    },
+    waterInspection(value) {
+      this.inspection.waterInspection = value;
+    },
+    operationalTest(value) {
+      this.inspection.operationalTest = value;
+    },
+    wireCompartiment(value) {
+      this.inspection.wireCompartiment = value;
+    },
+    handwheelBoltPatern(value) {
+      this.inspection.handwheelBoltPatern = value;
+    },
     validateFirstSection() {
       if (
         this.inspection.inspection.number &&
@@ -200,16 +204,17 @@ export default {
     addActuator() {
       console.log("inspection: ", this.results);
       this.results.push(this.inspection);
-      this.inspection = {
-        inspection: {
-          number: "",
-          date: "",
-          technical: "",
-        },
-        actuator: "",
-        observaciones: "",
-        controlPack: "",
-      };
+      (this.setState = { state: "", item: "Select one" }),
+        (this.inspection = {
+          // inspection: {
+          //   number: "",
+          //   date: "",
+          //   technical: "",
+          // },
+          actuator: "",
+          controlPack: "",
+          observaciones: "",
+        });
     },
     submit() {
       /* 
