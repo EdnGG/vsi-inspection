@@ -67,6 +67,7 @@
           <v-row>
             <v-col cols="12">
               <v-container fluid>
+                <!-- checar setState -->
                 <custom-field :setState="setState" title1="Visual"  @accion="visual"/>
                 <custom-field :setState="setState" title2="Water Inspection"  @accion="waterInspection"/>
                 <custom-field :setState="setState" title3="Operational Test"  @accion="operationalTest"/>
@@ -91,12 +92,12 @@
           <v-container class="button-container">
           <v-row align-center justify-space-around>
             <v-col  class="button-container" cols="12" xs="6" text-xs-center>
-              <v-btn 
+              <!-- <v-btn 
                 class="ma-5 col-xs-6" 
                 xs="6" color="warning" 
                 :disabled="!prevButton"
               > Prev Actuator 
-              </v-btn>
+              </v-btn> -->
               <v-btn 
                 class="ma-5 col-xs-6" 
                 xs="6" color="warning" 
@@ -126,6 +127,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { mapActions } from "vuex";
 export default {
   components: {
     "custom-field": require("@/components/CustomField.vue").default,
@@ -134,7 +137,8 @@ export default {
     firstVal: false,
     prevButton: false,
     nextButton: false,
-    setState: "",
+    // Checar aqui
+    setState: { state: "", item: "Select one" },
     results: [],
     valid: false,
     inspection: {
@@ -162,6 +166,7 @@ export default {
     // ],
   }),
   computed: {
+    ...mapState(["inspections"]),
     hide: function () {
       return {
         display: this.firstVal ? "none" : "block",
@@ -172,6 +177,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["addInspection"]),
     visual(value) {
       this.inspection.visual = value;
     },
@@ -203,6 +209,9 @@ export default {
     },
     addActuator() {
       console.log("inspection: ", this.results);
+      //  info a vuex
+      this.$store.dispatch("addInspection", this.inspection);
+      // this.inspections.push(this.inspection);
       this.results.push(this.inspection);
       this.inspection = {
         // inspection: {

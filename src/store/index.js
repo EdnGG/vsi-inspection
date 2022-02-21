@@ -8,14 +8,21 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     weather: {},
-    description: []
+    description: [],
+    inspections: [],
   },
   mutations: {
     SET_LOCAL_WEATHER(state, payload) {
       state.weather = payload
+    },
+    ADD_INSPECTION(state, payload) {
+      state.inspections.push(payload)
     }
   },
   actions: {
+    addInspection({ commit }, payload) {
+      commit('ADD_INSPECTION', payload)
+    },
     // getInspections({ commit }, payload) {
     //   db.collection('inspection2').get().then(querySnapshot => { 
     //     let inspections = []
