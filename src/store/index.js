@@ -11,10 +11,9 @@ export default new Vuex.Store({
     description: []
   },
   mutations: {
-    // SET_LOCAL_WEATHER(state, payload) {
-    //   // console.log('Payload from mutations: ', payload)
-    //   state.weather = payload
-    // }
+    SET_LOCAL_WEATHER(state, payload) {
+      state.weather = payload
+    }
   },
   actions: {
     // getInspections({ commit }, payload) {
@@ -26,23 +25,23 @@ export default new Vuex.Store({
     //     commit('SET_INSPECTIONS', inspections)
     //   }
     // }
-    // async getLocalWeather({ commit }) {
-    //   return await navigator.geolocation.getCurrentPosition(position => {
-    //     const lat = position.coords.latitude
-    //     const lon = position.coords.longitude
-    //     // need to find the client location 
-    //     // const url = `https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
-    //     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
-    //     fetch(url)
-    //       .then(response => { return response.json() })
-    //       .then(data => {
-    //         commit('SET_LOCAL_WEATHER', data)
-    //       })
-    //       .catch(error => {
-    //         console.log(error)
-    //       })
-    //   })
-    // },
+    async getLocalWeather({ commit }) {
+      return await navigator.geolocation.getCurrentPosition(position => {
+        const lat = position.coords.latitude
+        const lon = position.coords.longitude
+        // need to find the client location 
+        // const url = `https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
+        fetch(url)
+          .then(response => { return response.json() })
+          .then(data => {
+            commit('SET_LOCAL_WEATHER', data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
   },
   modules: {
   }

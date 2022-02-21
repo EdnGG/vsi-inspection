@@ -204,17 +204,22 @@ export default {
     addActuator() {
       console.log("inspection: ", this.results);
       this.results.push(this.inspection);
-      (this.setState = { state: "", item: "Select one" }),
-        (this.inspection = {
-          // inspection: {
-          //   number: "",
-          //   date: "",
-          //   technical: "",
-          // },
-          actuator: "",
-          controlPack: "",
-          observaciones: "",
-        });
+      this.inspection = {
+        // inspection: {
+        //   number: "",
+        //   date: "",
+        //   technical: "",
+        // },
+        actuator: "",
+        controlPack: "",
+        observaciones: "",
+        visual: "",
+        waterInspection: "",
+        operationalTest: "",
+        wireCompartiment: "",
+        handwheelBoltPatern: "",
+      };
+      // (this.setState = this.setState = { state: "", item: "Select one" }),
     },
     submit() {
       /* 
