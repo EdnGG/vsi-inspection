@@ -1,4 +1,5 @@
-// import { initializeApp } from "firebase/app";
+// import { initializeApp } from 'firebase/app';
+// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 
 import firebase from 'firebase/app'
 import 'firebase/firestore'
@@ -15,12 +16,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 
-if (!firebase.apps.length) {
+// const app = initializeApp(firebaseConfig);
+// const db = getFirestore(app);
+
+// if (!firebase.app.length) {
   firebase.initializeApp(firebaseConfig);
-}
+// }
 
 const db = firebase.firestore();
 const auth = firebase.auth();
 const time = firebase.firestore.FieldValue.serverTimeStamp
 
-export { auth, db, time };
+export { auth, db };

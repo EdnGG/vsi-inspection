@@ -9,7 +9,9 @@
       <v-row class="text-center">
       <v-col cols="12" sm="12" justify-center align-center>
         <h1>Inspections</h1>
-        <p>{{inspections}}</p>
+        <p>All inspections: {{allInpections}}</p>
+        <hr>
+        <p>Single Actuator: {{actuators}}</p>
       </v-col>
     </v-row>
     </v-container>
@@ -25,7 +27,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["inspections"]),
+    ...mapState(["actuators", "allInpections"]),
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid mt-5 pa-5>
         <!--  -->
-        <v-form  @submit.prevent="addActuator" v-model="valid">
+        <v-form  @submit.prevent="addActuator" >
           <v-container v-if="!firstVal">
           <v-row class="d-flex justify-space-around" >
             <v-col cols="12" md="3">
@@ -73,7 +73,7 @@
                 <custom-field :setState="setState" title3="Operational Test"  @accion="operationalTest"/>
                 <custom-field :setState="setState" title4="Wire Compartiment"  @accion="wireCompartiment"/>
                 <custom-field :setState="setState" title5="Handwheel Bolt Patern"  @accion="handwheelBoltPatern"/> 
-                <p>{{results}}</p>
+                <p>{{totalInspection}}</p>
               </v-container>
             </v-col>
           </v-row>
@@ -112,7 +112,6 @@
                 color="success"
                 type="submit"
                 block
-                :disabled="valid"
                 @click="submit"
               >
                 Submit Inspection
@@ -139,8 +138,7 @@ export default {
     nextButton: false,
     // Checar aqui
     setState: { state: "", item: "Select one" },
-    results: [],
-    valid: false,
+    totalInspection: [],
     inspection: {
       inspection: {
         number: "",
@@ -177,7 +175,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["addInspection"]),
+    ...mapActions(["addInspection", "addActuator"]),
     visual(value) {
       this.inspection.visual = value;
     },
@@ -204,15 +202,12 @@ export default {
       }
       return (this.firstVal = false);
     },
-    validate() {
-      return this.$refs.form.validate();
-    },
     addActuator() {
-      console.log("inspection: ", this.results);
+      // console.log("actuators: ", this.results);
       //  info a vuex
-      this.$store.dispatch("addInspection", this.inspection);
-      // this.inspections.push(this.inspection);
-      this.results.push(this.inspection);
+      this.totalInspection.push(this.inspection);
+      this.$store.dispatch("addActuator", this.inspection);
+      console.log("all inspections: ", this.totalInspection);
       this.inspection = {
         // inspection: {
         //   number: "",
@@ -222,11 +217,11 @@ export default {
         actuator: "",
         controlPack: "",
         observaciones: "",
-        visual: "",
-        waterInspection: "",
-        operationalTest: "",
-        wireCompartiment: "",
-        handwheelBoltPatern: "",
+        // visual: "",
+        // waterInspection: "",
+        // operationalTest: "",
+        // wireCompartiment: "",
+        // handwheelBoltPatern: "",
       };
       // (this.setState = this.setState = { state: "", item: "Select one" }),
     },
@@ -235,8 +230,9 @@ export default {
         Aqui se envia ya todo el formulario a firebase 
         a travez de una accion de vuex
       */
+      this.$store.dispatch("addInspection", this.totalInspection);
       console.log("Enviando inspeccion a firebase");
-      this.$refs.form.validate();
+      // this.$refs.form.validate();
     },
   },
 };

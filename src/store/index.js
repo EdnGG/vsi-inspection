@@ -1,37 +1,39 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios';
-// import { db }  from '../firebase';
+import { db }  from '../firebase.js';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     weather: {},
-    description: [],
-    inspections: [],
+    allInpections: [],
+    actuators: [],
   },
   mutations: {
     SET_LOCAL_WEATHER(state, payload) {
       state.weather = payload
     },
+    ADD_ACTUATOR(state, payload) {
+      state.actuators.push(payload)
+    },
     ADD_INSPECTION(state, payload) {
-      state.inspections.push(payload)
+      state.allInpections.push(payload)
     }
   },
   actions: {
-    addInspection({ commit }, payload) {
-      commit('ADD_INSPECTION', payload)
+    addActuator({ commit }, payload) {
+      commit('ADD_ACTUATOR', payload)
     },
-    // getInspections({ commit }, payload) {
-    //   db.collection('inspection2').get().then(querySnapshot => { 
-    //     let inspections = []
-    //     querySnapshot.forEach(doc => {
-    //       inspections.push(doc.data())
-    //     })
-    //     commit('SET_INSPECTIONS', inspections)
-    //   }
-    // }
+    addInspection({commit}, payload) {
+      commit('ADD_INSPECTION', payload)
+      db.collection('inspections').add({payload}).then((docRef) => {
+        console.log("Document written with ID: ", docRef.id)
+      }).catch((error) => {
+        console.error("Error adding document: ", error)
+      })
+    },
     async getLocalWeather({ commit }) {
       return await navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude
