@@ -1,7 +1,7 @@
 <template>
   <v-container fluid mt-5 pa-5>
         <!--  -->
-        <v-form  @submit.prevent="addActuator" >
+        <v-form  @submit.prevent="addActuator" ref="form">
           <v-container v-if="!firstVal">
           <v-row class="d-flex justify-space-around" >
             <v-col cols="12" md="3">
@@ -68,11 +68,11 @@
             <v-col cols="12">
               <v-container fluid>
                 <!-- checar setState -->
-                <custom-field :setState="setState" title1="Visual"  @accion="visual"/>
-                <custom-field :setState="setState" title2="Water Inspection"  @accion="waterInspection"/>
-                <custom-field :setState="setState" title3="Operational Test"  @accion="operationalTest"/>
-                <custom-field :setState="setState" title4="Wire Compartiment"  @accion="wireCompartiment"/>
-                <custom-field :setState="setState" title5="Handwheel Bolt Patern"  @accion="handwheelBoltPatern"/> 
+                <custom-field :selectCustom="select" :itemsCustom="items" title1="Visual"  @accion="visual"/>
+                <custom-field :selectCustom="select" :itemsCustom="items" title2="Water Inspection"  @accion="waterInspection"/>
+                <custom-field :selectCustom="select" :itemsCustom="items" title3="Operational Test"  @accion="operationalTest"/>
+                <custom-field :selectCustom="select" :itemsCustom="items" title4="Wire Compartiment"  @accion="wireCompartiment"/>
+                <custom-field :selectCustom="select" :itemsCustom="items" title5="Handwheel Bolt Patern"  @accion="handwheelBoltPatern"/> 
                 <p>{{totalInspection}}</p>
               </v-container>
             </v-col>
@@ -118,7 +118,6 @@
               </v-btn>
             </v-col>
           <v-container>
-
           </v-container>
           </v-container>
         </v-form>
@@ -137,7 +136,14 @@ export default {
     prevButton: false,
     nextButton: false,
     // Checar aqui
-    setState: { state: "", item: "Select one" },
+    select: { state: "", item: "Select one" },
+    items: [
+      { state: "Good", item: "Looks good" },
+      { state: "Bad", item: "Looks Bad" },
+      { state: "Not sure", item: "Not sure condition" },
+    ],
+    // setState: { state: "", item: "Select one" },
+    // setState: {},
     totalInspection: [],
     inspection: {
       inspection: {
@@ -158,20 +164,19 @@ export default {
       (v) => !!v || "Field is required",
       (v) => v.length <= 20 || "Field must be less than 10 characters",
     ],
-    // emailRules: [
-    //   (v) => !!v || "E-mail is required",
-    //   (v) => /.+@.+/.test(v) || "E-mail must be valid",
-    // ],
   }),
   computed: {
     ...mapState(["inspections"]),
-    hide: function () {
+    hide() {
       return {
         display: this.firstVal ? "none" : "block",
-        // display: "none",
-        // active: this.isActive && !this.error,
-        // 'text-danger': this.error && this.error.type === 'fatal'
       };
+    },
+    selectCustom() {
+      return this.select;
+    },
+    itemsCustom() {
+      return this.items;
     },
   },
   methods: {
@@ -203,11 +208,12 @@ export default {
       return (this.firstVal = false);
     },
     addActuator() {
-      // console.log("actuators: ", this.results);
       //  info a vuex
       this.totalInspection.push(this.inspection);
       this.$store.dispatch("addActuator", this.inspection);
       console.log("all inspections: ", this.totalInspection);
+      // this.$refs.form.resetValidation();
+      this.setState = { state: "", item: "Select one" };
       this.inspection = {
         // inspection: {
         //   number: "",
@@ -232,7 +238,6 @@ export default {
       */
       this.$store.dispatch("addInspection", this.totalInspection);
       console.log("Enviando inspeccion a firebase");
-      // this.$refs.form.validate();
     },
   },
 };

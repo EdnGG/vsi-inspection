@@ -28,7 +28,7 @@ export default new Vuex.Store({
     },
     addInspection({commit}, payload) {
       commit('ADD_INSPECTION', payload)
-      db.collection('inspections').add({payload}).then((docRef) => {
+      db.collection('inspections').add({inspection: payload}).then((docRef) => {
         console.log("Document written with ID: ", docRef.id)
       }).catch((error) => {
         console.error("Error adding document: ", error)
