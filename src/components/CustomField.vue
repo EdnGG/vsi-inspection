@@ -3,30 +3,25 @@
     <v-row align="center">
       <v-col cols="6">
         <v-subheader>
-        {{ title1 }} {{title2}} {{title3}} {{title4}} {{title5}}
-        
+        {{ title }} 
         </v-subheader>
-
       </v-col>
-
       <v-col cols="6">
         <!-- capturar selec.state --> 
         <v-select
-          v-model="select"
-          :hint="`${select.item}`"
+          v-model="computedState"
+          :value="value"
           :items="items"
           item-text="state"
           persistent-hint
           return-object
           single-line
-          @change="handler"
+          :hint="computedState ? computedState.value : null"
         ></v-select>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <p>Select items fron parent: {{select}}</p>
-        <!-- <p>Items in child component: {{items}}</p> -->
       </v-col>
     </v-row>
   </v-container>
@@ -34,21 +29,9 @@
 
 <script>
 export default {
-  props: [
-    "title1",
-    "title2",
-    "title3",
-    "title4",
-    "title5",
-    // "selectState",
-    // "selectCustom",
-    // "itemsCustom",
-  ],
+  props: ["title", "value"],
   data() {
     return {
-      // items2: this.itemsCustom,
-      // label por default
-      select: { state: "", item: "Select one" },
       items: [
         { state: "Good", item: "Looks good" },
         { state: "Bad", item: "Looks Bad" },
@@ -56,23 +39,24 @@ export default {
       ],
     };
   },
-  created() {},
-  computed: {
-    // computedState: {
-    //   get() {
-    //     // return this.selectState;
-    //     return this.select;
-    //   },
-    //   set(value) {
-    //     this.$emit("update:selectState", value);
-    //   },
-    // },
+  model: {
+    event: "change",
   },
-  methods: {
-    handler() {
-      console.log(`value: ${this.select.state}`);
-      this.$emit("accion", this.select.state);
+  computed: {
+    computedState: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit("change", value);
+      },
     },
   },
+  // methods: {
+  //   // handler() {
+  //   //   console.log(`value: ${this.select.state}`);
+  //   //   this.$emit("accion", this.select.state);
+  //   // },
+  // },
 };
 </script>

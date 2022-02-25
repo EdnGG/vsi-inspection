@@ -76,19 +76,14 @@
           </v-row>
           <v-row>
             <v-col cols="12">
-              <v-container fluid>
-                <!-- checar setState -->
-                <!-- <custom-field :selectCustom="select" :itemsCustom="items" title1="Visual"  @accion="visual"/>
-                <custom-field :selectCustom="select" :itemsCustom="items" title2="Water Inspection"  @accion="waterInspection"/>
-                <custom-field :selectCustom="select" :itemsCustom="items" title3="Operational Test"  @accion="operationalTest"/>
-                <custom-field :selectCustom="select" :itemsCustom="items" title4="Wire Compartiment"  @accion="wireCompartiment"/>
-                <custom-field :selectCustom="select" :itemsCustom="items" title5="Handwheel Bolt Patern"  @accion="handwheelBoltPatern"/>  -->
+              <v-container fluid>               
                 <!--  -->
-                <custom-field title1="Visual"  @accion="visual"/>
-                <custom-field title2="Water Inspection"  @accion="waterInspection"/>
-                <custom-field title3="Operational Test"  @accion="operationalTest"/>
-                <custom-field title4="Wire Compartiment"  @accion="wireCompartiment"/>
-                <custom-field title5="Handwheel Bolt Patern"  @accion="handwheelBoltPatern"/> 
+                <custom-field v-model="value1" title="Visual"/>
+                <custom-field v-model="value2" title="Water Inspection"/>
+                <custom-field v-model="value3" title="Operational Test"/>
+                <custom-field v-model="value4" title="Wire Compartiment"/>
+                <custom-field v-model="value5" title="Handwheel Bolt Patern"/> 
+                <!--  -->
                 <p>Array con todos los objetos: {{totalInspection}}</p>
               </v-container>
             </v-col>
@@ -105,6 +100,7 @@
               </v-container>
             </v-col>
           </v-row>
+          {{datosArray}}
           <v-container class="button-container">
           <v-row align-center justify-space-around>
             <v-col  class="button-container" cols="12" xs="6" text-xs-center>
@@ -151,14 +147,13 @@ export default {
     firstVal: false,
     prevButton: false,
     nextButton: false,
+    value1: "",
+    value2: "",
+    value3: "",
+    value4: "",
+    value5: "",
     // Checar aqui
-    // select: { state: "", item: "Select one" },
-    // items: [
-    //   { state: "Good", item: "Looks good" },
-    //   { state: "Bad", item: "Looks Bad" },
-    //   { state: "Not sure", item: "Not sure condition" },
-    // ],
-    // setState: { state: "", item: "Select one" },
+    select: { state: "", item: "Select one" },
     totalInspection: [],
     // initial object
     inspection: {
@@ -178,11 +173,23 @@ export default {
     },
     inspectionRules: [
       (v) => !!v || "Field is required",
-      (v) => v.length <= 20 || "Field must be less than 10 characters",
+      // length
+      (v) => v.length <= 10 || "Field must be less than 10 characters",
     ],
   }),
   computed: {
     ...mapState(["inspections", "allInspections"]),
+    datosArray() {
+      return [
+        this.value1,
+        this.value2,
+        this.value3,
+        this.value4,
+        this.value5,
+      ].filter((item) => {
+        if (item) return item;
+      });
+    },
     hide() {
       return {
         display: this.firstVal ? "none" : "block",
@@ -191,21 +198,21 @@ export default {
   },
   methods: {
     ...mapActions(["addInspection", "addActuator"]),
-    visual(value) {
-      this.inspection.visual = value;
-    },
-    waterInspection(value) {
-      this.inspection.waterInspection = value;
-    },
-    operationalTest(value) {
-      this.inspection.operationalTest = value;
-    },
-    wireCompartiment(value) {
-      this.inspection.wireCompartiment = value;
-    },
-    handwheelBoltPatern(value) {
-      this.inspection.handwheelBoltPatern = value;
-    },
+    // visual(value) {
+    //   this.inspection.visual = value;
+    // },
+    // waterInspection(value) {
+    //   this.inspection.waterInspection = value;
+    // },
+    // operationalTest(value) {
+    //   this.inspection.operationalTest = value;
+    // },
+    // wireCompartiment(value) {
+    //   this.inspection.wireCompartiment = value;
+    // },
+    // handwheelBoltPatern(value) {
+    //   this.inspection.handwheelBoltPatern = value;
+    // },
     validateFirstSection() {
       if (
         this.inspection.inspection.number &&
@@ -218,38 +225,33 @@ export default {
       return (this.firstVal = false);
     },
     addActuator() {
-      //  info a vuex
       this.totalInspection.push(this.inspection);
       this.$store.dispatch("addActuator", this.inspection);
       console.log("all inspections: ", this.totalInspection);
-      // this.$refs.form.resetValidation();
-      // this.select.item = "Select one";
-      // this.setState = { state: "", item: "Select one" };
-      this.inspection = {
-        // inspection: {
-        //   number = this.totalInspection.inspection.inspection.number,
-        //   date =  this.totalInspection.inspection.inspection.number,
-        //   technical = this.totalInspection.inspection.inspection.number,
-        // },
-        // inspection: {
-        //   number: "",
-        //   date: "",
-        //   technical: "",
-        // },
-        actuator: "",
-        controlPack: "",
-        observaciones: "",
-        visual: "",
-        waterInspection: "",
-        operationalTest: "",
-        wireCompartiment: "",
-        handwheelBoltPatern: "",
-      };
-      // (this.setState = this.setState = { state: "", item: "Select one" }),
+      this.$refs.form.reset();
+      // this.inspection = {
+      // inspection: {
+      //   number = this.totalInspection.inspection.inspection.number,
+      //   date =  this.totalInspection.inspection.inspection.number,
+      //   technical = this.totalInspection.inspection.inspection.number,
+      // },
+      // inspection: {
+      //   number: "",
+      //   date: "",
+      //   technical: "",
+      // },
+      // actuator: "",
+      // controlPack: "",
+      // observaciones: "",
+      // visual: "",
+      // waterInspection: "",
+      // operationalTest: "",
+      // wireCompartiment: "",
+      // handwheelBoltPatern: "",
+      // };
     },
     submit() {
-      /* 
-        Aqui se envia ya todo el formulario a firebase 
+      /*  Aqui se envia ya todo el formulario a firebase 
         a travez de una accion de vuex
       */
       this.$store.dispatch("addInspection", this.totalInspection);
