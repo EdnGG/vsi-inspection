@@ -12,8 +12,8 @@
       <v-col cols="6">
         <!-- capturar selec.state --> 
         <v-select
-          v-model="computedState"
-          :hint="`${computedState.item}`"
+          v-model="select"
+          :hint="`${select.item}`"
           :items="items"
           item-text="state"
           persistent-hint
@@ -25,8 +25,8 @@
     </v-row>
     <v-row>
       <v-col>
-        <p>Select items fron parent: {{computedState}}</p>
-        <p>Items in child component: {{items}}</p>
+        <p>Select items fron parent: {{select}}</p>
+        <!-- <p>Items in child component: {{items}}</p> -->
       </v-col>
     </v-row>
   </v-container>
@@ -40,7 +40,7 @@ export default {
     "title3",
     "title4",
     "title5",
-    "selectState",
+    // "selectState",
     // "selectCustom",
     // "itemsCustom",
   ],
@@ -48,7 +48,7 @@ export default {
     return {
       // items2: this.itemsCustom,
       // label por default
-      // select: { state: "", item: "Select one" },
+      select: { state: "", item: "Select one" },
       items: [
         { state: "Good", item: "Looks good" },
         { state: "Bad", item: "Looks Bad" },
@@ -58,14 +58,15 @@ export default {
   },
   created() {},
   computed: {
-    computedState: {
-      get() {
-        return this.selectState;
-      },
-      set(value) {
-        this.$emit("update:selectState", value);
-      },
-    },
+    // computedState: {
+    //   get() {
+    //     // return this.selectState;
+    //     return this.select;
+    //   },
+    //   set(value) {
+    //     this.$emit("update:selectState", value);
+    //   },
+    // },
   },
   methods: {
     handler() {

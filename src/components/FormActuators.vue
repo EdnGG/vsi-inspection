@@ -2,8 +2,8 @@
   <v-container fluid mt-5 pa-5>
         <!--  -->
         <v-form  @submit.prevent="addActuator" ref="form">
-          <!-- <v-container v-if="!firstVal"> -->
-          <v-container>
+          <v-container v-if="!firstVal">
+          <!-- <v-container> -->
           <v-row class="d-flex justify-space-around" >
             <v-col cols="12" md="3">
               <v-text-field
@@ -32,9 +32,9 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          </v-container>
-          <!-- Button -->
-          <!-- <v-container>
+          <v-col>
+            <v-row>
+              <v-container>
             <v-row>
               <v-col>
                 <v-btn 
@@ -46,10 +46,16 @@
                 </v-btn> 
               </v-col>
             </v-row>
-          </v-container> -->
+          </v-container>
+            </v-row>
+          </v-col>
+          </v-container>
           <!-- Button -->
-          <!-- <v-container v-if="firstVal"> -->
-          <v-container>
+          <!-- <v-container>
+           
+          <!-- Button -->
+          <v-container v-if="firstVal">
+          <!-- <v-container> -->
           <v-row class="d-flex justify-space-around">
             <v-col cols="12" md="3">
               <v-text-field
@@ -78,12 +84,12 @@
                 <custom-field :selectCustom="select" :itemsCustom="items" title4="Wire Compartiment"  @accion="wireCompartiment"/>
                 <custom-field :selectCustom="select" :itemsCustom="items" title5="Handwheel Bolt Patern"  @accion="handwheelBoltPatern"/>  -->
                 <!--  -->
-                <custom-field :selectState="select" title1="Visual"  @accion="visual"/>
-                <custom-field :selectState="select" title2="Water Inspection"  @accion="waterInspection"/>
-                <custom-field :selectState="select" title3="Operational Test"  @accion="operationalTest"/>
-                <custom-field :selectState="select" title4="Wire Compartiment"  @accion="wireCompartiment"/>
-                <custom-field :selectState="select" title5="Handwheel Bolt Patern"  @accion="handwheelBoltPatern"/> 
-                <p>{{totalInspection}}</p>
+                <custom-field title1="Visual"  @accion="visual"/>
+                <custom-field title2="Water Inspection"  @accion="waterInspection"/>
+                <custom-field title3="Operational Test"  @accion="operationalTest"/>
+                <custom-field title4="Wire Compartiment"  @accion="wireCompartiment"/>
+                <custom-field title5="Handwheel Bolt Patern"  @accion="handwheelBoltPatern"/> 
+                <p>Array con todos los objetos: {{totalInspection}}</p>
               </v-container>
             </v-col>
           </v-row>
@@ -146,7 +152,7 @@ export default {
     prevButton: false,
     nextButton: false,
     // Checar aqui
-    select: { state: "", item: "Select one" },
+    // select: { state: "", item: "Select one" },
     // items: [
     //   { state: "Good", item: "Looks good" },
     //   { state: "Bad", item: "Looks Bad" },
@@ -220,11 +226,11 @@ export default {
       // this.select.item = "Select one";
       // this.setState = { state: "", item: "Select one" };
       this.inspection = {
-        inspection: {
-          number: this.totalInspection.inspection.number,
-          date: this.totalInspection.inspection.number,
-          technical: this.totalInspection.inspection.number,
-        },
+        // inspection: {
+        //   number = this.totalInspection.inspection.inspection.number,
+        //   date =  this.totalInspection.inspection.inspection.number,
+        //   technical = this.totalInspection.inspection.inspection.number,
+        // },
         // inspection: {
         //   number: "",
         //   date: "",
