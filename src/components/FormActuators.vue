@@ -82,7 +82,7 @@
                 <custom-field v-model="inspection.handwheelBoltPatern" title="Handwheel Bolt Patern"/> 
                 <!--  -->
                 <p>Array con todos los objetos: {{totalInspection}}</p>
-                <p>Array : {{inspection}}</p>
+                <p>Objeto actuator  : {{inspection}}</p>
               </v-container>
             </v-col>
           </v-row>
@@ -184,11 +184,11 @@ export default {
     ...mapState(["inspections", "allInspections"]),
     datosArray() {
       return [
-        this.inspection.visual.state,
-        this.inspection.waterInspection.state,
-        this.inspection.operationalTest.state,
-        this.inspection.wireCompartiment.state,
-        this.inspection.handwheelBoltPatern.state,
+        this.inspection.visual,
+        this.inspection.waterInspection,
+        this.inspection.operationalTest,
+        this.inspection.wireCompartiment,
+        this.inspection.handwheelBoltPatern,
       ].filter((item) => {
         if (item) return item;
       });
