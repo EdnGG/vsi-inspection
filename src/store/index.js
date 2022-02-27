@@ -34,22 +34,45 @@ export default new Vuex.Store({
         console.error("Error adding document: ", error)
       })
     },
-    async getLocalWeather({ commit }) {
-      return await navigator.geolocation.getCurrentPosition(position => {
+    getLocalWeather({ commit }) {
+      navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude
         const lon = position.coords.longitude
+        // const datos = 
+        // const res = ''
         // need to find the client location 
         // const url = `https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
-        fetch(url)
-          .then(response => { return response.json() })
-          .then(data => {
-            commit('SET_LOCAL_WEATHER', data)
+        axios.get(url)
+          .then(res => {
+            const weather = res.data
+            console.log(weather)
+            commit('SET_LOCAL_WEATHER', weather)
           })
-          .catch(error => {
-            console.log(error)
+          .catch(err => {
+            console.log(err)
           })
+
+        // fetch(url)
+        //   .then(response => { return response.json() })
+        //   .then(data => {
+        //     console.log(data)
+        //     commit('SET_LOCAL_WEATHER', data)
+        //     // datos = data
+        //   })
+        //   .catch(error => {
+        //     console.log(error)
+        //   })
+
       })
+      // fetch(url)
+      //     .then(response => { return response.json() })
+      //     .then(data => {
+      //       commit('SET_LOCAL_WEATHER', data)
+      //     })
+      //     .catch(error => {
+      //       console.log(error)
+      //     })
     },
   },
   modules: {
