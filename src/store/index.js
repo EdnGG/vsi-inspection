@@ -35,6 +35,7 @@ export default new Vuex.Store({
       })
     },
     getLocalWeather({ commit }) {
+      try{
       navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude
         const lon = position.coords.longitude
@@ -53,26 +54,10 @@ export default new Vuex.Store({
             console.log(err)
           })
 
-        // fetch(url)
-        //   .then(response => { return response.json() })
-        //   .then(data => {
-        //     console.log(data)
-        //     commit('SET_LOCAL_WEATHER', data)
-        //     // datos = data
-        //   })
-        //   .catch(error => {
-        //     console.log(error)
-        //   })
-
       })
-      // fetch(url)
-      //     .then(response => { return response.json() })
-      //     .then(data => {
-      //       commit('SET_LOCAL_WEATHER', data)
-      //     })
-      //     .catch(error => {
-      //       console.log(error)
-      //     })
+    } catch(e){
+      console.error(e)
+    }
     },
   },
   modules: {

@@ -51,9 +51,6 @@
           </v-col>
           </v-container>
           <!-- Button -->
-          <!-- <v-container>
-           
-          <!-- Button -->
           <v-container v-if="firstVal">
           <!-- <v-container> -->
           <v-row class="d-flex justify-space-around">
@@ -78,13 +75,14 @@
             <v-col cols="12">
               <v-container fluid>               
                 <!--  -->
-                <custom-field v-model="value1" title="Visual"/>
-                <custom-field v-model="value2" title="Water Inspection"/>
-                <custom-field v-model="value3" title="Operational Test"/>
-                <custom-field v-model="value4" title="Wire Compartiment"/>
-                <custom-field v-model="value5" title="Handwheel Bolt Patern"/> 
+                <custom-field v-model="inspection.visual" title="Visual"/>
+                <custom-field v-model="inspection.waterInspection" title="Water Inspection"/>
+                <custom-field v-model="inspection.operationalTest" title="Operational Test"/>
+                <custom-field v-model="inspection.wireCompartiment" title="Wire Compartiment"/>
+                <custom-field v-model="inspection.handwheelBoltPatern" title="Handwheel Bolt Patern"/> 
                 <!--  -->
                 <p>Array con todos los objetos: {{totalInspection}}</p>
+                <p>Array : {{inspection}}</p>
               </v-container>
             </v-col>
           </v-row>
@@ -100,7 +98,7 @@
               </v-container>
             </v-col>
           </v-row>
-          {{datosArray}}
+          Datos array:  {{ datosArray}}
           <v-container class="button-container">
           <v-row align-center justify-space-around>
             <v-col  class="button-container" cols="12" xs="6" text-xs-center>
@@ -147,11 +145,11 @@ export default {
     firstVal: false,
     prevButton: false,
     nextButton: false,
-    value1: "",
-    value2: "",
-    value3: "",
-    value4: "",
-    value5: "",
+    // value1: "",
+    // value2: "",
+    // value3: "",
+    // value4: "",
+    // value5: "",
     // Checar aqui
     select: { state: "", item: "Select one" },
     totalInspection: [],
@@ -162,6 +160,11 @@ export default {
         date: "",
         technical: "",
       },
+      // value1: "",
+      // value2: "",
+      // value3: "",
+      // value4: "",
+      // value5: "",
       actuator: "",
       observaciones: "",
       controlPack: "",
@@ -174,18 +177,18 @@ export default {
     inspectionRules: [
       (v) => !!v || "Field is required",
       // length
-      (v) => v.length <= 10 || "Field must be less than 10 characters",
+      // (v) => v.length <= 10 || "Field must be less than 10 characters",
     ],
   }),
   computed: {
     ...mapState(["inspections", "allInspections"]),
     datosArray() {
       return [
-        this.value1,
-        this.value2,
-        this.value3,
-        this.value4,
-        this.value5,
+        this.inspection.visual.state,
+        this.inspection.waterInspection.state,
+        this.inspection.operationalTest.state,
+        this.inspection.wireCompartiment.state,
+        this.inspection.handwheelBoltPatern.state,
       ].filter((item) => {
         if (item) return item;
       });
@@ -198,21 +201,6 @@ export default {
   },
   methods: {
     ...mapActions(["addInspection", "addActuator"]),
-    // visual(value) {
-    //   this.inspection.visual = value;
-    // },
-    // waterInspection(value) {
-    //   this.inspection.waterInspection = value;
-    // },
-    // operationalTest(value) {
-    //   this.inspection.operationalTest = value;
-    // },
-    // wireCompartiment(value) {
-    //   this.inspection.wireCompartiment = value;
-    // },
-    // handwheelBoltPatern(value) {
-    //   this.inspection.handwheelBoltPatern = value;
-    // },
     validateFirstSection() {
       if (
         this.inspection.inspection.number &&
@@ -228,7 +216,7 @@ export default {
       this.totalInspection.push(this.inspection);
       this.$store.dispatch("addActuator", this.inspection);
       console.log("all inspections: ", this.totalInspection);
-      this.$refs.form.reset();
+      // this.$refs.form.reset();
       // this.inspection = {
       // inspection: {
       //   number = this.totalInspection.inspection.inspection.number,
@@ -251,9 +239,6 @@ export default {
       // };
     },
     submit() {
-      /*  Aqui se envia ya todo el formulario a firebase 
-        a travez de una accion de vuex
-      */
       this.$store.dispatch("addInspection", this.totalInspection);
       console.log("Enviando inspeccion a firebase");
       this.$refs.form.reset();
