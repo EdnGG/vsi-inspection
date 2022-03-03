@@ -124,33 +124,32 @@
               </v-btn>
               <!--  -->
               <!-- <v-col class="button-container" cols="12" xs="6" text-xs-center> -->
-              <v-dialog 
-                style="padding-top: 10px;"
-                v-model="dialog" 
-                persistent 
-                max-width="500"       
+              <v-dialog
+                style="padding-top: 10px"
+                v-model="dialog"
+                persistent
+                max-width="500"
               >
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn 
-                    color="primary" 
-                    dark 
-                    v-bind="attrs" 
+                  <v-btn
+                    color="primary"
+                    dark
+                    v-bind="attrs"
                     v-on="on"
                     class="ma-5 col-xs-6"
                     xs="6"
                   >
-                      End inspection
+                    End inspection
                   </v-btn>
                 </template>
                 <v-card>
                   <v-card-title class="text-h5">
                     Are you sure sending inspection?
                   </v-card-title>
-                  <v-card-text
-                    >
-                    Sending the inspection will be post on the DB and no change can be done.
-                  </v-card-text
-                  >
+                  <v-card-text>
+                    Sending the inspection will be post on the DB and no change
+                    can be done.
+                  </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="green darken-1" text @click="dialog = false">
@@ -162,7 +161,7 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-            <!-- </v-col> -->
+              <!-- </v-col> -->
               <!--  -->
             </v-col>
           </v-row>
@@ -251,9 +250,9 @@ export default {
         // OBJETO QUE SE MANDARA A FIRESTORE
         inspectionInfo: {
           // OBJETO QUE SE GENERA POR CADA MOTOR
-          //id: "", // valor por default
-          //date: "",  // valor por default
-          //technical: "",  // valor por default
+          id: this.inspection.inspectionInfo.id, // valor por default
+          date: this.inspection.inspectionInfo.date, // valor por default
+          technical: this.inspection.inspectionInfo.technical, // valor por default
           data: {
             actuator: "", // valor a variar
             controlPack: "", // valor a variar
@@ -268,11 +267,22 @@ export default {
       };
     },
     submit() {
-      this.dialog = false;
-      this.$store.dispatch("addInspection", this.totalInspection);
-      console.log("Enviando inspeccion a firebase");
-      this.$refs.form.reset();
-      this.firstVal = false;
+      if (!this.inspection.data) {
+        return alert("no inspection");
+      } else {
+        this.dialog = false;
+        this.$store.dispatch("addInspection", this.totalInspection);
+        console.log("Enviando inspeccion a firebase");
+        this.inspection = {
+          inspectionInfo: {
+            id: "",
+            date: "",
+            techinical: "",
+          },
+        };
+        this.$refs.form.reset();
+        this.firstVal = false;
+      }
     },
   },
 };

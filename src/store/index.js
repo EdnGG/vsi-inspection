@@ -34,9 +34,9 @@ export default new Vuex.Store({
         console.error("Error adding document: ", error)
       })
     },
-    getLocalWeather({ commit }) {
+    async getLocalWeather({ commit }) {
       try{
-      navigator.geolocation.getCurrentPosition(position => {
+        navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude
         const lon = position.coords.longitude
         // const datos = 
@@ -44,6 +44,10 @@ export default new Vuex.Store({
         // need to find the client location 
         // const url = `https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
+        // const res = await axios.get(url)
+        // const weather = await res.data
+        // console.log(weather)
+        // commit('SET_LOCAL_WEATHER', await weather)
         axios.get(url)
           .then(res => {
             const weather = res.data
@@ -51,7 +55,7 @@ export default new Vuex.Store({
             commit('SET_LOCAL_WEATHER', weather)
           })
           .catch(err => {
-            console.log(err)
+            console.error(err)
           })
 
       })
