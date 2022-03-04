@@ -267,22 +267,49 @@ export default {
       };
     },
     submit() {
-      if (!this.inspection.data) {
-        return alert("no inspection");
-      } else {
-        this.dialog = false;
-        this.$store.dispatch("addInspection", this.totalInspection);
-        console.log("Enviando inspeccion a firebase");
-        this.inspection = {
-          inspectionInfo: {
-            id: "",
-            date: "",
-            techinical: "",
-          },
-        };
-        this.$refs.form.reset();
-        this.firstVal = false;
+      // for( let i = 0; i)
+      for (let i in this.inspection.inspectionInfo.data) {
+        if (this.inspection.inspectionInfo.data[i] === "") {
+          // this.inspection.inspectionInfo.data[i] = "N/A";
+          // implementar el SNACKBAR COMPONENT
+          return alert("Please fill all fields");
+        } else {
+          this.dialog = false;
+          this.$store.dispatch("addInspection", this.totalInspection);
+          console.log("Enviando inspeccion a firebase");
+          this.inspection = {
+            inspectionInfo: {
+              id: "",
+              date: "",
+              techinical: "",
+            },
+          };
+          this.$refs.form.reset();
+        }
       }
+
+      // checar si dentro del objeto data esta vacio
+      console.log(this.inspection.inspectionInfo.data);
+      // if (this.inspection.inspectionInfo.data) {
+      //   return alert("fields can't be empty");
+      // } else {
+      //
+
+      // this.dialog = false;
+      // this.$store.dispatch("addInspection", this.totalInspection);
+      // console.log("Enviando inspeccion a firebase");
+      // this.inspection = {
+      //   inspectionInfo: {
+      //     id: "",
+      //     date: "",
+      //     techinical: "",
+      //   },
+      // };
+      // this.$refs.form.reset();
+      // this.firstVal = false;
+
+      //
+      // }
     },
   },
 };
