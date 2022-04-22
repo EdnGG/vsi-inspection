@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
-import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Login',
+    component: Login
   },
   {
     path: '/about',
@@ -25,6 +25,16 @@ const routes = [
     path: '/view-inspection',
     name: 'ViewInspection',
     component: () => import(/* webpackChunkName: "about" */ '../views/ViewInspection.vue')
+  },
+  {
+    path: '/desmet',
+    name: 'Desmet',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Desmet.vue')
+  },
+  {
+    path: '/desmet-packing',
+    name: 'DesmetPacking',
+    component: () => import(/* webpackChunkName: "about" */ '../views/DesmetPacking.vue')
   }
 ]
 

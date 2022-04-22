@@ -10,6 +10,8 @@ export default new Vuex.Store({
     weather: {},
     allInpections: [],
     actuators: [],
+    desmetOrder: [],
+    project: []
   },
   mutations: {
     SET_LOCAL_WEATHER(state, payload) {
@@ -18,17 +20,34 @@ export default new Vuex.Store({
     ADD_ACTUATOR(state, payload) {
       state.actuators.push(payload)
     },
+    ADD_PROJECT_ITEM(state, payload) {
+      state.project.push(payload)
+    },
     ADD_INSPECTION(state, payload) {
       state.allInpections.push(payload)
+    },
+    ADD_DESMET_ORDER(state, payload) {
+      state.desmetOrder.push(payload)
     }
   },
   actions: {
+    addProjectItem({ commit }, payload) { 
+      commit('ADD_PROJECT_ITEM', payload)
+    },
     addActuator({ commit }, payload) {
       commit('ADD_ACTUATOR', payload)
     },
     addInspection({commit}, payload) {
       commit('ADD_INSPECTION', payload)
       db.collection('inspections').add({inspection: payload}).then((docRef) => {
+        console.log("Document written with ID: ", docRef.id)
+      }).catch((error) => {
+        console.error("Error adding document: ", error)
+      })
+    },
+    addDesmetOrder({commit}, payload) {
+      commit('ADD_DESMET_ORDER', payload)
+      db.collection('desmetOrder').add({desmetOrder: payload}).then((docRef) => {
         console.log("Document written with ID: ", docRef.id)
       }).catch((error) => {
         console.error("Error adding document: ", error)
@@ -51,7 +70,7 @@ export default new Vuex.Store({
         axios.get(url)
           .then(res => {
             const weather = res.data
-            console.log(weather)
+            // console.log(weather)
             commit('SET_LOCAL_WEATHER', weather)
           })
           .catch(err => {

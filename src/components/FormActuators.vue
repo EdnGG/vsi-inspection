@@ -2,7 +2,7 @@
   <v-container fluid mt-5 pa-5>
     <!--  -->
     <v-form @submit.prevent="addActuator" ref="form">
-      <v-container v-if="!firstVal">
+      <v-container v-show="!firstVal">
         <!-- <v-container> -->
         <v-row class="d-flex justify-space-around">
           <v-col cols="12" md="3">
@@ -47,7 +47,7 @@
         </v-col>
       </v-container>
       <!-- Button -->
-      <v-container v-if="firstVal">
+      <v-container v-show="firstVal">
         <!-- <v-container> -->
         <v-row class="d-flex justify-space-around">
           <v-col cols="12" md="3">
@@ -269,10 +269,10 @@ export default {
     submit() {
       // for( let i = 0; i)
       for (let i in this.inspection.inspectionInfo.data) {
-        if (this.inspection.inspectionInfo.data[i] === "") {
-          // this.inspection.inspectionInfo.data[i] = "N/A";
+        if (this.inspection.inspectionInfo.data[i].value === "") {
+          this.inspection.inspectionInfo.data[i] = "N/A";
           // implementar el SNACKBAR COMPONENT
-          return alert("Please fill all fields");
+          alert("Please fill all fields");
         } else {
           this.dialog = false;
           this.$store.dispatch("addInspection", this.totalInspection);

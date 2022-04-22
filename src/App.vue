@@ -1,25 +1,14 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer
-      v-model="drawer"
-      :mobile-breakpoint="768"
-      app
-    >
-    <v-img
+    <v-navigation-drawer v-model="drawer" :mobile-breakpoint="768" app>
+      <v-img
         class="pa-4 pt-7"
         height="190"
         src="img/space.jpg"
         gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
       >
-
-      <v-avatar
-          size="70"
-          class="mb-2"
-        >
-          <img
-            :src="defaultImage"
-            alt="User Avatar"
-          >
+        <v-avatar size="70" class="mb-2">
+          <img :src="defaultImage" alt="User Avatar" />
           <!-- <img
             v-if="!userDB"
             :src="defaultImage"
@@ -36,17 +25,8 @@
         </div> -->
       </v-img>
 
-      <v-list
-        
-        dense
-        nav
-      >
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          :to="item.to"
-          link
-        >
+      <v-list dense nav>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -56,7 +36,6 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-  
     </v-navigation-drawer>
 
     <v-app-bar
@@ -65,7 +44,7 @@
       dark
       prominent
       src="img/space.jpg"
-      :height="$route.path === '/todo' ? 220 : 190 "
+      :height="$route.path === '/todo' ? 220 : 190"
     >
       <template v-slot:img="{ props }">
         <v-img
@@ -75,19 +54,12 @@
       </template>
 
       <v-container class="header-container pa-0">
-
-        
         <v-row>
-
-          <v-app-bar-nav-icon 
-            
-            @click="drawer = !drawer"
-          ></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
           <v-spacer></v-spacer>
           <!-- <search v-if="$route.path === '/todo'" /> -->
           <!-- <rigth-side-toolbar /> -->
         </v-row>
-
 
         <v-row>
           <v-app-bar-title class="ml-4 text-h4">
@@ -98,13 +70,11 @@
           <live-date-time />
           <local-weather />
         </v-row>
-      
+
         <!-- <v-row v-if="$route.path === '/todo' ">
           <field-add-task />
         </v-row> -->
-
       </v-container>
-
     </v-app-bar>
 
     <!-- <v-app-bar app>
@@ -146,7 +116,21 @@ export default {
         icon: "mdi-emoticon-cool-outline",
         to: "/view-inspection",
       },
-      { title: "About", icon: "mdi-help-box", to: "/about" },
+      {
+        title: "About",
+        icon: "mdi-help-box",
+        to: "/about",
+      },
+      {
+        title: "Desmet",
+        icon: "mdi-clipboard-list-outline",
+        to: "/desmet",
+      },
+      {
+        title: "Desmet-Packing",
+        icon: "mdi-clipboard-list-outline",
+        to: "/desmet-packing",
+      },
 
       // { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
     ],
@@ -157,9 +141,9 @@ export default {
 <style lang="sass">
 .header-container
   max-width: none !important
-#row__tools
-  display: flex
-  justify-content: space-between
-  align-items: center
-  margin-right: 20px
+  #row__tools
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-right: 20px
 </style>
