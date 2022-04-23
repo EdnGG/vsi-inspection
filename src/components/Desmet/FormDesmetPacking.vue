@@ -1,132 +1,301 @@
 <template>
-  <v-container fluid mt-5 pa-5>
-    <v-form @submit.prevent="submit" ref="form">
-      <v-container v-show="!show">
-        <v-row class="d-flex justify-space-around">
-          <v-col cols="12" md="4">
-            <v-text-field
-              v-model="project.projectName"
-             
-              label="Project Name"
-              required
-            ></v-text-field>
-          </v-col>
+  <v-container justify="center" class="justify-center py-12 my-12 text-center">
+    <v-card class="text-center mx-auto" max-width="500">
+      <v-img :src="imageDefault" height="400px" width="500px"></v-img>
 
-          <v-col cols="12" md="4">
-            <v-text-field
-              v-model="project.orderNumber"
-              
-              label="Order Number"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-container class="d-flex justify-space-around">
-          <v-col cols="12" md="4">
-            <v-row>
-              <v-btn @click="show = !show" block elevation="2"> Next </v-btn>
-            </v-row>
-          </v-col>
-        </v-container>
+      <v-container>
+        <v-card-title class="justify-center">
+          <h1>
+            {{ "test" }}
+          </h1>
+        </v-card-title>
       </v-container>
 
-      <!-- <v-container class="d-flex justify-space-around"> -->
-      <!-- <v-col cols="12" md="4">
-          <v-row>
-            <v-btn @click="show = !show" block elevation="2"> Next </v-btn>
-          </v-row>
-        </v-col> -->
-      <!-- </v-container> -->
+      <v-card-subtitle>
+        {{ "test" }}
+      </v-card-subtitle>
 
-      <v-container v-show="show">
-        <v-row class="d-flex justify-space-around">
-          <v-col cols="12" md="4">
+      <v-card-actions>
+        <v-btn color="orange lighten-2" text> More </v-btn>
+
+        <v-spacer></v-spacer>
+
+        <v-btn icon @click="show = !show">
+          <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
+        </v-btn>
+      </v-card-actions>
+
+      <v-expand-transition>
+        <div v-show="show">
+          <v-divider></v-divider>
+          <!-- Poner elementos en flexbox -->
+          <v-card-text class="text-subtitle-2">
+            <v-col class="pb-5">
+              <v-row class="d-flex justify-space-around">
+                <h2 class="m">
+                  {{ "test" }}
+                </h2>
+                <h2>
+                  {{ "test" }}
+                </h2>
+              </v-row>
+            </v-col>
+            <v-divider></v-divider>
+            <v-col class="pt-5">
+              <v-row class="d-flex justify-space-around">
+                <h2>Tasks Completed: {{ "allDoneTasks" }}</h2>
+                <h2>Pending Tasks: {{ "pendingTasks" }}</h2>
+                <h2 class="pt-4">DueDate Tasks: {{ "duedateTasks" }}</h2>
+              </v-row>
+            </v-col>
+          </v-card-text>
+        </div>
+      </v-expand-transition>
+    </v-card>
+
+    <v-container class="py-12 my-12">
+      <div>
+        <h2>
+          Date
+          <!-- Member since: {{ moment("dddd, MMMM Do YYYY, h:mm:ss a") }} -->
+        </h2>
+      </div>
+    </v-container>
+
+    <v-container class="py-12 my-12">
+      <validation-observer ref="observer" v-slot="{ invalid }">
+        <form @submit.prevent="submit">
+          <validation-provider
+            v-slot="{ errors }"
+            name="Name"
+            rules="required|max:10"
+          >
             <v-text-field
-              v-model="project.assemblyType"
-              
-              label="Assembly Type"
+              v-model="name"
+              :counter="10"
+              :error-messages="errors"
+              label="Pallet Name"
               required
             ></v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="phoneNumber"
+            :rules="{
+              required: true,
+              digits: 7,
+              regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$',
+            }"
+          >
             <v-text-field
-              v-model="project.serialValve"
-              
-              label="Serial Number"
+              v-model="phoneNumber"
+              :counter="7"
+              :error-messages="errors"
+              label="Phone Number"
               required
             ></v-text-field>
-          </v-col>
-        </v-row>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="email"
+            rules="required|email"
+          >
+            <v-text-field
+              v-model="email"
+              :error-messages="errors"
+              label="E-mail"
+              required
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="select"
+            rules="required"
+          >
+            <v-select
+              v-model="select"
+              :items="items"
+              :error-messages="errors"
+              label="Select"
+              data-vv-name="select"
+              required
+            ></v-select>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            rules="required"
+            name="checkbox"
+          >
+            <v-checkbox
+              v-model="checkbox"
+              :error-messages="errors"
+              value="1"
+              label="Option"
+              type="checkbox"
+              required
+            ></v-checkbox>
+          </validation-provider>
 
-      <v-container class="d-flex justify-space-between">
-        <v-col cols="6" md="6">
-          <v-row class="pr-3">
-            <v-btn @click="add" block elevation="2"> Add </v-btn>
-          </v-row>
-        </v-col>
-        <v-col cols="6" md="6">
-          <v-row class="pl-3">
-            <v-btn @click="submit" block elevation="2"> Submit </v-btn>
-          </v-row>
-        </v-col>
-      </v-container>
+          <v-btn class="mr-4" type="submit" :disabled="invalid"> submit </v-btn>
+          <v-btn @click="clear"> clear </v-btn>
+        </form>
+      </validation-observer>
+    </v-container>
 
-      </v-container>
+    <v-container
+      justify="center"
+      class="justify-center text-center"
+      style="width: 80%"
+    >
+      <v-file-input small-chips multiple label="Select files"></v-file-input>
 
-    </v-form>
-    <v-container>
-      <h3>Local: {{ finalProject }}</h3>
+      <v-btn elevation="5" color="orange lighten-2" text @click="upload">
+        Upload Image
+      </v-btn>
     </v-container>
   </v-container>
 </template>
 
 <script>
+import { required, digits, email, max, regex } from "vee-validate/dist/rules";
+import {
+  extend,
+  ValidationObserver,
+  ValidationProvider,
+  setInteractionMode,
+} from "vee-validate";
+import { mapState, mapActions } from "vuex";
+
+setInteractionMode("eager");
+
+extend("digits", {
+  ...digits,
+  message: "{_field_} needs to be {length} digits. ({_value_})",
+});
+
+extend("required", {
+  ...required,
+  message: "{_field_} can not be empty",
+});
+
+extend("max", {
+  ...max,
+  message: "{_field_} may not be greater than {length} characters",
+});
+
+extend("regex", {
+  ...regex,
+  message: "{_field_} {_value_} does not match {regex}",
+});
+
+extend("email", {
+  ...email,
+  message: "Email must be valid",
+});
+
 export default {
-  data: () => ({
-    show: false,
-    finalProject: [],
-
-    project: {
-      // projectName: "DANA-5",
-      // orderNumber: "SO77747",
-      // assemblyType: '.75"/s7402-s1/c-083/sr-8',
-      // serialValve: "18nov-123",
-      projectName: "",
-      orderNumber: "",
-      assemblyType: "",
-      serialValve: "",
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
+  data() {
+    return {
+      show: false,
+      imageDefault: "https://lenguajejs.com/javascript/logo.svg",
+      image: null,
+      message: null,
+      rules: [
+        (value) =>
+          !value ||
+          value.size < 2000000 ||
+          "Avatar size should be less than 2 MB!",
+      ],
+      // vee validate
+      name: "",
+      phoneNumber: "",
+      email: "",
+      select: null,
+      items: ["Item 1", "Item 2", "Item 3", "Item 4"],
+      checkbox: null,
+    };
+  },
+  computed: {
+    ...mapState(["userDB", "allTasks"]),
+    allDoneTasks() {
+      const nameTasks = this.allTasks.filter((task) => task.done);
+      return nameTasks.length;
     },
-
-    // rules: [
-    //   (v) => !!v || "Name is required",
-    //   (v) => v.length >= 30 || "execeeded 30 characters",
-    // ],
-  }),
+    pendingTasks() {
+      const nameTasks = this.allTasks.filter((task) => !task.done);
+      return nameTasks.length;
+    },
+    duedateTasks() {
+      const nameTasks = this.allTasks.filter((task) => task.dueDate !== null);
+      return nameTasks.length;
+    },
+  },
+  created() {},
   methods: {
-    add() {
-      console.log("add");
-      this.finalProject.push(this.project);
-      this.$refs.form.reset();
-      // this.project.assemblyType = "";
-      // this.project.serialValve = "";
-      // if (!this.finalProject.length) {
-      //   this.finalProject.push(this.project);
-      //   this.project.assemblyType = "";
-      //   this.project.serialValve = "";
+    ...mapActions(["guardarUsuario", "updateImageUsuario"]),
 
-      // } else {
-      //   // Error
-      //   this.finalProject.push(this.project);
-      //   this.project.assemblyType = "";
-      //   this.project.serialValve = "";
-      // }
-    },
     submit() {
-      console.log("submit");
-      this.$store.dispatch("addDesmetOrder", this.finalProject);
+      this.$refs.observer.validate();
+    },
+    clear() {
+      this.name = "";
+      this.phoneNumber = "";
+      this.email = "";
+      this.select = null;
+      this.checkbox = null;
+      this.$refs.observer.reset();
+    },
+    upload() {
+      // console.log(this.image)
+      let formData = new FormData();
+      formData.append("image", this.image);
+
+      this.axios
+        .put(`/upload/${this.userDB._id}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          this.updateImageUsuario(res.data.userDB);
+          this.$store.commit(
+            "showSnackbar",
+            `Hey ${res.data.userDB.name} image was updated successfully`
+          );
+        })
+        .catch((e) => {
+          // console.log("Error: ", e.response.data.err.message);
+          this.message = e.response.data.err.message;
+        });
     },
   },
 };
 </script>
+
+<style scoped>
+.home__date--member {
+  display: flex;
+  margin-left: 20px;
+  padding-top: 7%;
+  font-weight: bold;
+}
+
+p,
+table,
+form,
+button {
+  color: hsl(246, 4%, 53%);
+  font-weight: 800;
+}
+ul {
+  list-style: none;
+}
+
+.form-group .formdata--div {
+  background-color: #76949f;
+  color: hsl(249, 92%, 64%);
+  font-weight: 800;
+}
+</style>

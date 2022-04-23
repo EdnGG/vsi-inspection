@@ -45,32 +45,32 @@
           </v-container>
         </v-form>
 
-        <v-container justify="center" class="d-flex justify-center my-12">
+        <!-- <v-container justify="center" class="d-flex justify-center my-12">
           <GoogleLogin
             :params="params"
             :renderParams="renderParams"
             :onSuccess="onSuccess"
             :onFailure="onFailure"
           ></GoogleLogin>
-        </v-container>
+        </v-container> -->
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
-import GoogleLogin from "vue-google-login";
+// import GoogleLogin from "vue-google-login";
 
 export default {
   components: {
-    GoogleLogin,
+    // GoogleLogin,
   },
   data() {
     return {
       show4: false,
       valid: true,
-      params: {
-        client_id: process.env.VUE_APP_KEY_GOOGLE_CLIENT_ID,
-      },
+      // params: {
+      //   client_id: process.env.VUE_APP_KEY_GOOGLE_CLIENT_ID,
+      // },
       rules: {
         required: (value) => !!value || "Required.",
         min: (v) => v.length >= 8 || "Min 8 characters",
@@ -104,48 +104,29 @@ export default {
     },
     // ...mapActions(["guardarUsuario"]),
 
-    onFailure(onFailure) {
-      console.log("Autentication failure", onFailure);
-    },
-    onSuccess(googleUser) {
-      // This only gets the user information: id, name, imageUrl and email
+    // onFailure(onFailure) {
+    //   console.log("Autentication failure", onFailure);
+    // },
+    // onSuccess(googleUser) {
+    //   // This only gets the user information: id, name, imageUrl and email
 
-      this.id_token = googleUser.getAuthResponse().id_token;
-      this.axios
-        .post("/google", { id_token: this.id_token })
-        .then((res) => {
-          const data = res.data;
-          this.user = data;
-          this.guardarUsuario(data);
-          this.$router.push({ name: "Todo" });
-        })
-        .catch((e) => {
-          this.message.text = e.response.data.msg;
-          this.message.color = "danger";
-          this.showAlert();
-        });
-    },
+    //   this.id_token = googleUser.getAuthResponse().id_token;
+    //   this.axios
+    //     .post("/google", { id_token: this.id_token })
+    //     .then((res) => {
+    //       const data = res.data;
+    //       this.user = data;
+    //       this.guardarUsuario(data);
+    //       this.$router.push({ name: "Todo" });
+    //     })
+    //     .catch((e) => {
+    //       this.message.text = e.response.data.msg;
+    //       this.message.color = "danger";
+    //       this.showAlert();
+    //     });
+    // },
     login() {
       console.log("login");
-      // try {
-      //   if (this.validate()) {
-      //     this.axios
-      //       .post("/login", this.user)
-      //       .then((res) => {
-      //         const data = res.data;
-      //         this.guardarUsuario(data);
-      //         this.$store.dispatch("getUserTasks");
-      //         this.$router.push({ name: "Todo" });
-      //       })
-      //       .catch((e) => {
-      //         this.$store.commit("showSnackbar", `${e.response.data.message}`);
-      //       });
-      //   } else {
-      //     throw new Error("Form is not valid");
-      //   }
-      // } catch (err) {
-      //   console.log(err);
-      // }
     },
   },
 };

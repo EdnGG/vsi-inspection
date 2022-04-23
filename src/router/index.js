@@ -19,22 +19,26 @@ const routes = [
   {
     path: '/inspection',
     name: 'Inspection',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Inspection.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Inspection.vue'),
+    meta: { requireAuth: true }
   },
   {
     path: '/view-inspection',
     name: 'ViewInspection',
-    component: () => import(/* webpackChunkName: "about" */ '../views/ViewInspection.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/ViewInspection.vue'),
+    meta: { requireAuth: true }
   },
   {
     path: '/desmet',
     name: 'Desmet',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Desmet.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Desmet.vue'),
+    meta: { requireAuth: true }
   },
   {
     path: '/desmet-packing',
     name: 'DesmetPacking',
-    component: () => import(/* webpackChunkName: "about" */ '../views/DesmetPacking.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/DesmetPacking.vue'),
+    meta: { requireAuth: true }
   }
 ]
 
