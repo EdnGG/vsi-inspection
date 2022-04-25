@@ -4,7 +4,7 @@
     <v-form @submit.prevent="addActuator" ref="form">
       <v-container v-show="!firstVal">
         <!-- <v-container> -->
-        <v-row class="d-flex justify-space-around">
+        <v-row class="d-flex justify-space-around"> 
           <v-col cols="12" md="3">
             <v-text-field
               v-model.trim="inspection.inspectionInfo.id"

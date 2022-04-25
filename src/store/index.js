@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate'
-import { db } from '../firebase.js';
+import { db, storage } from '../firebase.js';
 
 import router from '../router'
 
@@ -15,7 +15,8 @@ export default new Vuex.Store({
     allInpections: [],
     actuators: [],
     desmetOrder: [],
-    project: []
+    project: [],
+    pbfnoPallets: [],
   },
   mutations: {
     SET_LOCAL_WEATHER(state, payload) {
@@ -32,9 +33,21 @@ export default new Vuex.Store({
     },
     ADD_DESMET_ORDER(state, payload) {
       state.desmetOrder.push(payload)
+    },
+    SAVE_PALLET(state, payload) { 
+      state.pbfnoPallets.push(payload)
     }
   },
   actions: {
+    savePallet({ commit }, payload) { 
+      db.collection('desmet-pallets-pbfno').add({
+        palletNumber: payload.palletNumber,
+        valveType: payload.valveType,
+        valveSize: payload.valveSize,
+      })
+      commit('SAVE_PALLET', payload)
+      // storage.
+    },
     addProjectItem({ commit }, payload) { 
       commit('ADD_PROJECT_ITEM', payload)
     },

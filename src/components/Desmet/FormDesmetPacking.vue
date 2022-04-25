@@ -1,5 +1,5 @@
 <template>
-  <v-container justify="center" class="justify-center py-12 my-12 text-center">
+  <v-container class="justify-center py-12 my-12 text-center">
     <v-card class="text-center mx-auto" max-width="500">
       <v-img :src="imageDefault" height="400px" width="500px"></v-img>
 
@@ -62,7 +62,7 @@
       </div>
     </v-container>
 
-    <v-container class="py-12 my-12">
+    <v-container fluid class="py-12 my-12">
       <validation-observer ref="observer" v-slot="{ invalid }">
         <form @submit.prevent="submit">
           <validation-provider
@@ -71,92 +71,179 @@
             rules="required|max:10"
           >
             <v-text-field
-              v-model="name"
+              v-model="palletNumber"
               :counter="10"
               :error-messages="errors"
-              label="Pallet Name"
+              label="Pallet Number"
               required
             ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="phoneNumber"
-            :rules="{
-              required: true,
-              digits: 7,
-              regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$',
-            }"
-          >
-            <v-text-field
-              v-model="phoneNumber"
-              :counter="7"
-              :error-messages="errors"
-              label="Phone Number"
-              required
-            ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="email"
-            rules="required|email"
-          >
-            <v-text-field
-              v-model="email"
-              :error-messages="errors"
-              label="E-mail"
-              required
-            ></v-text-field>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="select"
-            rules="required"
-          >
-            <v-select
-              v-model="select"
-              :items="items"
-              :error-messages="errors"
-              label="Select"
-              data-vv-name="select"
-              required
-            ></v-select>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            rules="required"
-            name="checkbox"
-          >
-            <v-checkbox
-              v-model="checkbox"
-              :error-messages="errors"
-              value="1"
-              label="Option"
-              type="checkbox"
-              required
-            ></v-checkbox>
           </validation-provider>
 
-          <v-btn class="mr-4" type="submit" :disabled="invalid"> submit </v-btn>
-          <v-btn @click="clear"> clear </v-btn>
+          <v-row cols="12" md="6">
+            <v-col>
+              <validation-provider
+                v-slot="{ errors }"
+                name="select"
+                rules="required"
+              >
+                <v-select
+                  v-model="selectValve"
+                  :items="items"
+                  :error-messages="errors"
+                  label="Select valve type"
+                  data-vv-name="select"
+                  required
+                ></v-select>
+              </validation-provider>
+            </v-col>
+            <v-col>
+              <validation-provider
+                v-slot="{ errors }"
+                name="Name"
+                rules="required|max:10"
+              >
+                <v-text-field
+                  v-model="selectQuantity"
+                  :counter="10"
+                  :error-messages="errors"
+                  label="Quantity"
+                  required
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+          </v-row>
+          <!--  -->
+          <v-row cols="12" md="6">
+            <v-col>
+              <validation-provider
+                v-slot="{ errors }"
+                name="select"
+                rules="required"
+              >
+                <v-select
+                  v-model="selectValve1"
+                  :items="items"
+                  :error-messages="errors"
+                  label="Select valve type"
+                  data-vv-name="select"
+                  required
+                ></v-select>
+              </validation-provider>
+            </v-col>
+            <v-col>
+              <validation-provider
+                v-slot="{ errors }"
+                name="Name"
+                rules="required|max:10"
+              >
+                <v-text-field
+                  v-model="selectQuantity1"
+                  :counter="10"
+                  :error-messages="errors"
+                  label="Quantity"
+                  required
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+          </v-row>
+          <v-row cols="12" md="6">
+            <v-col>
+              <validation-provider
+                v-slot="{ errors }"
+                name="select"
+                rules="required"
+              >
+                <v-select
+                  v-model="selectValve"
+                  :items="items"
+                  :error-messages="errors"
+                  label="Select valve type"
+                  data-vv-name="select"
+                  required
+                ></v-select>
+              </validation-provider>
+            </v-col>
+            <v-col>
+              <validation-provider
+                v-slot="{ errors }"
+                name="Name"
+                rules="required|max:10"
+              >
+                <v-text-field
+                  v-model="selectQuantity"
+                  :counter="10"
+                  :error-messages="errors"
+                  label="Quantity"
+                  required
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+          </v-row>
+          <v-row cols="12" md="6">
+            <v-col>
+              <validation-provider
+                v-slot="{ errors }"
+                name="select"
+                rules="required"
+              >
+                <v-select
+                  v-model="selectValve"
+                  :items="items"
+                  :error-messages="errors"
+                  label="Select valve type"
+                  data-vv-name="select"
+                  required
+                ></v-select>
+              </validation-provider>
+            </v-col>
+            <v-col>
+              <validation-provider
+                v-slot="{ errors }"
+                name="Name"
+                rules="required|max:10"
+              >
+                <v-text-field
+                  v-model="selectQuantity"
+                  :counter="10"
+                  :error-messages="errors"
+                  label="Quantity"
+                  required
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+          </v-row>
+          <v-container
+            justify="center"
+            class="justify-center text-center"
+            style="width: 80%"
+          >
+            <v-file-input
+              v-model="files"
+              small-chips
+              multiple
+              label="Select files"
+            ></v-file-input>
+
+            <v-row>
+              <v-col><v-btn elevation="5" type="submit" color="orange lighten-2" text @click="submit">
+              Submit
+            </v-btn></v-col>
+              <v-col><v-btn @click="clear"> Clear </v-btn></v-col>
+            </v-row>
+
+            
+          </v-container>
+
+          <!-- <v-btn class="mr-4" type="submit" :disabled="invalid"> submit </v-btn> -->
+          
         </form>
       </validation-observer>
-    </v-container>
-
-    <v-container
-      justify="center"
-      class="justify-center text-center"
-      style="width: 80%"
-    >
-      <v-file-input small-chips multiple label="Select files"></v-file-input>
-
-      <v-btn elevation="5" color="orange lighten-2" text @click="upload">
-        Upload Image
-      </v-btn>
     </v-container>
   </v-container>
 </template>
 
 <script>
+import { storage } from "../../firebase";
 import { required, digits, email, max, regex } from "vee-validate/dist/rules";
 import {
   extend,
@@ -204,6 +291,7 @@ export default {
       imageDefault: "https://lenguajejs.com/javascript/logo.svg",
       image: null,
       message: null,
+
       rules: [
         (value) =>
           !value ||
@@ -211,42 +299,72 @@ export default {
           "Avatar size should be less than 2 MB!",
       ],
       // vee validate
-      name: "",
-      phoneNumber: "",
-      email: "",
-      select: null,
-      items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-      checkbox: null,
+      palletNumber: "",
+      selectValve: null,
+      selectQuantity: null,
+      files: null,
+      items: [
+        '50"S7215-S1',
+        '50"S7400-C1',
+        '50"S7402-C1',
+        '75"S7402-C3',
+        '50"S7402-S1',
+        '75"S7215-S1',
+        '75"S7402-C1',
+        '1"S7215-S1',
+        '1"S7402-C1',
+        '1"S7402-S1',
+        '1.5"S7402-C1',
+        '1.5"S7402-C3',
+        '1.5"S7402-S1',
+        '2"S7215-C3',
+        '2"S7215-C1',
+        '3"S7215-C3',
+        '3"S7215-C3',
+        '3"S7215-C1/FMYB-5120',
+        '3"S7215-S1',
+        '4"S7215-S1',
+        '6"S9015-S1',
+        '8"S9015-S1',
+      ],
     };
   },
   computed: {
     ...mapState(["userDB", "allTasks"]),
-    allDoneTasks() {
-      const nameTasks = this.allTasks.filter((task) => task.done);
-      return nameTasks.length;
-    },
-    pendingTasks() {
-      const nameTasks = this.allTasks.filter((task) => !task.done);
-      return nameTasks.length;
-    },
-    duedateTasks() {
-      const nameTasks = this.allTasks.filter((task) => task.dueDate !== null);
-      return nameTasks.length;
-    },
   },
   created() {},
   methods: {
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
 
-    submit() {
-      this.$refs.observer.validate();
+    submit(e) {
+      console.log("submit ", e);
+
+      let formData = new FormData();
+      formData.append("files", this.files);
+
+      let data = {
+        palletNumber: this.palletNumber,
+        selectValve: this.selectValve,
+        selectQuantity: this.selectQuantity,
+      };
+      console.log("data ", data);
+
+      // this.$store.commit("savePallet", {
+      //   palletNumber: this.palletNumber,
+      //   selectValve: this.selectValve,
+      //   selectQuantity: this.selectQuantity,
+      //   files: this.files,
+      // });
+
+      // this.files = e.target.files;
+      console.log("this.files:", this.files);
+
+      // this.$refs.observer.validate();
     },
     clear() {
-      this.name = "";
-      this.phoneNumber = "";
-      this.email = "";
-      this.select = null;
-      this.checkbox = null;
+      this.palletNumber = "";
+      this.selectValve = null;
+      this.selectQuantity = null;
       this.$refs.observer.reset();
     },
     upload() {
