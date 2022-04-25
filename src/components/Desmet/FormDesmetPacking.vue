@@ -55,236 +55,80 @@
 
     <v-container class="py-12 my-12">
       <div>
-        <h2>
-          Date
-          <!-- Member since: {{ moment("dddd, MMMM Do YYYY, h:mm:ss a") }} -->
-        </h2>
+        <h2>Date</h2>
       </div>
     </v-container>
 
     <v-container fluid class="py-12 my-12">
-      <validation-observer ref="observer" v-slot="{ invalid }">
-        <form @submit.prevent="submit">
-          <validation-provider
-            v-slot="{ errors }"
-            name="Name"
-            rules="required|max:10"
-          >
+      <form @submit.prevent="submit">
+        <v-text-field
+          v-model="palletNumber"
+          label="Pallet Number"
+        ></v-text-field>
+
+        <div v-for="i in item" :key=item.length>
+        <v-row cols="12" md="6">
+          <v-col>
+            <v-select
+              v-model="selectValveType1"
+              :items="items"
+              label="Select valve type"
+            ></v-select>
+          </v-col>
+          <v-col>
             <v-text-field
-              v-model="palletNumber"
-              :counter="10"
-              :error-messages="errors"
-              label="Pallet Number"
-              required
+              v-model="selectQuantityType1"
+              label="Quantity"
             ></v-text-field>
-          </validation-provider>
+          </v-col>
+        </v-row>
+        <v-btn @click="addRow">
+          Add row
+        </v-btn>
+        </div>
+        <!--  -->
+       
+        <v-container
+          justify="center"
+          class="justify-center text-center"
+          style="width: 80%"
+        >
+          <v-file-input
+            v-model="files"
+            small-chips
+            multiple
+            label="Select files"
+          ></v-file-input>
 
-          <v-row cols="12" md="6">
-            <v-col>
-              <validation-provider
-                v-slot="{ errors }"
-                name="select"
-                rules="required"
+          <v-row>
+            <v-col
+              ><v-btn
+                elevation="5"
+                type="submit"
+                color="orange lighten-2"
+                text
+                @click="submit"
               >
-                <v-select
-                  v-model="selectValve"
-                  :items="items"
-                  :error-messages="errors"
-                  label="Select valve type"
-                  data-vv-name="select"
-                  required
-                ></v-select>
-              </validation-provider>
-            </v-col>
-            <v-col>
-              <validation-provider
-                v-slot="{ errors }"
-                name="Name"
-                rules="required|max:10"
-              >
-                <v-text-field
-                  v-model="selectQuantity"
-                  :counter="10"
-                  :error-messages="errors"
-                  label="Quantity"
-                  required
-                ></v-text-field>
-              </validation-provider>
-            </v-col>
+                Submit
+              </v-btn></v-col
+            >
+            <v-col><v-btn @click="clear"> Clear </v-btn></v-col>
           </v-row>
-          <!--  -->
-          <v-row cols="12" md="6">
-            <v-col>
-              <validation-provider
-                v-slot="{ errors }"
-                name="select"
-                rules="required"
-              >
-                <v-select
-                  v-model="selectValve1"
-                  :items="items"
-                  :error-messages="errors"
-                  label="Select valve type"
-                  data-vv-name="select"
-                  required
-                ></v-select>
-              </validation-provider>
-            </v-col>
-            <v-col>
-              <validation-provider
-                v-slot="{ errors }"
-                name="Name"
-                rules="required|max:10"
-              >
-                <v-text-field
-                  v-model="selectQuantity1"
-                  :counter="10"
-                  :error-messages="errors"
-                  label="Quantity"
-                  required
-                ></v-text-field>
-              </validation-provider>
-            </v-col>
-          </v-row>
-          <v-row cols="12" md="6">
-            <v-col>
-              <validation-provider
-                v-slot="{ errors }"
-                name="select"
-                rules="required"
-              >
-                <v-select
-                  v-model="selectValve"
-                  :items="items"
-                  :error-messages="errors"
-                  label="Select valve type"
-                  data-vv-name="select"
-                  required
-                ></v-select>
-              </validation-provider>
-            </v-col>
-            <v-col>
-              <validation-provider
-                v-slot="{ errors }"
-                name="Name"
-                rules="required|max:10"
-              >
-                <v-text-field
-                  v-model="selectQuantity"
-                  :counter="10"
-                  :error-messages="errors"
-                  label="Quantity"
-                  required
-                ></v-text-field>
-              </validation-provider>
-            </v-col>
-          </v-row>
-          <v-row cols="12" md="6">
-            <v-col>
-              <validation-provider
-                v-slot="{ errors }"
-                name="select"
-                rules="required"
-              >
-                <v-select
-                  v-model="selectValve"
-                  :items="items"
-                  :error-messages="errors"
-                  label="Select valve type"
-                  data-vv-name="select"
-                  required
-                ></v-select>
-              </validation-provider>
-            </v-col>
-            <v-col>
-              <validation-provider
-                v-slot="{ errors }"
-                name="Name"
-                rules="required|max:10"
-              >
-                <v-text-field
-                  v-model="selectQuantity"
-                  :counter="10"
-                  :error-messages="errors"
-                  label="Quantity"
-                  required
-                ></v-text-field>
-              </validation-provider>
-            </v-col>
-          </v-row>
-          <v-container
-            justify="center"
-            class="justify-center text-center"
-            style="width: 80%"
-          >
-            <v-file-input
-              v-model="files"
-              small-chips
-              multiple
-              label="Select files"
-            ></v-file-input>
+        </v-container>
 
-            <v-row>
-              <v-col><v-btn elevation="5" type="submit" color="orange lighten-2" text @click="submit">
-              Submit
-            </v-btn></v-col>
-              <v-col><v-btn @click="clear"> Clear </v-btn></v-col>
-            </v-row>
-
-            
-          </v-container>
-
-          <!-- <v-btn class="mr-4" type="submit" :disabled="invalid"> submit </v-btn> -->
-          
-        </form>
-      </validation-observer>
+        <!-- <v-btn class="mr-4" type="submit" :disabled="invalid"> submit </v-btn> -->
+      </form>
     </v-container>
   </v-container>
 </template>
 
 <script>
-import { storage } from "../../firebase";
-import { required, digits, email, max, regex } from "vee-validate/dist/rules";
-import {
-  extend,
-  ValidationObserver,
-  ValidationProvider,
-  setInteractionMode,
-} from "vee-validate";
+import { storage, firebase } from "../../firebase";
+
 import { mapState, mapActions } from "vuex";
 
-setInteractionMode("eager");
-
-extend("digits", {
-  ...digits,
-  message: "{_field_} needs to be {length} digits. ({_value_})",
-});
-
-extend("required", {
-  ...required,
-  message: "{_field_} can not be empty",
-});
-
-extend("max", {
-  ...max,
-  message: "{_field_} may not be greater than {length} characters",
-});
-
-extend("regex", {
-  ...regex,
-  message: "{_field_} {_value_} does not match {regex}",
-});
-
-extend("email", {
-  ...email,
-  message: "Email must be valid",
-});
-
 export default {
-  components: {
-    ValidationProvider,
-    ValidationObserver,
-  },
+  components: {},
   data() {
     return {
       show: false,
@@ -292,17 +136,18 @@ export default {
       image: null,
       message: null,
 
-      rules: [
-        (value) =>
-          !value ||
-          value.size < 2000000 ||
-          "Avatar size should be less than 2 MB!",
-      ],
       // vee validate
       palletNumber: "",
-      selectValve: null,
-      selectQuantity: null,
+      selectValveType1: "",
+      // selectValveType2: "",
+      // selectValveType3: "",
+      // selectValveType4: "",
+      selectQuantityType1: "",
+      // selectQuantityType2: "",
+      // selectQuantityType3: "",
+      // selectQuantityType4: "",
       files: null,
+      item: [{ selectQuantityType1: "" }],
       items: [
         '50"S7215-S1',
         '50"S7400-C1',
@@ -336,37 +181,47 @@ export default {
   methods: {
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
 
-    submit(e) {
-      console.log("submit ", e);
+    addRow() {
+      this.item.push({ quantity: "" });
+    },
+    clear() {
+      console.log("clear");
+    },
+    async submit(e) {
+      try {
+        const refFiles = storage.ref("files");
 
-      let formData = new FormData();
-      formData.append("files", this.files);
+        const res = await refFiles.put(this.files);
 
-      let data = {
-        palletNumber: this.palletNumber,
-        selectValve: this.selectValve,
-        selectQuantity: this.selectQuantity,
-      };
-      console.log("data ", data);
+        console.log("res: ", res);
 
-      // this.$store.commit("savePallet", {
-      //   palletNumber: this.palletNumber,
-      //   selectValve: this.selectValve,
-      //   selectQuantity: this.selectQuantity,
-      //   files: this.files,
-      // });
+        let formData = new FormData();
+        formData.append("files", this.files);
 
-      // this.files = e.target.files;
-      console.log("this.files:", this.files);
+        // let data = {
+        //   palletNumber: this.palletNumber,
+        //   selectValve: this.selectValve,
+        //   selectQuantity: this.selectQuantity,
+        // };
+
+        console.log("data ", data);
+
+        // this.$store.commit("savePallet", {
+        //   palletNumber: this.palletNumber,
+        //   selectValve: this.selectValve,
+        //   selectQuantity: this.selectQuantity,
+        //   files: this.files,
+        // });
+
+        // this.files = e.target.files;
+        console.log("this.files:", this.files);
+      } catch (err) {
+        console.log("err:", err);
+      }
 
       // this.$refs.observer.validate();
     },
-    clear() {
-      this.palletNumber = "";
-      this.selectValve = null;
-      this.selectQuantity = null;
-      this.$refs.observer.reset();
-    },
+
     upload() {
       // console.log(this.image)
       let formData = new FormData();
