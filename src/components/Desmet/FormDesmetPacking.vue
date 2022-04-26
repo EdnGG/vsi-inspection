@@ -66,27 +66,32 @@
           label="Pallet Number"
         ></v-text-field>
 
-        <div v-for="i in item" :key=item.length>
+        <div v-for="i in item">
         <v-row cols="12" md="6">
           <v-col>
             <v-select
-              v-model="selectValveType1"
+              v-model="selectValveType"
               :items="items"
               label="Select valve type"
             ></v-select>
           </v-col>
           <v-col>
             <v-text-field
-              v-model="selectQuantityType1"
+              v-model="selectQuantityType"
               label="Quantity"
             ></v-text-field>
           </v-col>
         </v-row>
+        </div>
+
+        <v-container class="d-flex justify-space-around">
         <v-btn @click="addRow">
           Add row
         </v-btn>
-        </div>
-        <!--  -->
+        <v-btn @click="deleteRow">
+          Delete Row
+        </v-btn>
+        </v-container>
        
         <v-container
           justify="center"
@@ -138,14 +143,10 @@ export default {
 
       // vee validate
       palletNumber: "",
-      selectValveType1: "",
-      // selectValveType2: "",
-      // selectValveType3: "",
-      // selectValveType4: "",
-      selectQuantityType1: "",
-      // selectQuantityType2: "",
-      // selectQuantityType3: "",
-      // selectQuantityType4: "",
+      selectValveType: "",
+
+      selectQuantityType: "",
+
       files: null,
       item: [{ selectQuantityType1: "" }],
       items: [
@@ -181,6 +182,9 @@ export default {
   methods: {
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
 
+    deleteRow() {
+      this.item.pop();
+    },
     addRow() {
       this.item.push({ quantity: "" });
     },

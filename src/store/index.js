@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate'
-import { db, storage } from '../firebase.js';
+import { db, storage, auth } from '../firebase.js';
 
 import router from '../router'
 
@@ -12,6 +12,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     weather: {},
+    user: null,
+    error: null,
     allInpections: [],
     actuators: [],
     desmetOrder: [],
@@ -19,6 +21,12 @@ export default new Vuex.Store({
     pbfnoPallets: [],
   },
   mutations: {
+    SET_USER(state, payload) { 
+      state.user = payload
+    },
+    SET_ERROR(state, payload) { 
+      state.error = payload
+    },
     SET_LOCAL_WEATHER(state, payload) {
       state.weather = payload
     },
@@ -39,6 +47,48 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    isUserActive({ commit, user }) { 
+      commit('SET_USER', user)
+    },
+    signOut({ commit }) { 
+      auth.signOut().then(() => {
+        router.push('/')
+      })
+    },
+    loginUser({ commit }, payload) { 
+      auth.signInWithEmailAndPassword(payload.email, payload.password)
+        .then(res => {
+          const userLogged = {
+            uid: res.user.uid,
+            email: res.user.email,
+            name: res.user.name || 'Joe Doe',
+            role: res.user.role || 'USER',
+          }
+          commit('SET_USER', userLogged)
+          router.push('/about')
+        })
+        .catch(error => {
+          commit('SET_ERROR', error)
+        })
+    },
+    createUser({ commit }, user) { 
+      auth.createUserWithEmailAndPassword(user.email, user.password)
+        .then(res => {
+          console.log('res: ', res)
+          const newUser = {
+            uid: res.user.uid,
+            email: res.user.email,
+            name: res.user.name || 'Joe Doe',
+            role: res.user.role || 'USER',
+          }
+          commit('SET_USER', newUser)
+          router.push('/about')
+        }).catch(error => { 
+          console.log('error: ', error)
+          commit('SET_ERROR', error)
+        })
+
+    },
     savePallet({ commit }, payload) { 
       db.collection('desmet-pallets-pbfno').add({
         palletNumber: payload.palletNumber,
@@ -99,6 +149,16 @@ export default new Vuex.Store({
       console.error(e)
     }
     },
+  },
+  getters: {
+    isUserExist(state) { 
+      if (state.user === null) {
+        return false
+      } else {
+        return true
+      }
+    }
+
   },
   plugins: [createPersistedState()],
   modules: {

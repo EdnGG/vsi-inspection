@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import { auth } from '../firebase.js'
 
 Vue.use(VueRouter)
 
@@ -12,38 +13,67 @@ const routes = [
     component: Login
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/signup',
+    name: 'SignUp',
+    component: () => import(/* webpackChunkName: "about" */ '../views/SignUp.vue')
+  },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ForgotPassword.vue'),
   },
   {
     path: '/inspection',
     name: 'Inspection',
     component: () => import(/* webpackChunkName: "about" */ '../views/Inspection.vue'),
-    meta: { requireAuth: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/view-inspection',
     name: 'ViewInspection',
     component: () => import(/* webpackChunkName: "about" */ '../views/ViewInspection.vue'),
-    meta: { requireAuth: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/desmet',
     name: 'Desmet',
     component: () => import(/* webpackChunkName: "about" */ '../views/Desmet.vue'),
-    meta: { requireAuth: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/desmet-packing',
     name: 'DesmetPacking',
     component: () => import(/* webpackChunkName: "about" */ '../views/DesmetPacking.vue'),
-    meta: { requireAuth: true }
-  }
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta: { requiresAuth: true }
+  },
 ]
 
 const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => { 
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    const user = auth.currentUser
+    if (!user) {
+      next({
+        path: '/',
+        query: { redirect: to.fullPath }
+      })
+    } else { 
+      next()
+    }
+  } else { 
+    next()
+  }
 })
 
 export default router

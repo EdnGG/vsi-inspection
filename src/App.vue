@@ -58,7 +58,7 @@
           <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
           <v-spacer></v-spacer>
           <!-- <search v-if="$route.path === '/todo'" /> -->
-          <!-- <rigth-side-toolbar /> -->
+          <menu-rigth-side />
         </v-row>
 
         <v-row>
@@ -93,12 +93,8 @@
 <script>
 export default {
   components: {
-    // 'form': require('@/components/Form.vue').default,
-    // 'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
-    // 'snackbar': require('@/components/Shared/Snackbar.vue').default,
-    // 'search': require('@/components/Tools/Search.vue').default,
     "live-date-time": require("@/components/Tools/LiveDateTime.vue").default,
-    // 'rigth-side-toolbar': require('@/components/Tools/RigthSideToolbar.vue').default,
+    "menu-rigth-side": require("@/components/MenuRigthSide.vue").default,
     "local-weather": require("@/components/Tools/LocalWeather.vue").default,
   },
   data: () => ({
