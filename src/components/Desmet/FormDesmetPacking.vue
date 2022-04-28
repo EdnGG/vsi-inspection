@@ -100,7 +100,7 @@
             multiple
             label="Select files"
           ></v-file-input>
-          <!-- @click="preloadImage()" -->
+          <!-- @change="preloadImage($event)" -->
           <v-row>
             <v-col
               ><v-btn
@@ -194,22 +194,52 @@ export default {
     clear() {
       console.log("clear");
     },
-    preloadImage() {
-      // console.log("preload image: ", event.target);
-      // this.files =
+    preloadImage(event) {
+      console.log("event: ", event);
+      storage
+        .ref("files")
+        .listAll()
+        .then((res) => {
+          console.log("res: ", res);
+          res.items.forEach((itemRef) => {
+            itemRef.getDownloadURL().then((url) => {
+              console.log("url: ", url);
+              this.image = url;
+            });
+          });
+        });
     },
     async submit() {
       console.log("try: ", this.files);
-
+      const metaData = {
+        contentType: "image/jpeg",
+      };
       try {
         const refFiles = storage
           .ref("files")
-          .child(this.user.email)
-          .child("desmet-pbfno");
+          .child(`${this.user.email}${Date.now()}`);
 
-        const res = await refFiles.put(this.files);
+        let img = storage
+          .ref("files")
+          .listAll()
+          .then((res) => {
+            console.log("res: ", res);
+            res.items.forEach((itemRef) => {
+              itemRef.getDownloadURL().then((url) => {
+                console.log("url: ", url);
+                this.image = url;
+              });
+            });
+          });
 
-        console.log("res: ", res);
+        const res = await refFiles.put(this.files, metaData).then((res) => {
+          console.log("res: ", res);
+        });
+
+        //
+
+        //
+        return { res, img };
       } catch (err) {
         console.log("err:", err);
       }
