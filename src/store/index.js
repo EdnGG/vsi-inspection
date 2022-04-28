@@ -23,6 +23,7 @@ export default new Vuex.Store({
   mutations: {
     SET_USER(state, payload) { 
       state.user = payload
+      console.log('state.user: ', payload)
     },
     SET_ERROR(state, payload) { 
       state.error = payload
@@ -47,7 +48,8 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    isUserActive({ commit, user }) { 
+    isUserActive({ commit }, user ) { 
+      console.log('user from actions/isUserActive: ', user)
       commit('SET_USER', user)
     },
     signOut({ commit }) { 

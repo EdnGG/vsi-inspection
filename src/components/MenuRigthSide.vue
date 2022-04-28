@@ -20,7 +20,7 @@
 <!-- esta linea  va adentro del elemento de abajo v-if="!isActive" ...isUserExit-->
 
             <v-list-item
-            v-if="isUserExist"
+            v-if="!isUserExist"
 
             > 
               <v-list-item-icon>
@@ -36,7 +36,7 @@
 
           <router-link  to="/signup">
             <v-list-item
-             v-if="isUserExist"
+             v-if="!isUserExist"
             > 
               <v-list-item-icon>
                 <v-icon>

@@ -66,33 +66,29 @@
           label="Pallet Number"
         ></v-text-field>
 
-        <div v-for="i in item">
-        <v-row cols="12" md="6">
-          <v-col>
-            <v-select
-              v-model="selectValveType"
-              :items="items"
-              label="Select valve type"
-            ></v-select>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="selectQuantityType"
-              label="Quantity"
-            ></v-text-field>
-          </v-col>
-        </v-row>
+        <div v-for="(options, i) in item" :key="i">
+          <v-row cols="12" md="6">
+            <v-col>
+              <v-select
+                v-model="options.items"
+                :items="items"
+                label="Select valve type"
+              ></v-select>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="options.quantity"
+                label="Quantity"
+              ></v-text-field>
+            </v-col>
+          </v-row>
         </div>
 
         <v-container class="d-flex justify-space-around">
-        <v-btn @click="addRow">
-          Add row
-        </v-btn>
-        <v-btn @click="deleteRow">
-          Delete Row
-        </v-btn>
+          <v-btn @click="addRow"> Add row </v-btn>
+          <v-btn @click="deleteRow"> Delete Row </v-btn>
         </v-container>
-       
+
         <v-container
           justify="center"
           class="justify-center text-center"
@@ -104,7 +100,7 @@
             multiple
             label="Select files"
           ></v-file-input>
-
+          <!-- @click="preloadImage()" -->
           <v-row>
             <v-col
               ><v-btn
@@ -129,7 +125,6 @@
 
 <script>
 import { storage, firebase } from "../../firebase";
-
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -140,15 +135,10 @@ export default {
       imageDefault: "https://lenguajejs.com/javascript/logo.svg",
       image: null,
       message: null,
-
-      // vee validate
+      temporalUrl: "",
       palletNumber: "",
-      selectValveType: "",
-
-      selectQuantityType: "",
-
       files: null,
-      item: [{ selectQuantityType1: "" }],
+      item: [{ items: this.items, quantity: "" }],
       items: [
         '50"S7215-S1',
         '50"S7400-C1',
@@ -175,77 +165,63 @@ export default {
       ],
     };
   },
+  created() {},
   computed: {
-    ...mapState(["userDB", "allTasks"]),
+    ...mapState(["user"]),
+    filesToUpload() {
+      return console.log(this.files);
+    },
   },
   created() {},
   methods: {
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
 
+    reader(e) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.file);
+      reader.onLoad = (e) => {
+        console.log("e.target.result: ", e.target.result);
+        this.temporalUrl = e.target.result;
+      };
+    },
     deleteRow() {
       this.item.pop();
     },
     addRow() {
       this.item.push({ quantity: "" });
+      console.log("this.item: ", this.item);
     },
     clear() {
       console.log("clear");
     },
-    async submit(e) {
+    preloadImage() {
+      // console.log("preload image: ", event.target);
+      // this.files =
+    },
+    async submit() {
+      console.log("try: ", this.files);
+
       try {
-        const refFiles = storage.ref("files");
+        const refFiles = storage
+          .ref("files")
+          .child(this.user.email)
+          .child("desmet-pbfno");
 
         const res = await refFiles.put(this.files);
 
         console.log("res: ", res);
-
-        let formData = new FormData();
-        formData.append("files", this.files);
-
-        // let data = {
-        //   palletNumber: this.palletNumber,
-        //   selectValve: this.selectValve,
-        //   selectQuantity: this.selectQuantity,
-        // };
-
-        console.log("data ", data);
-
-        // this.$store.commit("savePallet", {
-        //   palletNumber: this.palletNumber,
-        //   selectValve: this.selectValve,
-        //   selectQuantity: this.selectQuantity,
-        //   files: this.files,
-        // });
-
-        // this.files = e.target.files;
-        console.log("this.files:", this.files);
       } catch (err) {
         console.log("err:", err);
       }
-
-      // this.$refs.observer.validate();
     },
 
     upload() {
-      // console.log(this.image)
       let formData = new FormData();
       formData.append("image", this.image);
-
-      this.axios
-        .put(`/upload/${this.userDB._id}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((res) => {
-          this.updateImageUsuario(res.data.userDB);
-          this.$store.commit(
-            "showSnackbar",
-            `Hey ${res.data.userDB.name} image was updated successfully`
-          );
-        })
-        .catch((e) => {
-          // console.log("Error: ", e.response.data.err.message);
-          this.message = e.response.data.err.message;
-        });
+      this.$store.commit(
+        "showSnackbar",
+        `Hey Foo. Image was updated successfully`
+      );
     },
   },
 };
