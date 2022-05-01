@@ -64,7 +64,7 @@
     </v-container>
 
     <v-container fluid class="py-12 my-12">
-      <form @submit.prevent="submit">
+      <form @submit.prevent="savePhotoStorage">
         <v-text-field
           v-model="palletNumber"
           label="Pallet Number"
@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { storage, firebase } from "../../firebase";
+import { storage, firebase, db } from "../../firebase";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -228,29 +228,40 @@ export default {
         console.log(error);
       }
     },
+
     savePhotoStorage() {
       this.files.forEach((file) => {
         console.log("file: ", file);
         this.uploadFiles(file);
+        this.$store.dispatch("savePallet", {
+          palletNumber: this.palletNumber,
+          items: this.item,
+          image: this.temporalUrl,
+        });
+
+        this.palletNumber = "";
+        this.item = [{ items: this.items, quantity: "" }];
+        this.temporalUrl = "";
+        // this.files = null;
       });
     },
-    async submit() {
-      try {
-        const metaData = {
-          contentType: "image/jpeg",
-        };
-        // Path
-        const refFiles = storage
-          .ref()
-          .child(`${this.user.email}/desmet/${Date.now()}`)
-          .child("photo");
+    // async submit() {
+    //   try {
+    //     const metaData = {
+    //       contentType: "image/jpeg",
+    //     };
+    //     // Path
+    //     const refFiles = storage
+    //       .ref()
+    //       .child(`${this.user.email}/desmet/${Date.now()}`)
+    //       .child("photo");
 
-        const res = await refFiles.put(this.files[0], metaData);
-        console.log("res: ", res);
-      } catch (err) {
-        console.log("err:", err);
-      }
-    },
+    //     const res = await refFiles.put(this.files[0], metaData);
+    //     console.log("res: ", res);
+    //   } catch (err) {
+    //     console.log("err:", err);
+    //   }
+    // },
 
     upload() {
       let formData = new FormData();

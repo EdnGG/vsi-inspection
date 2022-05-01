@@ -92,11 +92,14 @@ export default new Vuex.Store({
 
     },
     savePallet({ commit }, payload) { 
-      db.collection('desmet-pallets-pbfno').add({
-        palletNumber: payload.palletNumber,
-        valveType: payload.valveType,
-        valveSize: payload.valveSize,
-      })
+      console.log('payload: ', payload)
+      db.collection('desmet-pallets-pbfno')
+        .add({
+          payload
+          // palletNumber: payload.palletNumber,
+          // item: payload.item,
+          // image: payload.image,
+        })
       commit('SAVE_PALLET', payload)
       // storage.
     },
