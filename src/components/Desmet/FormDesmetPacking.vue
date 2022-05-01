@@ -1,7 +1,11 @@
 <template>
   <v-container class="justify-center py-12 my-12 text-center">
     <v-card class="text-center mx-auto" max-width="500">
-      <v-img :src="imageDefault" height="400px" width="500px"></v-img>
+      <v-img
+        :src="temporalUrl ? temporalUrl : imageDefault"
+        height="400px"
+        width="500px"
+      ></v-img>
 
       <v-container>
         <v-card-title class="justify-center">
@@ -32,8 +36,8 @@
           <v-card-text class="text-subtitle-2">
             <v-col class="pb-5">
               <v-row class="d-flex justify-space-around">
-                <h2 class="m">
-                  {{ "test" }}
+                <h2 class="mt2">
+                  {{ temporalUrl ? files[0].name : "test2" }}
                 </h2>
                 <h2>
                   {{ "test" }}
@@ -99,8 +103,8 @@
             small-chips
             multiple
             label="Select files"
+            @change="preloadImage($event)"
           ></v-file-input>
-          <!-- @change="preloadImage($event)" -->
           <v-row>
             <v-col
               ><v-btn
@@ -131,6 +135,7 @@ export default {
   components: {},
   data() {
     return {
+      temporalUrl: "",
       show: false,
       imageDefault: "https://lenguajejs.com/javascript/logo.svg",
       image: null,
@@ -196,50 +201,64 @@ export default {
     },
     preloadImage(event) {
       console.log("event: ", event);
-      storage
-        .ref("files")
-        .listAll()
-        .then((res) => {
-          console.log("res: ", res);
-          res.items.forEach((itemRef) => {
-            itemRef.getDownloadURL().then((url) => {
-              console.log("url: ", url);
-              this.image = url;
-            });
-          });
-        });
+
+      const reader = new FileReader();
+      reader.readAsDataURL(this.files[0]);
+      reader.onload = (e) => {
+        console.log(`temporal url: ${e.target.result}`);
+        this.temporalUrl = e.target.result;
+        // this.image = e.target.result;
+      };
+
+      // storage
+      //   .ref("files")
+      //   .listAll()
+      //   .then((res) => {
+      //     console.log("res: ", res);
+      //     res.items.forEach((itemRef) => {
+      //       itemRef.getDownloadURL().then((url) => {
+      //         console.log("url: ", url);
+      //         this.image = url;
+      //       });
+      //     });
+      //   });
     },
     async submit() {
-      console.log("try: ", this.files);
-      const metaData = {
-        contentType: "image/jpeg",
-      };
       try {
+        const metaData = {
+          contentType: "image/jpeg",
+        };
+        // Path
         const refFiles = storage
-          .ref("files")
-          .child(`${this.user.email}${Date.now()}`);
+          .ref()
+          .child(`${this.user.email}/desmet/${Date.now()}`)
+          .child("photo");
 
-        let img = storage
-          .ref("files")
-          .listAll()
-          .then((res) => {
-            console.log("res: ", res);
-            res.items.forEach((itemRef) => {
-              itemRef.getDownloadURL().then((url) => {
-                console.log("url: ", url);
-                this.image = url;
-              });
-            });
-          });
+        // let img = storage
+        //   .ref("files")
+        //   .listAll()
+        //   .then((res) => {
+        //     console.log("res: ", res);
+        //     res.items.forEach((itemRef) => {
+        //       itemRef.getDownloadURL().then((url) => {
+        //         console.log("url: ", url);
+        //         this.image = url;
+        //       });
+        //     });
+        //   });
 
-        const res = await refFiles.put(this.files, metaData).then((res) => {
-          console.log("res: ", res);
-        });
+        const res = await refFiles.put(this.files[0], metaData);
+        console.log("res: ", res);
+
+        // const res = await refFiles.put(this.files, metaData).then((res) => {
+        //   console.log("res: ", res);
+        // });
 
         //
 
         //
-        return { res, img };
+        // return res;
+        // return { res, img };
       } catch (err) {
         console.log("err:", err);
       }
