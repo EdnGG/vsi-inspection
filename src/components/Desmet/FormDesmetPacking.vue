@@ -210,19 +210,6 @@ export default {
         console.log(`temporal url: ${e.target.result}`);
         this.temporalUrl = e.target.result;
       };
-
-      // storage
-      //   .ref("files")
-      //   .listAll()
-      //   .then((res) => {
-      //     console.log("res: ", res);
-      //     res.items.forEach((itemRef) => {
-      //       itemRef.getDownloadURL().then((url) => {
-      //         console.log("url: ", url);
-      //         this.image = url;
-      //       });
-      //     });
-      //   });
     },
     async uploadFiles(file) {
       const metaData = {
