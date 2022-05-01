@@ -105,6 +105,7 @@
             label="Select files"
             @change="preloadImage($event)"
           ></v-file-input>
+            <!-- @change="savePhotoStorage($event)" -->
           <v-row>
             <v-col
               ><v-btn
@@ -112,8 +113,9 @@
                 type="submit"
                 color="orange lighten-2"
                 text
-                @click="submit"
+                @click="savePhotoStorage"
               >
+                <!-- @click="submit" -->
                 Submit
               </v-btn></v-col
             >
@@ -207,7 +209,6 @@ export default {
       reader.onload = (e) => {
         console.log(`temporal url: ${e.target.result}`);
         this.temporalUrl = e.target.result;
-        // this.image = e.target.result;
       };
 
       // storage
@@ -223,6 +224,29 @@ export default {
       //     });
       //   });
     },
+    async uploadFiles(file) {
+      const metaData = {
+        contentType: "image/jpeg",
+      };
+      try {
+        let filesRef = storage
+          .ref()
+          .child("images")
+          .child(`${this.user.email}/desmet/${Date.now()}`);
+        const res = await filesRef.put(file, metaData);
+        const url = await filesRef.getDownloadURL();
+        console.log("res file and url: ", res, url);
+        // this.savePhotoFirestore(file, url);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    savePhotoStorage() {
+      this.files.forEach((file) => {
+        console.log("file: ", file);
+        this.uploadFiles(file);
+      });
+    },
     async submit() {
       try {
         const metaData = {
@@ -234,31 +258,8 @@ export default {
           .child(`${this.user.email}/desmet/${Date.now()}`)
           .child("photo");
 
-        // let img = storage
-        //   .ref("files")
-        //   .listAll()
-        //   .then((res) => {
-        //     console.log("res: ", res);
-        //     res.items.forEach((itemRef) => {
-        //       itemRef.getDownloadURL().then((url) => {
-        //         console.log("url: ", url);
-        //         this.image = url;
-        //       });
-        //     });
-        //   });
-
         const res = await refFiles.put(this.files[0], metaData);
         console.log("res: ", res);
-
-        // const res = await refFiles.put(this.files, metaData).then((res) => {
-        //   console.log("res: ", res);
-        // });
-
-        //
-
-        //
-        // return res;
-        // return { res, img };
       } catch (err) {
         console.log("err:", err);
       }
