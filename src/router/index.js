@@ -44,7 +44,7 @@ const routes = [
     path: '/desmet-packing',
     name: 'DesmetPacking',
     component: () => import(/* webpackChunkName: "about" */ '../views/DesmetPacking.vue'),
-    // meta: { requiresAuth: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/about',

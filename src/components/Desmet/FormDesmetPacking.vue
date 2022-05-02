@@ -37,7 +37,9 @@
             <v-col class="pb-5">
               <v-row class="d-flex justify-space-around">
                 <h2 class="mt2">
-                  {{ temporalUrl ? files[0].name : "test2" }}
+                  <!-- {{ temporalUrl ? files[0].name : "test2" }} -->
+                  {{ temporalUrl ? fileName : "test2" }}
+                  
                 </h2>
                 <h2>
                   {{ "test" }}
@@ -175,6 +177,13 @@ export default {
   created() {},
   computed: {
     ...mapState(["user"]),
+    fileName() {
+      if (this.files) {
+        return this.files[0].name;
+      }
+      return console.log("x");
+      // return temporalUrl ? files[0].name : "test2"
+    },
     filesToUpload() {
       return console.log(this.files);
     },
@@ -202,14 +211,18 @@ export default {
       console.log("clear");
     },
     preloadImage(event) {
+      if (event.length === 0) {
+        return console.log("no event");
+      }
+      // else {
       console.log("event: ", event);
-
       const reader = new FileReader();
       reader.readAsDataURL(this.files[0]);
       reader.onload = (e) => {
         console.log(`temporal url: ${e.target.result}`);
         this.temporalUrl = e.target.result;
       };
+      // }
     },
     async uploadFiles(file) {
       const metaData = {
@@ -242,7 +255,7 @@ export default {
         this.palletNumber = "";
         this.item = [{ items: this.items, quantity: "" }];
         this.temporalUrl = "";
-        // this.files = null;
+        this.files = [];
       });
     },
     // async submit() {
