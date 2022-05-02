@@ -1,71 +1,12 @@
 <template>
-  <v-container class="justify-center py-12 my-12 text-center">
-    <v-card class="text-center mx-auto" max-width="500">
-      <v-img
-        :src="temporalUrl ? temporalUrl : imageDefault"
-        height="400px"
-        width="500px"
-      ></v-img>
-
-      <v-container>
-        <v-card-title class="justify-center">
-          <h1>
-            {{ "test" }}
-          </h1>
-        </v-card-title>
-      </v-container>
-
-      <v-card-subtitle>
-        {{ "test" }}
-      </v-card-subtitle>
-
-      <v-card-actions>
-        <v-btn color="orange lighten-2" text> More </v-btn>
-
-        <v-spacer></v-spacer>
-
-        <v-btn icon @click="show = !show">
-          <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
-        </v-btn>
-      </v-card-actions>
-
-      <v-expand-transition>
-        <div v-show="show">
-          <v-divider></v-divider>
-          <!-- Poner elementos en flexbox -->
-          <v-card-text class="text-subtitle-2">
-            <v-col class="pb-5">
-              <v-row class="d-flex justify-space-around">
-                <h2 class="mt2">
-                  <!-- {{ temporalUrl ? files[0].name : "test2" }} -->
-                  {{ temporalUrl ? fileName : "test2" }}
-                  
-                </h2>
-                <h2>
-                  {{ "test" }}
-                </h2>
-              </v-row>
-            </v-col>
-            <v-divider></v-divider>
-            <v-col class="pt-5">
-              <v-row class="d-flex justify-space-around">
-                <h2>Tasks Completed: {{ "allDoneTasks" }}</h2>
-                <h2>Pending Tasks: {{ "pendingTasks" }}</h2>
-                <h2 class="pt-4">DueDate Tasks: {{ "duedateTasks" }}</h2>
-              </v-row>
-            </v-col>
-          </v-card-text>
-        </div>
-      </v-expand-transition>
-    </v-card>
-
-    <v-container class="py-12 my-12">
+  <v-container class="justify-center py-2 my-2 text-center">
+    <v-container>
       <div>
         <h2>Date</h2>
       </div>
     </v-container>
 
-    <v-container fluid class="py-12 my-12">
+    <v-container fluid class="py-2 my-2">
       <form @submit.prevent="savePhotoStorage">
         <v-text-field
           v-model="palletNumber"
@@ -107,7 +48,7 @@
             label="Select files"
             @change="preloadImage($event)"
           ></v-file-input>
-            <!-- @change="savePhotoStorage($event)" -->
+          <!-- @change="savePhotoStorage($event)" -->
           <v-row>
             <v-col
               ><v-btn
@@ -128,6 +69,70 @@
         <!-- <v-btn class="mr-4" type="submit" :disabled="invalid"> submit </v-btn> -->
       </form>
     </v-container>
+
+    <v-container v-for="(dato, i) in datos" :key="i">
+    <div class="d-flex justify-space-between">
+    <!--  card 1 -->
+    
+    <!-- end card 1 -->
+      <v-card class="text-center mx-auto" max-width="300">
+        <v-img
+          class="text-center mx-auto"
+          :src="temporalUrl ? temporalUrl : imageDefault"
+          height="300px"
+          width="300px"
+        ></v-img>
+
+        <v-container>
+          <v-card-title class="justify-center">
+            <h1>
+              {{ "test" }}
+            </h1>
+          </v-card-title>
+        </v-container>
+
+        <v-card-subtitle>
+          {{ "test" }}
+        </v-card-subtitle>
+
+        <v-card-actions>
+          <v-btn color="orange lighten-2" text> More </v-btn>
+
+          <v-spacer></v-spacer>
+
+          <v-btn icon @click="show = !show">
+            <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
+          </v-btn>
+        </v-card-actions>
+
+        <v-expand-transition>
+          <div v-show="show">
+            <v-divider></v-divider>
+            <!-- Poner elementos en flexbox -->
+            <v-card-text class="text-subtitle-2">
+              <v-col class="pb-5">
+                <v-row class="d-flex justify-space-around">
+                  <h2 class="mt2">
+                    <!-- {{ temporalUrl ? files[0].name : "test2" }} -->
+                    {{ temporalUrl ? fileName : "test2" }}
+                  </h2>
+                  <h2>
+                    {{ "test" }}
+                  </h2>
+                </v-row>
+              </v-col>
+              <v-divider></v-divider>
+              <v-col class="pt-5">
+                <v-row class="d-flex justify-space-around">
+                  <h2>Tasks Completed: {{ "allDoneTasks" }}</h2>
+                </v-row>
+              </v-col>
+            </v-card-text>
+          </div>
+        </v-expand-transition>
+      </v-card>
+      </div>
+    </v-container>
   </v-container>
 </template>
 
@@ -145,6 +150,20 @@ export default {
       image: null,
       message: null,
       temporalUrl: "",
+      datos: {
+        pallet1: {
+          palletNumber: "",
+          item: [{ items: this.items, quantity: "" }],
+        },
+        pallet2: {
+          palletNumber: "",
+          item: [{ items: this.items, quantity: "" }],
+        },
+        pallet3: {
+          palletNumber: "",
+          item: [{ items: this.items, quantity: "" }],
+        },
+      },
       palletNumber: "",
       files: null,
       item: [{ items: this.items, quantity: "" }],
