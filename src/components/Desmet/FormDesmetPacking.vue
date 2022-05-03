@@ -1,13 +1,7 @@
 <template>
   <v-container class="justify-center py-2 my-2 text-center">
-    <v-container>
-      <div>
-        <h2>Date</h2>
-      </div>
-    </v-container>
-
     <v-container fluid class="py-2 my-2">
-      <form @submit.prevent="savePhotoStorage">
+      <form @submit.prevent="sendForm">
         <v-text-field
           v-model="palletNumber"
           label="Pallet Number"
@@ -18,7 +12,7 @@
             <v-col>
               <v-select
                 v-model="options.items"
-                :items="items"
+                :items="selectItems"
                 label="Select valve type"
               ></v-select>
             </v-col>
@@ -33,7 +27,9 @@
 
         <v-container class="d-flex justify-space-around">
           <v-btn @click="addRow"> Add row </v-btn>
-          <v-btn @click="deleteRow"> Delete Row </v-btn>
+          <v-btn @click="deleteRow" :disabled="item.length === 1">
+            Delete Row
+          </v-btn>
         </v-container>
 
         <v-container
@@ -51,14 +47,7 @@
           <!-- @change="savePhotoStorage($event)" -->
           <v-row>
             <v-col
-              ><v-btn
-                elevation="5"
-                type="submit"
-                color="orange lighten-2"
-                text
-                @click="savePhotoStorage"
-              >
-                <!-- @click="submit" -->
+              ><v-btn elevation="5" type="submit" color="orange lighten-2" text>
                 Submit
               </v-btn></v-col
             >
@@ -70,12 +59,18 @@
       </form>
     </v-container>
 
-    <v-container v-for="(dato, i) in datos" :key="i">
-    <div class="d-flex justify-space-between">
-    <!--  card 1 -->
-    
-    <!-- end card 1 -->
-      <v-card class="text-center mx-auto" max-width="300">
+    <!-- <v-container> -->
+
+    <v-container v-if="palletsPBFNO" class="d-flex flex-wrap">
+      <!--  card 1 -->
+
+      <!-- end card 1 -->
+      <v-card
+        v-for="(pallet, i) in palletsPBFNO"
+        :key="i"
+        class="text-center my-6 mx-auto"
+        max-width="500"
+      >
         <v-img
           class="text-center mx-auto"
           :src="temporalUrl ? temporalUrl : imageDefault"
@@ -85,15 +80,13 @@
 
         <v-container>
           <v-card-title class="justify-center">
-            <h1>
-              {{ "test" }}
-            </h1>
+            <h1>Pallet # {{ pallet.palletNumber }}</h1>
           </v-card-title>
         </v-container>
 
-        <v-card-subtitle>
-          {{ "test" }}
-        </v-card-subtitle>
+        <!-- <v-card-subtitle>
+          {{ pallet.items }}
+        </v-card-subtitle> -->
 
         <v-card-actions>
           <v-btn color="orange lighten-2" text> More </v-btn>
@@ -110,29 +103,20 @@
             <v-divider></v-divider>
             <!-- Poner elementos en flexbox -->
             <v-card-text class="text-subtitle-2">
-              <v-col class="pb-5">
+              <v-col v-for="(pal, i) in pallet.items" :key="i" class="pb-5">
                 <v-row class="d-flex justify-space-around">
                   <h2 class="mt2">
-                    <!-- {{ temporalUrl ? files[0].name : "test2" }} -->
-                    {{ temporalUrl ? fileName : "test2" }}
-                  </h2>
-                  <h2>
-                    {{ "test" }}
+                    Assembly: {{ pal.items }} Quantity: {{ pal.quantity }}
                   </h2>
                 </v-row>
               </v-col>
               <v-divider></v-divider>
-              <v-col class="pt-5">
-                <v-row class="d-flex justify-space-around">
-                  <h2>Tasks Completed: {{ "allDoneTasks" }}</h2>
-                </v-row>
-              </v-col>
             </v-card-text>
           </div>
         </v-expand-transition>
       </v-card>
-      </div>
     </v-container>
+    <!-- </v-container> -->
   </v-container>
 </template>
 
@@ -150,24 +134,10 @@ export default {
       image: null,
       message: null,
       temporalUrl: "",
-      datos: {
-        pallet1: {
-          palletNumber: "",
-          item: [{ items: this.items, quantity: "" }],
-        },
-        pallet2: {
-          palletNumber: "",
-          item: [{ items: this.items, quantity: "" }],
-        },
-        pallet3: {
-          palletNumber: "",
-          item: [{ items: this.items, quantity: "" }],
-        },
-      },
       palletNumber: "",
       files: null,
-      item: [{ items: this.items, quantity: "" }],
-      items: [
+      item: [{ items: this.selectItems, quantity: "" }],
+      selectItems: [
         '50"S7215-S1',
         '50"S7400-C1',
         '50"S7402-C1',
@@ -195,38 +165,39 @@ export default {
   },
   created() {},
   computed: {
-    ...mapState(["user"]),
-    fileName() {
-      if (this.files) {
-        return this.files[0].name;
-      }
-      return console.log("x");
-      // return temporalUrl ? files[0].name : "test2"
-    },
-    filesToUpload() {
-      return console.log(this.files);
-    },
+    ...mapState(["user", "palletsPBFNO"]),
+    // checkingDataLength() {
+    //   return this.pbfnoPallets2.length > 0;
+    // },
   },
-  created() {},
   methods: {
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
 
-    reader(e) {
-      const reader = new FileReader();
-      reader.readAsDataURL(this.file);
-      reader.onLoad = (e) => {
-        console.log("e.target.result: ", e.target.result);
-        this.temporalUrl = e.target.result;
-      };
-    },
+    // reader(e) {
+    //   // Funcion que tengo como ejemplo
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(this.file);
+    //   reader.onLoad = (e) => {
+    //     console.log("e.target.result: ", e.target.result);
+    //     this.temporalUrl = e.target.result;
+    //   };
+    // },
     deleteRow() {
       this.item.pop();
     },
     addRow() {
       this.item.push({ quantity: "" });
-      console.log("this.item: ", this.item);
+    },
+    clearOnSubmitted() {
+      this.palletNumber = "";
+      this.item = [{ items: this.selectItems, quantity: "" }];
+      this.files = null;
     },
     clear() {
+      this.item = [{ items: this.selectItems, quantity: "" }];
+      this.temporalUrl = "";
+      this.files = null;
+      this.palletNumber = "";
       console.log("clear");
     },
     preloadImage(event) {
@@ -243,7 +214,7 @@ export default {
       };
       // }
     },
-    async uploadFiles(file) {
+    async sendFiles(file) {
       const metaData = {
         contentType: "image/jpeg",
       };
@@ -255,53 +226,27 @@ export default {
         const res = await filesRef.put(file, metaData);
         const url = await filesRef.getDownloadURL();
         console.log("res file and url: ", res, url);
-        // this.savePhotoFirestore(file, url);
       } catch (error) {
         console.log(error);
       }
     },
 
-    savePhotoStorage() {
-      this.files.forEach((file) => {
-        console.log("file: ", file);
-        this.uploadFiles(file);
+    sendForm() {
+      try {
+        this.files.forEach((file) => {
+          console.log("file: ", file);
+          this.sendFiles(file);
+        });
         this.$store.dispatch("savePallet", {
           palletNumber: this.palletNumber,
           items: this.item,
           image: this.temporalUrl,
         });
-
-        this.palletNumber = "";
-        this.item = [{ items: this.items, quantity: "" }];
-        this.temporalUrl = "";
-        this.files = [];
-      });
-    },
-    // async submit() {
-    //   try {
-    //     const metaData = {
-    //       contentType: "image/jpeg",
-    //     };
-    //     // Path
-    //     const refFiles = storage
-    //       .ref()
-    //       .child(`${this.user.email}/desmet/${Date.now()}`)
-    //       .child("photo");
-
-    //     const res = await refFiles.put(this.files[0], metaData);
-    //     console.log("res: ", res);
-    //   } catch (err) {
-    //     console.log("err:", err);
-    //   }
-    // },
-
-    upload() {
-      let formData = new FormData();
-      formData.append("image", this.image);
-      this.$store.commit(
-        "showSnackbar",
-        `Hey Foo. Image was updated successfully`
-      );
+        this.clearOnSubmitted();
+      } catch (err) {
+        // cae en el catch al enviar el form en la segunda vez
+        console.log("error: ", err);
+      }
     },
   },
 };

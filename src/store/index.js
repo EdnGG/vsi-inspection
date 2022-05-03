@@ -18,7 +18,7 @@ export default new Vuex.Store({
     actuators: [],
     desmetOrder: [],
     project: [],
-    pbfnoPallets: [],
+    palletsPBFNO: [],
   },
   mutations: {
     SET_USER(state, payload) { 
@@ -44,7 +44,7 @@ export default new Vuex.Store({
       state.desmetOrder.push(payload)
     },
     SAVE_PALLET(state, payload) { 
-      state.pbfnoPallets.push(payload)
+      state.palletsPBFNO.push(payload)
     }
   },
   actions: {
@@ -93,6 +93,7 @@ export default new Vuex.Store({
     },
     savePallet({ commit }, payload) { 
       console.log('payload: ', payload)
+      commit('SAVE_PALLET', payload)
       db.collection('desmet-pallets-pbfno')
         .add({
           payload
@@ -100,8 +101,6 @@ export default new Vuex.Store({
           // item: payload.item,
           // image: payload.image,
         })
-      commit('SAVE_PALLET', payload)
-      // storage.
     },
     addProjectItem({ commit }, payload) { 
       commit('ADD_PROJECT_ITEM', payload)
