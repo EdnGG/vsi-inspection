@@ -49,8 +49,8 @@ export default {
   methods: {
     showCard(index) {
       console.log("index: ", index);
-      // this.show = !this.show;
-      this.$emit("showCard2", index);
+      this.show = !this.show;
+      // this.$emit("showCard2", index);
       // this.$parent.$children.forEach((child) => {
       //   if (child.index !== index) {
       //     child.show = false;

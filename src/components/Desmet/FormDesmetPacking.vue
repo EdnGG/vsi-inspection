@@ -66,8 +66,8 @@
         :pallet="pallet"
         :index="i"
         :temporalUrl="temporalUrl"
-        @showCard2="showCard2($event)"
       />
+        <!-- @showCard2="showCard2($event)" -->
     </v-container>
   </v-container>
 </template>
@@ -126,10 +126,10 @@ export default {
   methods: {
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
 
-    showCard2(index) {
-      console.log("index", index);
-      this.show = true;
-    },
+    // showCard2(index) {
+    //   console.log("index", index);
+    //   this.show = true;
+    // },
     deleteRow() {
       this.item.pop();
     },
