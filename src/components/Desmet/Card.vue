@@ -14,13 +14,13 @@
     </v-container>
 
     <v-card-actions>
+
       <v-btn color="orange lighten-2" text> More </v-btn>
-
       <v-spacer></v-spacer>
-
       <v-btn icon @click="showCard(index)">
         <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
       </v-btn>
+
     </v-card-actions>
 
     <v-expand-transition> 
@@ -32,6 +32,8 @@
         <!--  -->
       </transition-group>
     </v-expand-transition>
+
+    
   </v-card>
 </template>
 
@@ -49,7 +51,13 @@ export default {
   methods: {
     showCard(index) {
       console.log("index: ", index);
-      this.show = !this.show;
+      // only show the card that is clicked but not the others  (the others are hidden)
+      // only show me the transition group card that is clicked but not the others  (the others are hidden)
+      this.show = !this.show; // toggle the show property
+
+      // this.show = !this.show;
+
+      // this.show = !this.show;
       // this.$emit("showCard2", index);
       // this.$parent.$children.forEach((child) => {
       //   if (child.index !== index) {
