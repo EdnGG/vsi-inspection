@@ -44,7 +44,6 @@
             label="Select files"
             @change="preloadImage($event)"
           ></v-file-input>
-          <!-- @change="savePhotoStorage($event)" -->
           <v-row>
             <v-col
               ><v-btn elevation="5" type="submit" color="orange lighten-2" text>
@@ -61,74 +60,28 @@
 
     <!-- <v-container> -->
 
-    <v-container v-if="palletsPBFNO" class="d-flex flex-wrap">
-      <!--  card 1 -->
-
-      <!-- end card 1 -->
-      <v-card
-        v-for="(pallet, i) in palletsPBFNO"
-        :key="i"
-        class="text-center my-6 mx-auto"
-        max-width="500"
-      >
-        <v-img
-          class="text-center mx-auto"
-          :src="temporalUrl ? temporalUrl : imageDefault"
-          height="300px"
-          width="300px"
-        ></v-img>
-
-        <v-container>
-          <v-card-title class="justify-center">
-            <h1>Pallet # {{ pallet.palletNumber }}</h1>
-          </v-card-title>
-        </v-container>
-
-        <!-- <v-card-subtitle>
-          {{ pallet.items }}
-        </v-card-subtitle> -->
-
-        <v-card-actions>
-          <v-btn color="orange lighten-2" text> More </v-btn>
-
-          <v-spacer></v-spacer>
-
-          <v-btn icon @click="show = !show">
-            <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
-          </v-btn>
-        </v-card-actions>
-
-        <v-expand-transition>
-          <div v-show="show">
-            <v-divider></v-divider>
-            <!-- Poner elementos en flexbox -->
-            <v-card-text class="text-subtitle-2">
-              <v-col v-for="(pal, i) in pallet.items" :key="i" class="pb-5">
-                <v-row class="d-flex justify-space-around">
-                  <h2 class="mt2">
-                    Assembly: {{ pal.items }} Quantity: {{ pal.quantity }}
-                  </h2>
-                </v-row>
-              </v-col>
-              <v-divider></v-divider>
-            </v-card-text>
-          </div>
-        </v-expand-transition>
-      </v-card>
+    <v-container v-if="palletsPBFNO.length > 0" class="d-flex flex-wrap">
+     <Card 
+        v-for="(pallet, i) in palletsPBFNO" :key="i"
+        :pallet="pallet"
+        :index="i"
+        :temporalUrl="temporalUrl"
+        @showCard2="showCard2($event)"
+      />
     </v-container>
-    <!-- </v-container> -->
   </v-container>
 </template>
 
 <script>
 import { storage, firebase, db } from "../../firebase";
 import { mapState, mapActions } from "vuex";
+// import CardShow from "./CardShow.vue";
+import Card from "./Card.vue";
 
 export default {
-  components: {},
+  components: { Card },
   data() {
     return {
-      temporalUrl: "",
       show: false,
       imageDefault: "https://lenguajejs.com/javascript/logo.svg",
       image: null,
@@ -173,15 +126,10 @@ export default {
   methods: {
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
 
-    // reader(e) {
-    //   // Funcion que tengo como ejemplo
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(this.file);
-    //   reader.onLoad = (e) => {
-    //     console.log("e.target.result: ", e.target.result);
-    //     this.temporalUrl = e.target.result;
-    //   };
-    // },
+    showCard2(index) {
+      console.log("index", index);
+      this.show = true;
+    },
     deleteRow() {
       this.item.pop();
     },
@@ -204,7 +152,6 @@ export default {
       if (event.length === 0) {
         return console.log("no event");
       }
-      // else {
       console.log("event: ", event);
       const reader = new FileReader();
       reader.readAsDataURL(this.files[0]);
@@ -212,7 +159,6 @@ export default {
         console.log(`temporal url: ${e.target.result}`);
         this.temporalUrl = e.target.result;
       };
-      // }
     },
     async sendFiles(file) {
       const metaData = {

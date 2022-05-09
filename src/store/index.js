@@ -96,10 +96,14 @@ export default new Vuex.Store({
       commit('SAVE_PALLET', payload)
       db.collection('desmet-pallets-pbfno')
         .add({
-          payload
-          // palletNumber: payload.palletNumber,
-          // item: payload.item,
-          // image: payload.image,
+          // payload
+          palletNumber: payload.palletNumber,
+          item: payload.items,
+          image: payload.image,
+        }).then((docRef) => {
+          console.log("Document written with ID: ", docRef.id)
+        }).catch((error) => {
+          console.error("Error adding document: ", error)
         })
     },
     addProjectItem({ commit }, payload) { 
@@ -129,8 +133,6 @@ export default new Vuex.Store({
         navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude
         const lon = position.coords.longitude
-        // const datos = 
-        // const res = ''
         // need to find the client location 
         // const url = `https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
