@@ -54,21 +54,20 @@
           </v-row>
         </v-container>
 
-        <!-- <v-btn class="mr-4" type="submit" :disabled="invalid"> submit </v-btn> -->
       </form>
     </v-container>
-
-    <!-- <v-container> -->
-
-    <v-container v-if="palletsPBFNO.length > 0" class="d-flex flex-wrap">
+<!--  -->
+<!-- class="offset-md-1 col-md-10" -->
+    <v-container v-if="palletsPBFNO.length > 0" class="">
      <Card 
+        
         v-for="(pallet, i) in palletsPBFNO" :key="i"
         :pallet="pallet"
         :index="i"
         :temporalUrl="temporalUrl"
       />
-        <!-- @showCard2="showCard2($event)" -->
     </v-container>
+<!--  -->
   </v-container>
 </template>
 
@@ -199,6 +198,16 @@ export default {
 </script>
 
 <style scoped>
+.absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.relative {
+  position: relative;
+}
 .home__date--member {
   display: flex;
   margin-left: 20px;
