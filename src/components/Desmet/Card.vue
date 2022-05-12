@@ -1,5 +1,5 @@
 <template>
-  <v-card class="my-6 mx-auto" max-width="350">
+  <v-card class="my-6 mx-auto relative" max-width="350">
     <v-img
       class="text-center mx-auto"
       :src="temporalUrl"
@@ -86,13 +86,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .text-subtitle-2 {
   font-size: 1.2rem;
 }
+
 .relative {
   position: relative;
-  max-width: 100%;
 }
 .fade-enter-active,
 .fade-leave-active {

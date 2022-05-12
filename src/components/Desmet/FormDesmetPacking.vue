@@ -57,15 +57,15 @@
       </form>
     </v-container>
 <!--  -->
-<!-- class="offset-md-1 col-md-10" -->
-    <v-container v-if="palletsPBFNO.length > 0" class="">
+    <v-container v-if="palletsPBFNO.length > 0" class="card-container">
+    <!-- <template class="card-container"> -->
      <Card 
-        
         v-for="(pallet, i) in palletsPBFNO" :key="i"
         :pallet="pallet"
         :index="i"
         :temporalUrl="temporalUrl"
       />
+      <!-- </template> -->
     </v-container>
 <!--  -->
   </v-container>
@@ -198,16 +198,18 @@ export default {
 </script>
 
 <style scoped>
-.absolute {
-  position: absolute;
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  /* position: absolute; */
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
 }
-.relative {
-  position: relative;
-}
+
 .home__date--member {
   display: flex;
   margin-left: 20px;
