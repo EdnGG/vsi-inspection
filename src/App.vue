@@ -127,6 +127,11 @@ export default {
         icon: "mdi-clipboard-list-outline",
         to: "/desmet-packing",
       },
+      {
+        title: "Desmet-Pallets",
+        icon: "mdi-clipboard-list-outline",
+        to: "/desmet-pallets",
+      },
 
       // { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
     ],

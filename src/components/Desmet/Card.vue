@@ -21,39 +21,26 @@
       </v-btn>
     </v-card-actions>
 
-    <div v-show="show"
-    v-for="(items, i) in pallet.items" :key="i"
-    >
-
-          <!-- <div v-for="(items, i) in pallet.items" :key="i"> -->
+    <div v-show="show" v-for="(items, i) in pallet.items" :key="i">
       <!-- <v-expand-transition>
         <transition-group name="fade" tag="ul" mode="out-in"> -->
-            <v-card-text class="text-subtitle-2">
-              <h2 class="mt2">
-                Assembly: {{ items.items }} Quantity: {{ items.quantity }}
-              </h2>
-            </v-card-text>
-        <!-- </transition-group>
+      <v-card-text class="text-subtitle-2">
+        <h2 class="mt2">
+          Assembly: {{ items.items }} Quantity: {{ items.quantity }}
+        </h2>
+      </v-card-text>
+      <!-- </transition-group>
       </v-expand-transition> -->
-          <!-- </div> -->
-
-      <!-- <CardShow v-for="(items, i) in pallet.items" :key="i" 
-            :item="items" 
-            :index="index" 
-          /> -->
-      <!--  -->
     </div>
     <div>
-    {{index}}
+      {{ index }}
     </div>
   </v-card>
 </template>
 
 <script>
-import CardShow from "./CardShow.vue";
 export default {
   name: "Card",
-  components: { CardShow },
   props: ["pallet", "temporalUrl", "index"],
   data() {
     return {

@@ -19,6 +19,7 @@ export default new Vuex.Store({
     desmetOrder: [],
     project: [],
     palletsPBFNO: [],
+    palletsPBF: [],
   },
   mutations: {
     SET_USER(state, payload) { 
@@ -44,10 +45,17 @@ export default new Vuex.Store({
       state.desmetOrder.push(payload)
     },
     SAVE_PALLET(state, payload) { 
-      state.palletsPBFNO.push(payload)
+      state.palletsPBF.push(payload)
     }
   },
   actions: {
+    async getPalletsPBFNO({ commit }) { 
+      const palletsPBFNO = await db.collection('desmet-pallets-pbfno').get()
+      palletsPBFNO.docs.forEach(doc => { 
+        console.log('Docs:', doc.data())
+        commit('SAVE_PALLET', doc.data())
+      })
+    },
     isUserActive({ commit }, user ) { 
       console.log('user from actions/isUserActive: ', user)
       commit('SET_USER', user)

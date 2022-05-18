@@ -17,8 +17,6 @@
         <v-list-item-group>
         <v-list>
           <router-link  to="/">
-<!-- esta linea  va adentro del elemento de abajo v-if="!isActive" ...isUserExit-->
-
             <v-list-item
             v-if="!isUserExist"
 
@@ -76,7 +74,6 @@ export default {
     return {};
   },
   computed: {
-    // ...mapState(['userDB, token']),
     ...mapGetters(["isUserExist"]),
   },
   methods: {

@@ -57,16 +57,14 @@
       </form>
     </v-container>
 <!--  -->
-    <v-container v-if="palletsPBFNO.length > 0" class="card-container">
-    <!-- <template class="card-container"> -->
+    <!-- <v-container v-if="palletsPBFNO.length > 0" class="card-container">
      <Card 
         v-for="(pallet, i) in palletsPBFNO" :key="i"
         :pallet="pallet"
         :index="i"
         :temporalUrl="temporalUrl"
       />
-      <!-- </template> -->
-    </v-container>
+    </v-container> -->
 <!--  -->
   </v-container>
 </template>
@@ -166,8 +164,8 @@ export default {
       try {
         let filesRef = storage
           .ref()
-          .child("images")
-          .child(`${this.user.email}/desmet/${Date.now()}`);
+          .child("desmet")
+          .child(`${this.user.email}/${Date.now()}`);
         const res = await filesRef.put(file, metaData);
         const url = await filesRef.getDownloadURL();
         console.log("res file and url: ", res, url);
