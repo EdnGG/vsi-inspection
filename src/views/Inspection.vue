@@ -8,19 +8,17 @@
     </v-row>
     <v-row class="text-center">
       <v-col justify-center align-center cols="12" sm="12" class="text-center">
-        <form-actuators />
+        <FormActuators/>
       </v-col> 
     </v-row>
-    <!-- <actuator /> -->
   </v-container>
 </template>
 
 <script>
-// import FormActuators from '../components/FormActuators.vue'
+import FormActuators from "@/components/Inspection/FormActuators.vue";
 export default {
   components: {
-    // 'actuator': require('@/components/Actuator.vue').default,
-    "form-actuators": require("@/components/FormActuators.vue").default,
+    FormActuators,
   },
 };
 </script>

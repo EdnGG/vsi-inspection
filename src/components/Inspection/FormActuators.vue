@@ -71,23 +71,23 @@
           <v-col cols="12">
             <v-container fluid>
               <!--  -->
-              <custom-field
+              <CustomField
                 v-model="inspection.inspectionInfo.data.visual"
                 title="Visual"
               />
-              <custom-field
+              <CustomField
                 v-model="inspection.inspectionInfo.data.waterInspection"
                 title="Water Inspection"
               />
-              <custom-field
+              <CustomField
                 v-model="inspection.inspectionInfo.data.operationalTest"
                 title="Operational Test"
               />
-              <custom-field
+              <CustomField
                 v-model="inspection.inspectionInfo.data.wireCompartiment"
                 title="Wire Compartiment"
               />
-              <custom-field
+              <CustomField
                 v-model="inspection.inspectionInfo.data.handwheelBoltPatern"
                 title="Handwheel Bolt Patern"
               />
@@ -173,11 +173,12 @@
 </template>
 
 <script>
+import CustomField from "./CustomField.vue";
 import { mapState } from "vuex";
 import { mapActions } from "vuex";
 export default {
   components: {
-    "custom-field": require("@/components/CustomField.vue").default,
+    CustomField,
   },
   data: () => ({
     dialog: false,
@@ -277,6 +278,7 @@ export default {
           this.dialog = false;
           this.$store.dispatch("addInspection", this.totalInspection);
           console.log("Enviando inspeccion a firebase");
+
           this.inspection = {
             inspectionInfo: {
               id: "",
