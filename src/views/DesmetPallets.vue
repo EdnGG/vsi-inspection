@@ -1,6 +1,6 @@
 <template>
   <v-container v-if="!palletsPBFNO.length > 0">
-    <no-pallets></no-pallets>
+    <NoContent :message="message"></NoContent>
 
     <v-container v-else v-if="palletsPBFNO.length > 0" class="card-container">
       <Card
@@ -18,17 +18,18 @@
 import { storage, firebase, db } from "../../firebase";
 import { mapState, mapActions } from "vuex";
 // import CardShow from "./CardShow.vue";
-import NoPallets from "../components/Desmet/NoPallets.vue";
+import NoContent from "../components/Tools/NoContent.vue";
 import Card from "../components/Desmet/Card.vue";
 
 export default {
-  components: { Card, NoPallets },
+  components: { Card, NoContent },
   data() {
     return {
       imageDefault: "https://lenguajejs.com/javascript/logo.svg",
       image: null,
       message: null,
       temporalUrl: "",
+      message: "No Pallets Added",
     };
   },
   created() {

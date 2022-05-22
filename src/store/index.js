@@ -15,6 +15,7 @@ export default new Vuex.Store({
     user: null,
     error: null,
     allInpections: [],
+    InspectionsFromFirestore: [],
     actuators: [],
     desmetOrder: [],
     project: [],
@@ -22,6 +23,10 @@ export default new Vuex.Store({
     palletsPBF: [],
   },
   mutations: {
+    GET_INSPECTIONS(state, payload) { 
+      state.InspectionsFromFirestore.push(payload)
+
+    },
     SET_USER(state, payload) { 
       state.user = payload
       console.log('state.user: ', payload)
@@ -127,6 +132,18 @@ export default new Vuex.Store({
       }).catch((error) => {
         console.error("Error adding document: ", error)
       })
+    },
+    async getInspections({ commit }) { 
+      try {
+        console.log('me ejecute')
+        const allInspections = await db.collection('inspections').get()
+        allInspections.docs.forEach(doc => {
+          console.log('Docs:', doc.data())
+          commit('GET_INSPECTIONS', doc.data())
+        })
+      } catch (err) { 
+        console.log('Error: ', err)
+      }
     },
     addDesmetOrder({commit}, payload) {
       commit('ADD_DESMET_ORDER', payload)

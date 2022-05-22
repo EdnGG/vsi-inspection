@@ -115,18 +115,11 @@ export default {
   },
   created() {},
   computed: {
-    ...mapState(["user", "palletsPBFNO"]),
-    // checkingDataLength() {
-    //   return this.pbfnoPallets2.length > 0;
-    // },
+    ...mapState(["user", "palletsPBFN"]),
   },
   methods: {
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
 
-    // showCard2(index) {
-    //   console.log("index", index);
-    //   this.show = true;
-    // },
     deleteRow() {
       this.item.pop();
     },
