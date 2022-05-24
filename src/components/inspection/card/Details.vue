@@ -1,7 +1,7 @@
 <template>
   <v-card
     elevation="9"
-    class="mx-auto ma-6"
+    class="mx-auto ma-6 card-container"
     max-width="400"
   >
     <v-img
@@ -74,4 +74,3 @@ export default {
   height: 100%;
 }
 </style>
-

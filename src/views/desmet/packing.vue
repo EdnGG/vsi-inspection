@@ -9,7 +9,7 @@
     <v-row class="text-center">
       <v-col justify-center align-center cols="12" sm="12" class="text-center">
         <FormDesmetPacking />
-      </v-col> 
+      </v-col>
     </v-row>
     <v-container>
       Pallets added to vuex: {{ palletsPBFNO }}
@@ -19,7 +19,7 @@
 
 <script>
 import { mapState } from "vuex";
-import FormDesmetPacking from "../components/Desmet/FormDesmetPacking.vue";
+import FormDesmetPacking from "@/components/Desmet/FormDesmetPacking.vue";
 export default {
   components: {
     FormDesmetPacking,

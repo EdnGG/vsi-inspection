@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import { storage, firebase, db } from "../../firebase";
+import { storage, firebase, db } from "@/firebase";
 import { mapState, mapActions } from "vuex";
 // import CardShow from "./CardShow.vue";
-import NoContent from "../components/Tools/NoContent.vue";
-import Card from "../components/Desmet/Card.vue";
+import NoContent from "@/components/Tools/NoContent.vue";
+import Card from "@/components/Desmet/Card.vue";
 
 export default {
   components: { Card, NoContent },

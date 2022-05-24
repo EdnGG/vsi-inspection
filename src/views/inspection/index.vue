@@ -8,20 +8,17 @@
     </v-row>
     <v-row class="text-center">
       <v-col justify-center align-center cols="12" sm="12" class="text-center">
-        <FormActuators/>
-      </v-col> 
+        <inspection-form-actuators></inspection-form-actuators>
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import FormActuators from "@/components/Inspection/FormActuators.vue";
+import InspectionFormActuators from "@/components/inspection/form/Actuators.vue"
 export default {
   components: {
-    FormActuators,
+    InspectionFormActuators,
   },
 };
 </script>
-
-<style>
-</style>

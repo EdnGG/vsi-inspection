@@ -24,31 +24,31 @@ const routes = [
   {
     path: '/inspection',
     name: 'Inspection',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Inspection.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/inspection/index.vue'),
     meta: { requiresAuth: true }
   },
   {
-    path: '/view-inspection',
+    path: '/inspection/details',
     name: 'ViewInspection',
-    component: () => import(/* webpackChunkName: "about" */ '../views/ViewInspection.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/inspection/details.vue'),
     meta: { requiresAuth: true }
   },
   {
-    path: '/desmet-packing',
+    path: '/desmet/packing',
     name: 'DesmetPacking',
-    component: () => import(/* webpackChunkName: "about" */ '../views/DesmetPacking.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/desmet/packing.vue'),
     meta: { requiresAuth: true }
   },
   {
-    path: '/desmet-pallets',
+    path: '/desmet/pallets',
     name: 'DesmetPallets',
-    component: () => import(/* webpackChunkName: "about" */ '../views/DesmetPallets.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/desmet/pallets.vue'),
     meta: { requiresAuth: true }
   },
   {
     path: '/about',
     name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/about/index.vue'),
     meta: { requiresAuth: true }
   },
 ]
@@ -59,7 +59,7 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => { 
+router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const user = auth.currentUser
     if (!user) {
@@ -67,10 +67,10 @@ router.beforeEach((to, from, next) => {
         path: '/',
         query: { redirect: to.fullPath }
       })
-    } else { 
+    } else {
       next()
     }
-  } else { 
+  } else {
     next()
   }
 })

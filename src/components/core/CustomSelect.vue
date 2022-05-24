@@ -3,11 +3,11 @@
     <v-row align="center">
       <v-col cols="6">
         <v-subheader>
-        {{ title }} 
+        {{ title }}
         </v-subheader>
       </v-col>
       <v-col cols="6">
-        <!-- capturar selec.state --> 
+        <!-- capturar selec.state -->
         <v-select
           v-model="computedState"
           :value="value"
@@ -25,19 +25,27 @@
       </v-col>
     </v-row>
   </v-container>
-</template> 
+</template>
 
 <script>
 export default {
-  props: ["title", "value"],
-  data() {
-    return {
-      items: [
+  props: {
+    title: {
+      type: String,
+      require: true
+    },
+    value: {
+      type: String,
+      default: null,
+    },
+    items: {
+      type: Array,
+      default: [
         { state: "Good", item: "Looks good" },
         { state: "Bad", item: "Looks Bad" },
         { state: "Not sure", item: "Not sure condition" },
       ],
-    };
+    },
   },
   model: {
     event: "change",
@@ -52,11 +60,5 @@ export default {
       },
     },
   },
-  // methods: {
-  //   // handler() {
-  //   //   console.log(`value: ${this.select.state}`);
-  //   //   this.$emit("accion", this.select.state);
-  //   // },
-  // },
 };
 </script>

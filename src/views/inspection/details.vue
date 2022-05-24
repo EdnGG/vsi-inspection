@@ -21,20 +21,11 @@
         v-for="(allInspection, i) in InspectionsFromFirestore"
         :key="i"
       >
-        <!-- <v-row class="d-flex d-wrap">
-          <v-col cols="12" sm="12" class="d-flex d-wrap"> -->
-            <InspectionCard
-              class="card-container"
-              v-for="(inspection, i) in allInspection"
-              :key="i"
-              :inspection="inspection"
-            />
-            <!-- 
-            <InspectionCard />
-            <InspectionCard /> 
-          -->
-          <!-- </v-col>
-        </v-row> -->
+        <inspection-card-details
+          v-for="(inspection, i) in allInspection"
+          :key="i"
+          :inspection="inspection"
+        ></inspection-card-details>
       </div>
     </v-container>
     <!-- {{InspectionsFromFirestore.inspectionInfo}} -->
@@ -42,32 +33,32 @@
 </template>
 
 <script>
-import NoContent from "@/components/Tools/NoContent.vue";
-import InspectionCard from "@/components/Inspection/InspectionCard.vue";
-import { mapState, mapActions } from "vuex";
+import NoContent from '@/components/Tools/NoContent.vue';
+import InspectionCardDetails from '@/components/inspection/card/Details.vue';
+import { mapState, mapActions } from 'vuex';
 export default {
   components: {
     NoContent,
-    InspectionCard,
+    InspectionCardDetails,
   },
   data() {
     return {
-      message: "No Inspections to show",
+      message: 'No Inspections to show',
       inspectionsArray: [],
     };
   },
   created() {
     this.getInspections();
-    console.log("InspectionsFromFirestore", this.InspectionsFromFirestore);
+    console.log('InspectionsFromFirestore', this.InspectionsFromFirestore);
   },
   computed: {
-    ...mapState(["actuators", "allInpections", "InspectionsFromFirestore"]),
+    ...mapState(['actuators', 'allInpections', 'InspectionsFromFirestore']),
     isInspectionCreated() {
       return this.InspectionsFromFirestore.length > 0;
     },
   },
   methods: {
-    ...mapActions(["getInspections"]),
+    ...mapActions(['getInspections']),
   },
 };
 </script>

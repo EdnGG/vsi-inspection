@@ -107,7 +107,7 @@ export default {
       {
         title: "view Inspection",
         icon: "mdi-emoticon-cool-outline",
-        to: "/view-inspection",
+        to: "/inspection/details",
       },
       {
         title: "About",
@@ -117,12 +117,12 @@ export default {
       {
         title: "Desmet-Packing",
         icon: "mdi-clipboard-list-outline",
-        to: "/desmet-packing",
+        to: "/desmet/packing",
       },
       {
         title: "Desmet-Pallets",
         icon: "mdi-clipboard-list-outline",
-        to: "/desmet-pallets",
+        to: "/desmet/pallets",
       },
 
       // { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
