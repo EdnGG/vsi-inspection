@@ -52,16 +52,15 @@
         <v-row class="d-flex justify-space-around">
           <v-col cols="12" md="3">
             <v-text-field
-              v-model.trim="inspection.inspectionInfo.data.actuator"
-              :rules="inspectionRules"
+              v-model="inspection.inspectionInfo.data.actuator"
+              
               label="Actuator Model"
               required
             ></v-text-field>
           </v-col>
           <v-col cols="12" md="3">
             <v-text-field
-              v-model.trim="inspection.inspectionInfo.data.controlPack"
-              :rules="inspectionRules"
+              v-model="inspection.inspectionInfo.data.controlPack"
               label="Control Pack Model"
               required
             ></v-text-field>
@@ -270,7 +269,7 @@ export default {
     submit() {
       // for( let i = 0; i)
       // for (let i in this.inspection.inspectionInfo.data) {
-      console.log("funcion submmit executed");
+      console.log("function submmit executed");
       // if (this.inspection.inspectionInfo.data[i].value === "") {
       // this.inspection.inspectionInfo.data[i] = "N/A";
       // implementar el SNACKBAR COMPONENT
@@ -288,12 +287,12 @@ export default {
         },
       };
       this.$refs.form.reset();
-      this.dialog = false;
       // }
       // }
 
       // checar si dentro del objeto data esta vacio
       console.log(this.inspection.inspectionInfo.data);
+      this.dialog = false;
       // if (this.inspection.inspectionInfo.data) {
       //   return alert("fields can't be empty");
       // } else {

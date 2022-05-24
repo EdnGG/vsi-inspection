@@ -1,24 +1,25 @@
 <template>
   <v-card
-    class="mx-auto"
+    elevation="9"
+    class="mx-auto ma-6"
     max-width="400"
   >
     <v-img
       class="white--text align-end"
       height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      :src="defaultImage"
     >
-      <v-card-title>Top 10 Australian beaches</v-card-title>
+      <v-card-title>Valve Solutions Inc.</v-card-title>
     </v-img>
 
     <v-card-subtitle class="pb-0">
-      Number 10
+      {{id}}
     </v-card-subtitle>
 
     <v-card-text class="text--primary">
-      <div>Whitehaven Beach</div>
+      <div>{{technicalName}} </div>
 
-      <div>Whitsunday Island, Whitsunday Islands</div>
+      <div>{{inspection}}</div>
     </v-card-text>
 
     <v-card-actions>
@@ -26,20 +27,51 @@
         color="orange"
         text
       >
-        Share
+        See more
       </v-btn>
 
       <v-btn
         color="orange"
         text
       >
-        Explore
+        Download PDF
       </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-export default {};
+import { mapState, mapActions } from "vuex";
+export default {
+  props: ["id", "technicalName", "date", "inspection"],
+  data() {
+    return {
+      defaultImage: "https://lenguajejs.com/javascript/logo.svg",
+      title: "Inspectioon",
+    };
+  },
+  computed: {
+    ...mapState(["inspections"]),
+  },
+  methods: {
+    ...mapActions(["getInspection"]),
+  },
+};
 </script>
+
+<style scoped>
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+
+  width: 100%;
+  height: 100%;
+}
+</style>
 

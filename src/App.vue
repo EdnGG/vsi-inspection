@@ -71,9 +71,6 @@
           <local-weather />
         </v-row>
 
-        <!-- <v-row v-if="$route.path === '/todo' ">
-          <field-add-task />
-        </v-row> -->
       </v-container>
     </v-app-bar>
 
@@ -117,11 +114,6 @@ export default {
         icon: "mdi-help-box",
         to: "/about",
       },
-      // {
-      //   title: "Desmet",
-      //   icon: "mdi-clipboard-list-outline",
-      //   to: "/desmet",
-      // },
       {
         title: "Desmet-Packing",
         icon: "mdi-clipboard-list-outline",

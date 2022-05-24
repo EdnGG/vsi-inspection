@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import { auth } from '../firebase.js'
 
@@ -32,12 +31,6 @@ const routes = [
     path: '/view-inspection',
     name: 'ViewInspection',
     component: () => import(/* webpackChunkName: "about" */ '../views/ViewInspection.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/desmet',
-    name: 'Desmet',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Desmet.vue'),
     meta: { requiresAuth: true }
   },
   {

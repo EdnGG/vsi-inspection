@@ -1,33 +1,43 @@
 <template>
   <v-container fluid>
-    <v-row class="text-center">
-      <v-col cols="12" sm="12" justify-center align-center class="info">
-        <h1>View Inspection</h1>
-      </v-col>
-    </v-row>
-    <v-container v-if="!InspectionsFromFirestore.length">
+    <v-container>
       <v-row class="text-center">
-        <v-col cols="12" sm="12" justify-center align-center class="">
+        <v-col cols="12" sm="12" justify-center align-center class="info">
+          <h1>View Inspection</h1>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container v-if="!isInspectionCreated">
+      <v-row class="text-center">
+        <v-col cols="12" sm="12" justify-center align-center>
           <NoContent :message="message"> </NoContent>
         </v-col>
       </v-row>
     </v-container>
-    <v-container 
-      v-if="InspectionsFromFirestore.length"
-      class="d-flex d-wrap"  
-    >
-      <v-row class="text-center">
-        <v-col cols="12" sm="12" justify-center align-center class="">
-          <!-- <h4>ggg{{ InspectionsFromFirestore }}</h4> -->
-          <InspectionCard></InspectionCard>
-          <InspectionCard></InspectionCard>
-          <InspectionCard></InspectionCard>
-          <InspectionCard></InspectionCard>
-          <InspectionCard></InspectionCard>
-          <InspectionCard></InspectionCard>
-        </v-col>
-      </v-row>
+    <v-container class="d-flex d-wrap">
+      <div
+        class="d-flex d-wrap card-container"
+        v-if="isInspectionCreated"
+        v-for="(allInspection, i) in InspectionsFromFirestore"
+        :key="i"
+      >
+        <!-- <v-row class="d-flex d-wrap">
+          <v-col cols="12" sm="12" class="d-flex d-wrap"> -->
+            <InspectionCard
+              class="card-container"
+              v-for="(inspection, i) in allInspection"
+              :key="i"
+              :inspection="inspection"
+            />
+            <!-- 
+            <InspectionCard />
+            <InspectionCard /> 
+          -->
+          <!-- </v-col>
+        </v-row> -->
+      </div>
     </v-container>
+    <!-- {{InspectionsFromFirestore.inspectionInfo}} -->
   </v-container>
 </template>
 
@@ -35,7 +45,6 @@
 import NoContent from "@/components/Tools/NoContent.vue";
 import InspectionCard from "@/components/Inspection/InspectionCard.vue";
 import { mapState, mapActions } from "vuex";
-// import InspectionCard from '../components/Inspection/InspectionCard.vue';
 export default {
   components: {
     NoContent,
@@ -44,13 +53,18 @@ export default {
   data() {
     return {
       message: "No Inspections to show",
+      inspectionsArray: [],
     };
   },
-  mounted() {
+  created() {
     this.getInspections();
+    console.log("InspectionsFromFirestore", this.InspectionsFromFirestore);
   },
   computed: {
     ...mapState(["actuators", "allInpections", "InspectionsFromFirestore"]),
+    isInspectionCreated() {
+      return this.InspectionsFromFirestore.length > 0;
+    },
   },
   methods: {
     ...mapActions(["getInspections"]),
@@ -58,4 +72,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+</style>
