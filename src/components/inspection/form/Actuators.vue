@@ -7,7 +7,7 @@
         :complete="e1 > 1"
         step="1"
       >
-        Step 1
+        <!-- Step 1 -->
       </v-stepper-step>
 
       <v-divider></v-divider>
@@ -16,22 +16,43 @@
         :complete="e1 > 2"
         step="2"
       >
-        Step 2
+        <!-- Step 2 -->
       </v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step step="3">
-        Step 3
+      <v-stepper-step 
+       :complete="e1 > 3"
+        step="3"
+      >
+        <!-- Step 3 -->
       </v-stepper-step>
+
+      <v-divider></v-divider>
+
+      <v-stepper-step
+        :complete="e1 > 4"
+        step="4"
+      >
+        <!-- Step 4 -->
+      </v-stepper-step>
+      <v-divider></v-divider>
+
+      <v-stepper-step
+        :complete="e1 > 5"
+        step="5"
+      >
+        <!-- Step 5 -->
+      </v-stepper-step>
+      
     </v-stepper-header>
 
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-card
           class="mb-12"
-          color="grey lighten-1"
-          height="200px"
+          
+          height="150px"
         >
         <v-form @submit.prevent="addActuator" ref="form">
          <v-row class="d-flex justify-space-around">
@@ -90,10 +111,6 @@
       </v-row>
       </v-form>
         
-        
-        
-        
-        
         </v-card>
         <v-btn
           color="primary"
@@ -102,17 +119,141 @@
           Continue
         </v-btn>
 
-        <v-btn text>
-          Cancel
-        </v-btn>
+        <!-- <v-btn 
+          text
+          @click="e1 = 1"
+        >
+          Back
+        </v-btn> -->
       </v-stepper-content>
 
       <v-stepper-content step="2">
         <v-card
           class="mb-12"
-          color="grey lighten-1"
-          height="200px"
-        ></v-card>
+         
+          height="150px"
+        >
+        <!--  -->
+        <v-container>
+        <v-row class="d-flex justify-space-around">
+        <v-col cols="12" md="3">
+          <v-text-field
+            v-model="inspection.inspectionInfo.data.actuator"
+            label="Actuator Model"
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="3">
+          <v-text-field
+            v-model="inspection.inspectionInfo.data.controlPack"
+            label="Control Pack Model"
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <!-- <v-row>
+        <v-col cols="12">
+          <v-container fluid>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.visual"
+              title="Visual"
+            ></core-custom-select>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.waterInspection"
+              title="Water Inspection"
+            ></core-custom-select>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.operationalTest"
+              title="Operational Test"
+            ></core-custom-select>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.wireCompartiment"
+              title="Wire Compartiment"
+            ></core-custom-select>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.handwheelBoltPatern"
+              title="Handwheel Bolt Patern"
+            ></core-custom-select>
+            <p>Array con todos los objetos: {{ totalInspection }}</p>
+            <p>Objeto actuator : {{ inspection }}</p>
+          </v-container>
+        </v-col>
+      </v-row> -->
+      <!-- PUNTO INTERMEDIO  -->
+
+<!-- Quitar notas -->
+      <!-- <v-row>
+        <v-col cols="12">
+          <v-container fluid>
+            <v-textarea
+              clearable
+              clear-icon="mdi-close-circle"
+              label="Notes:"
+              v-model.trim="inspection.inspectionInfo.data.observaciones"
+            ></v-textarea>
+          </v-container>
+        </v-col>
+      </v-row> -->
+<!--  -->
+
+<!-- Checar aqui -->
+      <!-- Datos array: {{ datosArray }}
+      <v-container class="button-container mobile-container">
+        <v-row align-center justify-center>
+          <v-col class="" cols="12" xs="6" text-xs-center>
+            <v-btn
+              class="ma-5 col-xs-6"
+              xs="6"
+              color="warning"
+              :disabled="nextButton"
+              @click="addActuator"
+            >
+              Add Actuator
+            </v-btn>
+            <v-dialog
+              style="padding-top: 10px"
+              v-model="dialog"
+              persistent
+              max-width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  class="ma-5 col-xs-6"
+                  xs="6"
+                >
+                  End inspection
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="text-h5">
+                  Are you sure sending inspection?
+                </v-card-title>
+                <v-card-text>
+                  Sending the inspection will be post on the DB and no change
+                  can be done.
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="dialog = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn color="green darken-1" text @click="submit">
+                    Submit Inspection
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
+        </v-row>
+      </v-container> -->
+    </v-container> 
+
+        <!--  -->
+        </v-card>
 
         <v-btn
           color="primary"
@@ -121,29 +262,182 @@
           Continue
         </v-btn>
 
-        <v-btn text>
-          Cancel
+        <v-btn 
+          text
+          @click="e1 = 1"
+        >
+          Back
         </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="3">
         <v-card
           class="mb-12"
-          color="grey lighten-1"
-          height="200px"
-        ></v-card>
+          height="900px"
+        >
+        <!--  -->
+         <v-row>
+        <v-col cols="12">
+          <v-container fluid>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.visual"
+              title="Visual"
+            ></core-custom-select>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.waterInspection"
+              title="Water Inspection"
+            ></core-custom-select>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.operationalTest"
+              title="Operational Test"
+            ></core-custom-select>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.wireCompartiment"
+              title="Wire Compartiment"
+            ></core-custom-select>
+            <core-custom-select
+              v-model="inspection.inspectionInfo.data.handwheelBoltPatern"
+              title="Handwheel Bolt Patern"
+            ></core-custom-select>
+            <p>Array con todos los objetos: {{ totalInspection }}</p>
+            <p>Objeto actuator : {{ inspection }}</p>
+          </v-container>
+        </v-col>
+      </v-row>
+        
+
+        <!--  -->
+        </v-card>
 
         <v-btn
           color="primary"
-          @click="e1 = 1"
+          @click="e1 = 4"
         >
           Continue
         </v-btn>
 
-        <v-btn text>
-          Cancel
+        <v-btn 
+          text
+          @click="e1 = 2"  
+        >
+          Back
         </v-btn>
       </v-stepper-content>
+      <v-stepper-content step="4">
+        <v-card
+          class="mb-12"
+          
+          height="500px"
+        >
+        <!--  -->
+        <v-row>
+        <v-col cols="12">
+          <v-container fluid>
+            <v-textarea
+              clearable
+              clear-icon="mdi-close-circle"
+              label="Notes:"
+              v-model.trim="inspection.inspectionInfo.data.observaciones"
+            ></v-textarea>
+          </v-container>
+        </v-col>
+      </v-row>
+
+        <!--  -->
+        </v-card>
+
+        <v-btn
+          color="primary"
+          @click="e1 = 5"
+        >
+          Continue
+        </v-btn>
+
+        <v-btn 
+          text
+          @click="e1 = 3"
+        >
+          Back
+        </v-btn>
+      </v-stepper-content>
+
+      <v-stepper-content step="5">
+        <v-card
+          class="mb-12"
+          height="200px"
+        >
+        <!-- Parte final -->
+        <v-container class="button-container mobile-container">
+        <v-row align-center justify-center>
+          <v-col class="" cols="12" xs="6" text-xs-center>
+            <v-btn
+              class="ma-5 col-xs-6"
+              xs="6"
+              color="warning"
+              :disabled="nextButton"
+              @click="addActuator"
+            >
+              Add Actuator
+            </v-btn>
+            <v-dialog
+              style="padding-top: 10px"
+              v-model="dialog"
+              persistent
+              max-width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  class="ma-5 col-xs-6"
+                  xs="6"
+                >
+                  End inspection
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="text-h5">
+                  Are you sure sending inspection?
+                </v-card-title>
+                <v-card-text>
+                  Sending the inspection will be post on the DB and no change
+                  can be done.
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="dialog = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn color="green darken-1" text @click="submit">
+                    Submit Inspection
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
+        </v-row>
+      </v-container>
+
+        <!--  -->
+        </v-card>
+
+        <v-btn
+          color="primary"
+          @click="e1 = 5"
+        >
+          Continue
+        </v-btn>
+
+        <v-btn 
+          text
+          @click="e1 = 4"
+        >
+          Back
+        </v-btn>
+      </v-stepper-content>
+
     </v-stepper-items>
   </v-stepper>
 <!-- <v-stepper v-model="e1">
