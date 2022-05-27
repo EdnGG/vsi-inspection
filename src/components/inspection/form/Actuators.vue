@@ -9,8 +9,8 @@
         <v-stepper-step :complete="e1 > 3" step="3"> </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="e1 > 4" step="4"> </v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step :complete="e1 > 5" step="5"> </v-stepper-step>
+        <!-- <v-divider></v-divider>
+        <v-stepper-step :complete="e1 > 5" step="5"> </v-stepper-step> -->
       </v-stepper-header>
 
       <v-stepper-items>
@@ -155,15 +155,6 @@
                 </v-container>
               </v-col>
             </v-row>
-          </v-card>
-
-          <v-btn color="primary" @click="e1 = 5"> Continue </v-btn>
-          <v-btn text @click="e1 = 3"> Back </v-btn>
-        </v-stepper-content>
-
-        <v-stepper-content step="5">
-          <v-card class="mb-12" height="200px">
-            <!-- Parte final -->
             <v-container class="button-container mobile-container">
               <v-row align-center justify-center>
                 <v-col class="" cols="12" xs="6" text-xs-center>
@@ -220,12 +211,21 @@
                 </v-col>
               </v-row>
             </v-container>
+          </v-card>
+
+          <!-- <v-btn color="primary" @click="e1 = 5"> Continue </v-btn> -->
+          <v-btn text @click="e1 = 3"> Back </v-btn>
+        </v-stepper-content>
+
+        <!-- <v-stepper-content step="5">
+          <v-card class="mb-12" height="200px">
+           
 
           </v-card>
 
           <v-btn color="primary" @click="e1 = 5"> Continue </v-btn>
           <v-btn text @click="e1 = 4"> Back </v-btn>
-        </v-stepper-content>
+        </v-stepper-content> -->
       </v-stepper-items>
     </v-stepper>
   </v-container>
