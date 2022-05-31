@@ -3,7 +3,7 @@
     <v-row align="center">
       <v-col cols="6">
         <v-subheader>
-        {{ title }}
+          {{ title }}
         </v-subheader>
       </v-col>
       <v-col cols="6">
@@ -14,15 +14,14 @@
           :items="items"
           item-text="state"
           persistent-hint
-          return-object
+          item-value="item"
           single-line
           :hint="computedState ? computedState.value : null"
         ></v-select>
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
-      </v-col>
+      <v-col> </v-col>
     </v-row>
   </v-container>
 </template>
@@ -32,23 +31,22 @@ export default {
   props: {
     title: {
       type: String,
-      require: true
+      require: true,
     },
     value: {
       type: String,
       default: null,
     },
-    items: {
-      type: Array,
-      default: [
-        { state: "Good", item: "Looks good" },
-        { state: "Bad", item: "Looks Bad" },
-        { state: "Not sure", item: "Not sure condition" },
-      ],
-    },
   },
+  data: () => ({
+    items: [
+      { state: 'Good', item: 'Looks good' },
+      { state: 'Bad', item: 'Looks Bad' },
+      { state: 'Not sure', item: 'Not sure condition' },
+    ],
+  }),
   model: {
-    event: "change",
+    event: 'change',
   },
   computed: {
     computedState: {
@@ -56,7 +54,7 @@ export default {
         return this.value;
       },
       set(value) {
-        this.$emit("change", value);
+        this.$emit('change', value);
       },
     },
   },
