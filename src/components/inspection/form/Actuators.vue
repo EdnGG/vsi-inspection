@@ -9,8 +9,6 @@
         <v-stepper-step :complete="e1 > 3" step="3"> </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="e1 > 4" step="4"> </v-stepper-step>
-        <!-- <v-divider></v-divider>
-        <v-stepper-step :complete="e1 > 5" step="5"> </v-stepper-step> -->
       </v-stepper-header>
 
       <v-stepper-items>
@@ -78,8 +76,15 @@
           <v-row justify="space-between" class="mb-4">
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection.data.actuator"
+                v-model="inspection.data.actuatorModel"
                 label="Actuator Model"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3">
+              <v-text-field
+                v-model="inspection.data.actuatorSerialNumber"
+                label="Actuator Serial Number"
                 required
               ></v-text-field>
             </v-col>
@@ -138,7 +143,7 @@
         </v-stepper-content>
 
         <v-stepper-content step="4">
-          <v-card class="mb-12" height="500px">
+          
             <v-row>
               <v-col cols="12">
                 <v-container fluid>
@@ -207,7 +212,7 @@
                 </v-col>
               </v-row>
             </v-container>
-          </v-card>
+          
           <v-btn text @click="e1 = 3"> Back </v-btn>
         </v-stepper-content>
       </v-stepper-items>
@@ -216,9 +221,9 @@
 </template>
 
 <script>
-import CoreCustomSelect from '@/components/core/CustomSelect.vue';
-import { mapState } from 'vuex';
-import { mapActions } from 'vuex';
+import CoreCustomSelect from "@/components/core/CustomSelect.vue";
+import { mapState } from "vuex";
+import { mapActions } from "vuex";
 export default {
   components: {
     CoreCustomSelect,
@@ -230,35 +235,36 @@ export default {
     menuDate: false,
     prevButton: false,
     nextButton: false,
-    select: { state: '', item: 'Select one' },
+    select: { state: "", item: "Select one" },
     tmpTotalInspection: [],
-    date: '',
-    totalInspection: {
-      id: '',
-      date: '',
-      technical: '',
-      data: []
-    },
+    date: "",
     // ESTE SERIA EL OBJETO QUE SE VA A ENVIAR A FIRESTORE
+    totalInspection: {
+      id: "",
+      date: "",
+      technical: "",
+      data: [],
+    },
     inspection: {
-      id: '',
-      date: '',
-      technical: '',
+      id: "",
+      date: "",
+      technical: "",
       data: {
-        actuator: '',
-        controlPack: '',
-        visual: '',
-        waterInspection: '',
-        operationalTest: '',
-        wireCompartiment: '',
-        handwheelBoltPatern: '',
-        observaciones: '',
+        actuatorModel: "",
+        actuatorSerialNumber: "",
+        controlPack: "",
+        visual: "",
+        waterInspection: "",
+        operationalTest: "",
+        wireCompartiment: "",
+        handwheelBoltPatern: "",
+        observaciones: "",
       },
     },
-    inspectionRules: [(v) => !!v || 'Field is required'],
+    inspectionRules: [(v) => !!v || "Field is required"],
   }),
   computed: {
-    ...mapState(['inspections', 'allInspections']),
+    ...mapState(["inspections", "allInspections"]),
     datosArray() {
       return [
         this.inspection.data.visual,
@@ -274,12 +280,12 @@ export default {
     },
     hide() {
       return {
-        display: this.firstVal ? 'none' : 'block',
+        display: this.firstVal ? "none" : "block",
       };
     },
   },
   methods: {
-    ...mapActions(['addInspection', 'addActuator']),
+    ...mapActions(["addInspection", "addActuator"]),
     validateFirstSection() {
       if (
         this.inspection.id &&
@@ -296,35 +302,37 @@ export default {
         id: this.inspection.id,
         date: this.inspection.date,
         technical: this.inspection.technical,
-      }
+      };
 
       this.totalInspection.data = this.tmpTotalInspection.map((item) => ({
-          actuator: item.data.actuator,
-          controlPack: item.data.controlPack,
-          visual: item.data.visual,
-          waterInspection: item.data.waterInspection,
-          operationalTest: item.data.operationalTest,
-          wireCompartiment: item.data.wireCompartiment,
-          handwheelBoltPatern: item.data.handwheelBoltPatern,
-          observaciones: item.data.observaciones,
-        }));
+        actuatorModel: item.data.actuatorModel,
+        actuatorSerialNumber: item.data.actuatorSerialNumber,
+        controlPack: item.data.controlPack,
+        visual: item.data.visual,
+        waterInspection: item.data.waterInspection,
+        operationalTest: item.data.operationalTest,
+        wireCompartiment: item.data.wireCompartiment,
+        handwheelBoltPatern: item.data.handwheelBoltPatern,
+        observaciones: item.data.observaciones,
+      }));
 
-      this.$store.dispatch('addActuator', this.inspection);
-      console.log('all inspections: ', this.totalInspection);
+      this.$store.dispatch("addActuator", this.inspection);
+      console.log("all inspections: ", this.totalInspection);
 
       this.inspection = {
         id: this.inspection.id,
         date: this.inspection.date,
         technical: this.inspection.technical,
         data: {
-          actuator: '',
-          controlPack: '',
-          visual: '',
-          waterInspection: '',
-          operationalTest: '',
-          wireCompartiment: '',
-          handwheelBoltPatern: '',
-          observaciones: '',
+          actuatorModel: "",
+          actuatorSerialNumber: "",
+          controlPack: "",
+          visual: "",
+          waterInspection: "",
+          operationalTest: "",
+          wireCompartiment: "",
+          handwheelBoltPatern: "",
+          observaciones: "",
         },
       };
       this.e1 = 2;
@@ -332,22 +340,26 @@ export default {
     submit() {
       // for( let i = 0; i)
       // for (let i in this.inspection.data) {
-      console.log('function submmit executed');
+      console.log("function submmit executed");
       // if (this.inspection.inspectionInfo.data[i].value === "") {
       // this.inspection.inspectionInfo.data[i] = "N/A";
       // implementar el SNACKBAR COMPONENT
       // alert("Please fill all fields");
       // } else {
 
-      this.$store.dispatch('addInspection', this.totalInspection);
-      console.log('Enviando inspeccion a firebase');
+      this.$store.dispatch("addInspection", this.totalInspection);
+      console.log("Enviando inspeccion a firebase");
 
       this.inspection = {
-        id: '',
-        date: '',
-        techinical: '',
+        id: "",
+        date: "",
+        techinical: "",
       };
-      this.$refs.form.reset();
+      /* 
+        CHECAR COMO LIMPIAR CAMPOS DE OTRA FORMA
+        YA QUE NO SE ESTA OCUPANDO UN FORMULARIO
+      */
+      // this.$refs.form.reset();
       // }
       // }
 

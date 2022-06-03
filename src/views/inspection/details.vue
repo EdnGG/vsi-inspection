@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import NoContent from '@/components/Tools/NoContent.vue';
-import InspectionCardDetails from '@/components/inspection/card/Details.vue';
-import { mapState, mapActions } from 'vuex';
+import NoContent from "@/components/Tools/NoContent.vue";
+import InspectionCardDetails from "@/components/inspection/card/Details.vue";
+import { mapState, mapActions } from "vuex";
 export default {
   components: {
     NoContent,
@@ -43,22 +43,22 @@ export default {
   },
   data() {
     return {
-      message: 'No Inspections to show',
+      message: "No Inspections to show",
       inspectionsArray: [],
     };
   },
   created() {
     this.getInspections();
-    console.log('InspectionsFromFirestore', this.InspectionsFromFirestore);
+    console.log("InspectionsFromFirestore", this.InspectionsFromFirestore);
   },
   computed: {
-    ...mapState(['actuators', 'allInpections', 'InspectionsFromFirestore']),
+    ...mapState(["actuators", "allInpections", "InspectionsFromFirestore"]),
     isInspectionCreated() {
       return this.InspectionsFromFirestore.length > 0;
     },
   },
   methods: {
-    ...mapActions(['getInspections']),
+    ...mapActions(["getInspections"]),
   },
 };
 </script>
