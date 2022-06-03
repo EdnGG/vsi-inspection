@@ -151,7 +151,7 @@
                     clearable
                     clear-icon="mdi-close-circle"
                     label="Notes:"
-                    v-model.trim="inspection.data.observaciones"
+                    v-model.trim="inspection.observaciones"
                   ></v-textarea>
                 </v-container>
               </v-col>
@@ -249,6 +249,7 @@ export default {
       id: "",
       date: "",
       technical: "",
+      observaciones: "",
       data: {
         actuatorModel: "",
         actuatorSerialNumber: "",
@@ -258,7 +259,7 @@ export default {
         operationalTest: "",
         wireCompartiment: "",
         handwheelBoltPatern: "",
-        observaciones: "",
+        // observaciones: "",
       },
     },
     inspectionRules: [(v) => !!v || "Field is required"],
@@ -302,6 +303,7 @@ export default {
         id: this.inspection.id,
         date: this.inspection.date,
         technical: this.inspection.technical,
+        observaciones: this.inspection.observaciones,
       };
 
       this.totalInspection.data = this.tmpTotalInspection.map((item) => ({
@@ -313,7 +315,7 @@ export default {
         operationalTest: item.data.operationalTest,
         wireCompartiment: item.data.wireCompartiment,
         handwheelBoltPatern: item.data.handwheelBoltPatern,
-        observaciones: item.data.observaciones,
+        // observaciones: item.data.observaciones,
       }));
 
       this.$store.dispatch("addActuator", this.inspection);
@@ -323,6 +325,7 @@ export default {
         id: this.inspection.id,
         date: this.inspection.date,
         technical: this.inspection.technical,
+        observaciones: "",
         data: {
           actuatorModel: "",
           actuatorSerialNumber: "",
@@ -332,7 +335,7 @@ export default {
           operationalTest: "",
           wireCompartiment: "",
           handwheelBoltPatern: "",
-          observaciones: "",
+          // observaciones: "",
         },
       };
       this.e1 = 2;
