@@ -9,6 +9,8 @@
         <v-stepper-step :complete="e1 > 3" step="3"> </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="e1 > 4" step="4"> </v-stepper-step>
+        <v-divider></v-divider>
+        <v-stepper-step :complete="e1 > 5" step="5"> </v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
@@ -143,77 +145,110 @@
         </v-stepper-content>
 
         <v-stepper-content step="4">
-          
-            <v-row>
-              <v-col cols="12">
-                <v-container fluid>
-                  <v-textarea
-                    clearable
-                    clear-icon="mdi-close-circle"
-                    label="Notes:"
-                    v-model.trim="inspection.observaciones"
-                  ></v-textarea>
-                </v-container>
+          <v-row>
+            <v-col cols="12">
+              <v-container fluid>
+                <v-textarea
+                  clearable
+                  clear-icon="mdi-close-circle"
+                  label="Notes:"
+                  v-model.trim="inspection.data.observaciones"
+                ></v-textarea>
+              </v-container>
+            </v-col>
+          </v-row>
+          <v-container class="button-container mobile-container">
+            <v-row align-center justify-center>
+              <v-col class="" cols="12" xs="6" text-xs-center>
+                <v-btn
+                  class="ma-5 col-xs-6"
+                  xs="6"
+                  color="warning"
+                  :disabled="nextButton"
+                  @click="addActuator"
+                >
+                  Add Actuator
+                </v-btn>
+                
               </v-col>
             </v-row>
-            <v-container class="button-container mobile-container">
-              <v-row align-center justify-center>
-                <v-col class="" cols="12" xs="6" text-xs-center>
-                  <v-btn
-                    class="ma-5 col-xs-6"
-                    xs="6"
-                    color="warning"
-                    :disabled="nextButton"
-                    @click="addActuator"
-                  >
-                    Add Actuator
-                  </v-btn>
-                  <v-dialog
-                    style="padding-top: 10px"
-                    v-model="dialog"
-                    persistent
-                    max-width="500"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
+          </v-container>
+
+          <div class="d-flex">
+            <v-btn color="primary" @click="e1 = 5" class="mr-2">
+              Continue
+            </v-btn>
+            <v-btn text @click="e1 = 3"> Back </v-btn>
+          </div>
+        </v-stepper-content>
+
+        <v-stepper-content step="5">
+          <v-row>
+            <v-col cols="12">
+              <v-container fluid>
+                <v-textarea
+                  clearable
+                  clear-icon="mdi-close-circle"
+                  label="Final notes:"
+                  v-model.trim="inspection.observaciones"
+                ></v-textarea>
+              </v-container>
+            </v-col>
+          </v-row>
+          <!--  -->
+          <v-container class="button-container mobile-container">
+            <v-row align-center justify-center>
+              <v-col class="" cols="12" xs="6" text-xs-center>
+                <v-dialog
+                  style="padding-top: 10px"
+                  v-model="dialog"
+                  persistent
+                  max-width="500"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      color="primary"
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                      class="ma-5 col-xs-6"
+                      xs="6"
+                    >
+                      End inspection
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title class="text-h5">
+                      Are you sure sending inspection?
+                    </v-card-title>
+                    <v-card-text>
+                      Sending the inspection will be post on the DB and no
+                      change can be done.
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
                       <v-btn
-                        color="primary"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                        class="ma-5 col-xs-6"
-                        xs="6"
+                        color="green darken-1"
+                        text
+                        @click="dialog = false"
                       >
-                        End inspection
+                        Cancel
                       </v-btn>
-                    </template>
-                    <v-card>
-                      <v-card-title class="text-h5">
-                        Are you sure sending inspection?
-                      </v-card-title>
-                      <v-card-text>
-                        Sending the inspection will be post on the DB and no
-                        change can be done.
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          color="green darken-1"
-                          text
-                          @click="dialog = false"
-                        >
-                          Cancel
-                        </v-btn>
-                        <v-btn color="green darken-1" text @click="submit">
-                          Submit Inspection
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-                </v-col>
-              </v-row>
-            </v-container>
-          
-          <v-btn text @click="e1 = 3"> Back </v-btn>
+                      <v-btn color="green darken-1" text @click="submit">
+                        Submit Inspection
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-col>
+            </v-row>
+          </v-container>
+          <div class="d-flex">
+            <v-btn text @click="e1 = 4"> Back </v-btn>
+          </div>
+
+          <!--  -->
+
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -259,7 +294,7 @@ export default {
         operationalTest: "",
         wireCompartiment: "",
         handwheelBoltPatern: "",
-        // observaciones: "",
+        observaciones: "",
       },
     },
     inspectionRules: [(v) => !!v || "Field is required"],
@@ -315,17 +350,17 @@ export default {
         operationalTest: item.data.operationalTest,
         wireCompartiment: item.data.wireCompartiment,
         handwheelBoltPatern: item.data.handwheelBoltPatern,
-        // observaciones: item.data.observaciones,
+        observaciones: item.data.observaciones,
       }));
 
       this.$store.dispatch("addActuator", this.inspection);
-      console.log("all inspections: ", this.totalInspection);
+      // console.log("all inspections: ", this.totalInspection);
 
       this.inspection = {
         id: this.inspection.id,
         date: this.inspection.date,
         technical: this.inspection.technical,
-        observaciones: "",
+        observaciones: this.inspection.observaciones,
         data: {
           actuatorModel: "",
           actuatorSerialNumber: "",
@@ -335,7 +370,7 @@ export default {
           operationalTest: "",
           wireCompartiment: "",
           handwheelBoltPatern: "",
-          // observaciones: "",
+          observaciones: "",
         },
       };
       this.e1 = 2;
