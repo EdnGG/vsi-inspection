@@ -392,6 +392,7 @@ export default {
         id: "",
         date: "",
         techinical: "",
+        observaciones: "",
       };
       /* 
         CHECAR COMO LIMPIAR CAMPOS DE OTRA FORMA
