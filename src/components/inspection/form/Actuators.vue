@@ -18,7 +18,7 @@
           <v-row justify="space-between" class="mb-4">
             <v-col cols="12" md="3">
               <v-text-field
-                v-model.trim="inspection.id"
+                v-model.trim="totalInspection.id"
                 :rules="inspectionRules"
                 :counter="10"
                 label="Inspection #"
@@ -37,7 +37,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="inspection.date"
+                    v-model="totalInspection.date"
                     label="Date"
                     prepend-icon="mdi-calendar"
                     readonly
@@ -45,7 +45,11 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="inspection.date" no-title scrollable>
+                <v-date-picker
+                  v-model="totalInspection.date"
+                  no-title
+                  scrollable
+                >
                   <v-spacer></v-spacer>
                   <v-btn text color="primary" @click="menuDate = false">
                     Cancel
@@ -62,7 +66,7 @@
             </v-col>
             <v-col cols="12" md="3">
               <v-text-field
-                v-model.trim="inspection.technical"
+                v-model.trim="totalInspection.technical"
                 :rules="inspectionRules"
                 label="Technical Name"
                 required
@@ -78,21 +82,21 @@
           <v-row justify="space-between" class="mb-4">
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection.data.actuatorModel"
+                v-model="tmpData.actuatorModel"
                 label="Actuator Model"
                 required
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection.data.actuatorSerialNumber"
+                v-model="tmpData.actuatorSerialNumber"
                 label="Actuator Serial Number"
                 required
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="3">
               <v-text-field
-                v-model="inspection.data.controlPack"
+                v-model="tmpData.controlPack"
                 label="Control Pack Model"
                 required
               ></v-text-field>
@@ -108,34 +112,26 @@
         </v-stepper-content>
 
         <v-stepper-content step="3">
-          <v-row>
-            <v-col cols="12">
-              <v-container fluid>
-                <core-custom-select
-                  v-model="inspection.data.visual"
-                  title="Visual"
-                ></core-custom-select>
-                <core-custom-select
-                  v-model="inspection.data.waterInspection"
-                  title="Water Inspection"
-                ></core-custom-select>
-                <core-custom-select
-                  v-model="inspection.data.operationalTest"
-                  title="Operational Test"
-                ></core-custom-select>
-                <core-custom-select
-                  v-model="inspection.data.wireCompartiment"
-                  title="Wire Compartiment"
-                ></core-custom-select>
-                <core-custom-select
-                  v-model="inspection.data.handwheelBoltPatern"
-                  title="Handwheel Bolt Patern"
-                ></core-custom-select>
-                <p>Array con todos los objetos: {{ totalInspection }}</p>
-                <p>Objeto actuator : {{ inspection }}</p>
-              </v-container>
-            </v-col>
-          </v-row>
+          <core-custom-select
+            v-model="tmpData.visual"
+            title="Visual"
+          ></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.waterInspection"
+            title="Water Inspection"
+          ></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.operationalTest"
+            title="Operational Test"
+          ></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.wireCompartiment"
+            title="Wire Compartiment"
+          ></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.handwheelBoltPatern"
+            title="Handwheel Bolt Patern"
+          ></core-custom-select>
           <div class="d-flex">
             <v-btn color="primary" @click="e1 = 4" class="mr-2">
               Continue
@@ -152,30 +148,25 @@
                   clearable
                   clear-icon="mdi-close-circle"
                   label="Notes:"
-                  v-model.trim="inspection.data.observaciones"
+                  v-model.trim="tmpData.observaciones"
                 ></v-textarea>
               </v-container>
             </v-col>
           </v-row>
-          <v-container class="button-container mobile-container">
-            <v-row align-center justify-center>
-              <v-col class="" cols="12" xs="6" text-xs-center>
-                <v-btn
-                  class="ma-5 col-xs-6"
-                  xs="6"
-                  color="warning"
-                  :disabled="nextButton"
-                  @click="addActuator"
-                >
-                  Add Actuator
-                </v-btn>
-                
-              </v-col>
-            </v-row>
-          </v-container>
 
           <div class="d-flex">
-            <v-btn color="primary" @click="e1 = 5" class="mr-2">
+            <v-btn
+              class="mr-2"
+              color="warning"
+              @click="addActuator({ step: 2 })"
+            >
+              Add Actuator
+            </v-btn>
+            <v-btn
+              color="primary"
+              @click="addActuator({ step: 5 })"
+              class="mr-2"
+            >
               Continue
             </v-btn>
             <v-btn text @click="e1 = 3"> Back </v-btn>
@@ -190,65 +181,44 @@
                   clearable
                   clear-icon="mdi-close-circle"
                   label="Final notes:"
-                  v-model.trim="inspection.observaciones"
+                  v-model.trim="totalInspection.observaciones"
                 ></v-textarea>
               </v-container>
             </v-col>
           </v-row>
           <!--  -->
-          <v-container class="button-container mobile-container">
-            <v-row align-center justify-center>
-              <v-col class="" cols="12" xs="6" text-xs-center>
-                <v-dialog
-                  style="padding-top: 10px"
-                  v-model="dialog"
-                  persistent
-                  max-width="500"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      color="primary"
-                      dark
-                      v-bind="attrs"
-                      v-on="on"
-                      class="ma-5 col-xs-6"
-                      xs="6"
-                    >
-                      End inspection
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-title class="text-h5">
-                      Are you sure sending inspection?
-                    </v-card-title>
-                    <v-card-text>
-                      Sending the inspection will be post on the DB and no
-                      change can be done.
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="green darken-1"
-                        text
-                        @click="dialog = false"
-                      >
-                        Cancel
-                      </v-btn>
-                      <v-btn color="green darken-1" text @click="submit">
-                        Submit Inspection
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-dialog
+            style="padding-top: 10px"
+            v-model="modalSubmit"
+            persistent
+            max-width="500"
+          >
+            <v-card>
+              <v-card-title class="text-h5">
+                Are you sure sending inspection?
+              </v-card-title>
+              <v-card-text>
+                Sending the inspection will be post on the DB and no change can
+                be done.
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="modalSubmit = false">
+                  Cancel
+                </v-btn>
+                <v-btn color="green darken-1" text @click="submit">
+                  Submit Inspection
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
           <div class="d-flex">
-            <v-btn text @click="e1 = 4"> Back </v-btn>
+            <!-- Actualizar tmpData anterior -->
+            <v-btn text @click="e1 = 4" class="mr-2"> Back </v-btn>
+            <v-btn color="primary" @click="modalSubmit = true">
+              End inspection
+            </v-btn>
           </div>
-
-          <!--  -->
-
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -256,51 +226,48 @@
 </template>
 
 <script>
-import CoreCustomSelect from "@/components/core/CustomSelect.vue";
-import { mapState } from "vuex";
-import { mapActions } from "vuex";
+import CoreCustomSelect from '@/components/core/CustomSelect.vue';
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
 export default {
   components: {
     CoreCustomSelect,
   },
   data: () => ({
     e1: 1,
-    dialog: false,
+    modalSubmit: false,
     firstVal: false,
     menuDate: false,
     prevButton: false,
     nextButton: false,
-    select: { state: "", item: "Select one" },
-    tmpTotalInspection: [],
-    date: "",
+    select: { state: '', item: 'Select one' },
+    date: '',
     // ESTE SERIA EL OBJETO QUE SE VA A ENVIAR A FIRESTORE
     totalInspection: {
-      id: "",
-      date: "",
-      technical: "",
+      id: '',
+      date: '',
+      technical: '',
+      observaciones: '',
       data: [],
     },
-    inspection: {
-      id: "",
-      date: "",
-      technical: "",
-      observaciones: "",
-      data: {
-        actuatorModel: "",
-        actuatorSerialNumber: "",
-        controlPack: "",
-        visual: "",
-        waterInspection: "",
-        operationalTest: "",
-        wireCompartiment: "",
-        handwheelBoltPatern: "",
-        observaciones: "",
-      },
+    tmpData: {
+      actuatorModel: '',
+      actuatorSerialNumber: '',
+      controlPack: '',
+      visual: '',
+      waterInspection: '',
+      operationalTest: '',
+      wireCompartiment: '',
+      handwheelBoltPatern: '',
+      observaciones: '',
     },
-    inspectionRules: [(v) => !!v || "Field is required"],
+    inspectionRules: [(v) => !!v || 'Field is required'],
   }),
   computed: {
-    ...mapState(["inspections", "allInspections"]),
+    ...mapState(['inspections', 'allInspections']),
     datosArray() {
       return [
         this.inspection.data.visual,
@@ -316,115 +283,70 @@ export default {
     },
     hide() {
       return {
-        display: this.firstVal ? "none" : "block",
+        display: this.firstVal ? 'none' : 'block',
       };
     },
   },
   methods: {
-    ...mapActions(["addInspection", "addActuator"]),
-    validateFirstSection() {
-      if (
-        this.inspection.id &&
-        this.inspection.date &&
-        this.inspection.technical
-      ) {
-        return (this.firstVal = true);
-      }
-      return (this.firstVal = false);
-    },
-    addActuator() {
-      this.tmpTotalInspection.push(this.inspection);
-      this.totalInspection = {
-        id: this.inspection.id,
-        date: this.inspection.date,
-        technical: this.inspection.technical,
-        observaciones: this.inspection.observaciones,
+    ...mapActions(['addInspection', 'addActuator']),
+    // validateFirstSection() {
+    //   if (
+    //     this.inspection.id &&
+    //     this.inspection.date &&
+    //     this.inspection.technical
+    //   ) {
+    //     return (this.firstVal = true);
+    //   }
+    //   return (this.firstVal = false);
+    // },
+    addActuator({ step }) {
+      this.totalInspection.data.push(this.tmpData);
+      this.tmpData = {
+        actuatorModel: '',
+        actuatorSerialNumber: '',
+        controlPack: '',
+        visual: '',
+        waterInspection: '',
+        operationalTest: '',
+        wireCompartiment: '',
+        handwheelBoltPatern: '',
+        observaciones: '',
       };
-
-      this.totalInspection.data = this.tmpTotalInspection.map((item) => ({
-        actuatorModel: item.data.actuatorModel,
-        actuatorSerialNumber: item.data.actuatorSerialNumber,
-        controlPack: item.data.controlPack,
-        visual: item.data.visual,
-        waterInspection: item.data.waterInspection,
-        operationalTest: item.data.operationalTest,
-        wireCompartiment: item.data.wireCompartiment,
-        handwheelBoltPatern: item.data.handwheelBoltPatern,
-        observaciones: item.data.observaciones,
-      }));
-
-      this.$store.dispatch("addActuator", this.inspection);
-      // console.log("all inspections: ", this.totalInspection);
-
-      this.inspection = {
-        id: this.inspection.id,
-        date: this.inspection.date,
-        technical: this.inspection.technical,
-        observaciones: this.inspection.observaciones,
-        data: {
-          actuatorModel: "",
-          actuatorSerialNumber: "",
-          controlPack: "",
-          visual: "",
-          waterInspection: "",
-          operationalTest: "",
-          wireCompartiment: "",
-          handwheelBoltPatern: "",
-          observaciones: "",
-        },
-      };
-      this.e1 = 2;
+      this.e1 = step;
     },
     submit() {
-      // for( let i = 0; i)
-      // for (let i in this.inspection.data) {
-      console.log("function submmit executed");
-      // if (this.inspection.inspectionInfo.data[i].value === "") {
-      // this.inspection.inspectionInfo.data[i] = "N/A";
-      // implementar el SNACKBAR COMPONENT
-      // alert("Please fill all fields");
-      // } else {
+      console.log('function submmit executed');
+      this.$store.dispatch('addInspection', this.totalInspection);
+      console.log(this.totalInspection);
+      console.log('Enviando inspeccion a firebase');
 
-      this.$store.dispatch("addInspection", this.totalInspection);
-      console.log("Enviando inspeccion a firebase");
+      const doc = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4',
+      });
 
-      this.inspection = {
-        id: "",
-        date: "",
-        techinical: "",
-        observaciones: "",
-      };
-      /* 
-        CHECAR COMO LIMPIAR CAMPOS DE OTRA FORMA
-        YA QUE NO SE ESTA OCUPANDO UN FORMULARIO
-      */
-      // this.$refs.form.reset();
-      // }
-      // }
+      const headers = [
+        'Actuator Model',
+        'Actuator Serial Number',
+        'Control Pack',
+        'Visual',
+        'Water Inspection',
+        'Operational Test',
+        'Wire Compartiment',
+        'Handwheel Bolt Patern',
+        'Observaciones',
+      ];
 
-      // checar si dentro del objeto data esta vacio
-      console.log(this.inspection.data);
-      this.dialog = false;
-      // if (this.inspection.inspectionInfo.data) {
-      //   return alert("fields can't be empty");
-      // } else {
-      //
+      const body = this.totalInspection.data.map((item) => Object.values(item));
 
-      // this.dialog = false;
-      // this.$store.dispatch("addInspection", this.totalInspection);
-      // console.log("Enviando inspeccion a firebase");
-      // this.inspection = {
-      //   inspectionInfo: {
-      //     id: "",
-      //     date: "",
-      //     techinical: "",
-      //   },
-      // };
-      // this.$refs.form.reset();
-      // this.firstVal = false;
+      autoTable(doc, {
+        head: [headers],
+        body,
+      });
+      doc.save('table.pdf');
 
-      //
-      // }
+      this.modalSubmit = false;
     },
   },
 };
