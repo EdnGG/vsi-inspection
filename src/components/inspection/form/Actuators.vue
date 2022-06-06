@@ -306,8 +306,8 @@ export default {
     },
     submit() {
       try {
-        this.$store.dispatch("addInspection", this.totalInspection);
-        console.log(this.totalInspection);
+        // this.$store.dispatch("addInspection", this.totalInspection);
+        // console.log(this.totalInspection);
 
         const headers = [
           "Actuator Model",
@@ -321,11 +321,25 @@ export default {
           "Observations",
         ];
 
+        // const head = this.totalInspections.map((item) => {
+        //   return Object.keys(item);
+        // });
+
+        // const headContent = this.totalInspections.map((head) => {
+        //   return Object.values(head);
+        // });
+
         const body = this.totalInspection.data.map((item) =>
           Object.values(item)
         );
 
-        pdfGenerator(headers, body, this.totalInspection.date);
+        pdfGenerator(
+          headers,
+          body,
+          this.totalInspection.date
+          // head,
+          // headContent
+        );
 
         this.modalSubmit = false;
       } catch (err) {
