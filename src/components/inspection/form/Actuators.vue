@@ -226,11 +226,10 @@
 </template>
 
 <script>
-import CoreCustomSelect from '@/components/core/CustomSelect.vue';
-import { mapState } from 'vuex';
-import { mapActions } from 'vuex';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import CoreCustomSelect from "@/components/core/CustomSelect.vue";
+import { mapState } from "vuex";
+import { mapActions } from "vuex";
+import pdfGenerator from "@/helpers/pdfGenerator.js";
 
 export default {
   components: {
@@ -243,31 +242,31 @@ export default {
     menuDate: false,
     prevButton: false,
     nextButton: false,
-    select: { state: '', item: 'Select one' },
-    date: '',
-    // ESTE SERIA EL OBJETO QUE SE VA A ENVIAR A FIRESTORE
+    select: { state: "", item: "Select one" },
+    date: "",
+    /* ***** */
     totalInspection: {
-      id: '',
-      date: '',
-      technical: '',
-      observaciones: '',
+      id: "",
+      date: "",
+      technical: "",
+      observaciones: "",
       data: [],
     },
     tmpData: {
-      actuatorModel: '',
-      actuatorSerialNumber: '',
-      controlPack: '',
-      visual: '',
-      waterInspection: '',
-      operationalTest: '',
-      wireCompartiment: '',
-      handwheelBoltPatern: '',
-      observaciones: '',
+      actuatorModel: "",
+      actuatorSerialNumber: "",
+      controlPack: "",
+      visual: "",
+      waterInspection: "",
+      operationalTest: "",
+      wireCompartiment: "",
+      handwheelBoltPatern: "",
+      observaciones: "",
     },
-    inspectionRules: [(v) => !!v || 'Field is required'],
+    inspectionRules: [(v) => !!v || "Field is required"],
   }),
   computed: {
-    ...mapState(['inspections', 'allInspections']),
+    ...mapState(["inspections", "allInspections"]),
     datosArray() {
       return [
         this.inspection.data.visual,
@@ -283,70 +282,55 @@ export default {
     },
     hide() {
       return {
-        display: this.firstVal ? 'none' : 'block',
+        display: this.firstVal ? "none" : "block",
       };
     },
   },
   methods: {
-    ...mapActions(['addInspection', 'addActuator']),
-    // validateFirstSection() {
-    //   if (
-    //     this.inspection.id &&
-    //     this.inspection.date &&
-    //     this.inspection.technical
-    //   ) {
-    //     return (this.firstVal = true);
-    //   }
-    //   return (this.firstVal = false);
-    // },
+    ...mapActions(["addInspection", "addActuator"]),
+
     addActuator({ step }) {
       this.totalInspection.data.push(this.tmpData);
       this.tmpData = {
-        actuatorModel: '',
-        actuatorSerialNumber: '',
-        controlPack: '',
-        visual: '',
-        waterInspection: '',
-        operationalTest: '',
-        wireCompartiment: '',
-        handwheelBoltPatern: '',
-        observaciones: '',
+        actuatorModel: "",
+        actuatorSerialNumber: "",
+        controlPack: "",
+        visual: "",
+        waterInspection: "",
+        operationalTest: "",
+        wireCompartiment: "",
+        handwheelBoltPatern: "",
+        observaciones: "",
       };
       this.e1 = step;
     },
     submit() {
-      console.log('function submmit executed');
-      this.$store.dispatch('addInspection', this.totalInspection);
-      console.log(this.totalInspection);
-      console.log('Enviando inspeccion a firebase');
+      try {
+        this.$store.dispatch("addInspection", this.totalInspection);
+        console.log(this.totalInspection);
 
-      const doc = new jsPDF({
-        orientation: 'landscape',
-        unit: 'mm',
-        format: 'a4',
-      });
+        const headers = [
+          "Actuator Model",
+          "Actuator Serial Number",
+          "Control Pack",
+          "Visual",
+          "Water Inspection",
+          "Operational Test",
+          "Wire Compartiment",
+          "Handwheel Bolt Patern",
+          "Observations",
+        ];
 
-      const headers = [
-        'Actuator Model',
-        'Actuator Serial Number',
-        'Control Pack',
-        'Visual',
-        'Water Inspection',
-        'Operational Test',
-        'Wire Compartiment',
-        'Handwheel Bolt Patern',
-        'Observaciones',
-      ];
+        const body = this.totalInspection.data.map((item) =>
+          Object.values(item)
+        );
 
-      const body = this.totalInspection.data.map((item) => Object.values(item));
+        pdfGenerator(headers, body, this.totalInspection.date);
 
-      autoTable(doc, {
-        head: [headers],
-        body,
-      });
-      doc.save('table.pdf');
-
-      this.modalSubmit = false;
+        this.modalSubmit = false;
+      } catch (err) {
+        console.log(`Error: ${err}`);
+      }
     },
   },
 };

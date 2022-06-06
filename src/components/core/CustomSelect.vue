@@ -8,9 +8,9 @@
     <v-col cols="6">
       <!-- capturar selec.state -->
       <v-select
-        v-model="computedState"
+        v-model="computedState" 
         :value="value"
-        :items="items"
+        :items="items.map(item => item.state)"
         item-text="state"
         persistent-hint
         item-value="item"
@@ -35,13 +35,13 @@ export default {
   },
   data: () => ({
     items: [
-      { state: 'Good', item: 'Looks good' },
-      { state: 'Bad', item: 'Looks Bad' },
-      { state: 'Not sure', item: 'Not sure condition' },
+      { state: "Good", item: "Looks good" },
+      { state: "Bad", item: "Looks Bad" },
+      { state: "Not sure", item: "Not sure condition" },
     ],
   }),
   model: {
-    event: 'change',
+    event: "change",
   },
   computed: {
     computedState: {
@@ -49,7 +49,7 @@ export default {
         return this.value;
       },
       set(value) {
-        this.$emit('change', value);
+        this.$emit("change", value);
       },
     },
   },
