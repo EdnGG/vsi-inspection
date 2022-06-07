@@ -15,27 +15,42 @@
       </v-row>
     </v-container>
     <v-container class="d-flex d-wrap">
-      <div
-        class="d-flex d-wrap card-container"
-        v-if="isInspectionCreated"
-        v-for="(allInspection, i) in InspectionsFromFirestore"
-        :key="i"
-      >
-        <inspection-card-details
-          v-for="(inspection, i) in allInspection"
-          :key="i"
-          :inspection="inspection"
-        ></inspection-card-details>
-      </div>
+      <v-row>
+        <v-col v-for="(item, i) in InspectionsFromFirestore" cols="4">
+          <v-card>
+            <v-card-title>
+              <span class="mr-2"> # {{ item.inspection.id }} </span>
+              <v-chip small> {{ item.inspection.date }}</v-chip>
+            </v-card-title>
+
+            <v-card-text>
+              <div class="my-4 text-subtitle-1">
+                {{ item.inspection.technical }}
+              </div>
+            </v-card-text>
+
+            <v-divider class="mx-4"></v-divider>
+
+            <v-card-title>Actu</v-card-title>
+            <v-card-actions>
+              <v-btn color="deep-purple lighten-2" text> Download PDF </v-btn>
+              <v-btn color="deep-purple lighten-2" text @click="showDataReports(item.inspection)"> Show Data </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
     <!-- {{InspectionsFromFirestore.inspectionInfo}} -->
+    <!-- MODAL v-model="modalShowData" -->
+    <!-- {{currentData}} -->
+    <!-- MODAL v-model -->
   </v-container>
 </template>
 
 <script>
-import NoContent from "@/components/Tools/NoContent.vue";
-import InspectionCardDetails from "@/components/inspection/card/Details.vue";
-import { mapState, mapActions } from "vuex";
+import NoContent from '@/components/Tools/NoContent.vue';
+import InspectionCardDetails from '@/components/inspection/card/Details.vue';
+import { mapState, mapActions } from 'vuex';
 export default {
   components: {
     NoContent,
@@ -43,22 +58,28 @@ export default {
   },
   data() {
     return {
-      message: "No Inspections to show",
+      message: 'No Inspections to show',
       inspectionsArray: [],
+      currentData: {},
+      modalShowData: false,
     };
   },
   created() {
     this.getInspections();
-    console.log("InspectionsFromFirestore", this.InspectionsFromFirestore);
+    console.log('InspectionsFromFirestore', this.InspectionsFromFirestore);
   },
   computed: {
-    ...mapState(["actuators", "allInpections", "InspectionsFromFirestore"]),
+    ...mapState(['actuators', 'allInpections', 'InspectionsFromFirestore']),
     isInspectionCreated() {
       return this.InspectionsFromFirestore.length > 0;
     },
   },
   methods: {
-    ...mapActions(["getInspections"]),
+    ...mapActions(['getInspections']),
+    showDataReports(data) {
+      this.currentData = data;
+      this.modalShowData = true;
+    }
   },
 };
 </script>

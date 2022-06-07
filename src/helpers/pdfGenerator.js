@@ -1,13 +1,21 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-const pdfGenerator = (
-  headers,
-  body,
-  date,
-  // head,
-  // headContent
-) => { 
+const pdfGenerator = (data, title = 'VSI Incomming report') => {
+  const NUMBER_MAX_COLUMNS = 9;
+  const headerBody = [
+    'Actuator Model',
+    'Actuator Serial Number',
+    'Control Pack',
+    'Visual',
+    'Water Inspection',
+    'Operational Test',
+    'Wire Compartiment',
+    'Handwheel Bolt Patern',
+    'Observations',
+  ];
+
+  const body = data.data.map((item) => Object.values(item));
 
   const doc = new jsPDF({
     orientation: 'landscape',
@@ -15,31 +23,42 @@ const pdfGenerator = (
     format: 'a4',
   });
 
-// Encabezado de la tabla
-  // autoTable(doc, {
-    
-  //   theme: 'grid',
-  //   font: 'helvetica',
-  //   cellWidth: 'wrap',
-  //   head: [head],
-  //   body: [headContent],
-  // });
-
   autoTable(doc, {
-    // styles: { fillColor: [255, 0, 0] },
-    // columnStyles: { halign: 'center', fillColor: [0, 255, 0] } , // Cells in first column centered and green
     theme: 'grid',
     font: 'helvetica',
     cellWidth: 'wrap',
-    // fontSize: '11',
-    head: [headers],
-    body,
+    head: [
+      [
+        {
+          content: title,
+          colSpan: 9,
+          styles: { halign: 'center', fontSize: 16 },
+        },
+      ],
+    ],
+    body: [
+      [
+        { content: `Number: ${data.id}`, colSpan: NUMBER_MAX_COLUMNS / 3 },
+        { content: `Date: ${data.date}`, colSpan: NUMBER_MAX_COLUMNS / 3 },
+        { content: `Technical: ${data.technical}`, colSpan: NUMBER_MAX_COLUMNS / 3 },
+      ],
+      headerBody,
+      ...body,
+      [
+        {
+          content: 'Observaciones:',
+          colSpan: 2,
+          styles: {
+            fillColor: 'green',
+            textColor: '#ffffff',
+          },
+        },
+        { content: data.observaciones, colSpan: NUMBER_MAX_COLUMNS - 2 },
+      ],
+    ],
   });
 
-
-  doc.save(`inspection${date}.pdf`);
-
-}
+  doc.save(`inspection-${data.date}.pdf`);
+};
 
 export default pdfGenerator;
-

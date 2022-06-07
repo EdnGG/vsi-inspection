@@ -304,43 +304,13 @@ export default {
       };
       this.e1 = step;
     },
+    pdfGenerator() {
+      pdfGenerator();
+    },
     submit() {
       try {
-        // this.$store.dispatch("addInspection", this.totalInspection);
-        // console.log(this.totalInspection);
-
-        const headers = [
-          "Actuator Model",
-          "Actuator Serial Number",
-          "Control Pack",
-          "Visual",
-          "Water Inspection",
-          "Operational Test",
-          "Wire Compartiment",
-          "Handwheel Bolt Patern",
-          "Observations",
-        ];
-
-        // const head = this.totalInspections.map((item) => {
-        //   return Object.keys(item);
-        // });
-
-        // const headContent = this.totalInspections.map((head) => {
-        //   return Object.values(head);
-        // });
-
-        const body = this.totalInspection.data.map((item) =>
-          Object.values(item)
-        );
-
-        pdfGenerator(
-          headers,
-          body,
-          this.totalInspection.date
-          // head,
-          // headContent
-        );
-
+        this.$store.dispatch("addInspection", this.totalInspection);
+        pdfGenerator(this.totalInspection);
         this.modalSubmit = false;
       } catch (err) {
         console.log(`Error: ${err}`);
