@@ -135,10 +135,10 @@ export default new Vuex.Store({
     },
     async getInspections({ commit }) { 
       try {
-        console.log('me ejecute')
+        // console.log('get inspections from firestore')
         const allInspections = await db.collection('inspections').get()
         allInspections.docs.forEach(doc => {
-          console.log('Docs:', doc.data())
+          // console.log('Docs:', doc.data())
           commit('GET_INSPECTIONS', doc.data())
         })
       } catch (err) { 
