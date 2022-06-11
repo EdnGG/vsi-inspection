@@ -67,7 +67,8 @@
               >
                 <v-text-field
                   label="Actuator Serial Number"
-                >{{item.inspection.data.actuatorSerialNumber}}</v-text-field>
+                  v-model="item.inspection.data.actuatorSerialNumber"
+                ></v-text-field>
               </v-col>
               <v-col
                 cols="12"
@@ -77,8 +78,9 @@
                 <v-text-field
                   label="Control pack"
                   persistent-hint
+                  v-model="item.inspection.data.controlPack"
                   required
-                >{{item.inspection.data.controlPack}}</v-text-field>
+                >no se ve</v-text-field>
               </v-col>
               <!--  -->
               <v-col
@@ -117,6 +119,7 @@
                 <v-text-field
                   label="Observaciones"
                   type="textarea"
+                  v-model="item.inspection.data.observaciones"
                   required
                 >{{item.inspection.data.observaciones}}</v-text-field>
               </v-col>
