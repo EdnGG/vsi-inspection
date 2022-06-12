@@ -15,7 +15,19 @@ const pdfGenerator = (data, title = 'VSI Incomming report') => {
     'Observations',
   ];
 
-  const body = data.data.map((item) => Object.values(item));
+  const body = data.data.map((item) => {
+    return [
+      item.actuatorModel,
+      item.actuatorSerialNumber,
+      item.controlPack,
+      item.visual,
+      item.waterInspection,
+      item.operationalTest,
+      item.wireCompartiment,
+      item.handwheelBoltPatern,
+      item.observations,
+    ];
+  });
 
   const doc = new jsPDF({
     orientation: 'landscape',
