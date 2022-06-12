@@ -23,15 +23,14 @@ export default new Vuex.Store({
     palletsPBF: [],
   },
   mutations: {
-    GET_INSPECTIONS(state, payload) { 
-      state.InspectionsFromFirestore.push(payload)
-
+    GET_INSPECTIONS(state, payload) {
+      state.InspectionsFromFirestore = payload;
     },
-    SET_USER(state, payload) { 
+    SET_USER(state, payload) {
       state.user = payload
       console.log('state.user: ', payload)
     },
-    SET_ERROR(state, payload) { 
+    SET_ERROR(state, payload) {
       state.error = payload
     },
     SET_LOCAL_WEATHER(state, payload) {
@@ -49,28 +48,28 @@ export default new Vuex.Store({
     ADD_DESMET_ORDER(state, payload) {
       state.desmetOrder.push(payload)
     },
-    SAVE_PALLET(state, payload) { 
+    SAVE_PALLET(state, payload) {
       state.palletsPBF.push(payload)
     }
   },
   actions: {
-    async getPalletsPBFNO({ commit }) { 
+    async getPalletsPBFNO({ commit }) {
       const palletsPBFNO = await db.collection('desmet-pallets-pbfno').get()
-      palletsPBFNO.docs.forEach(doc => { 
+      palletsPBFNO.docs.forEach(doc => {
         console.log('Docs:', doc.data())
         commit('SAVE_PALLET', doc.data())
       })
     },
-    isUserActive({ commit }, user ) { 
+    isUserActive({ commit }, user ) {
       console.log('user from actions/isUserActive: ', user)
       commit('SET_USER', user)
     },
-    signOut({ commit }) { 
+    signOut({ commit }) {
       auth.signOut().then(() => {
         router.push('/')
       })
     },
-    loginUser({ commit }, payload) { 
+    loginUser({ commit }, payload) {
       auth.signInWithEmailAndPassword(payload.email, payload.password)
         .then(res => {
           const userLogged = {
@@ -86,7 +85,7 @@ export default new Vuex.Store({
           commit('SET_ERROR', error)
         })
     },
-    createUser({ commit }, user) { 
+    createUser({ commit }, user) {
       auth.createUserWithEmailAndPassword(user.email, user.password)
         .then(res => {
           console.log('res: ', res)
@@ -98,13 +97,13 @@ export default new Vuex.Store({
           }
           commit('SET_USER', newUser)
           router.push('/about')
-        }).catch(error => { 
+        }).catch(error => {
           console.log('error: ', error)
           commit('SET_ERROR', error)
         })
 
     },
-    savePallet({ commit }, payload) { 
+    savePallet({ commit }, payload) {
       console.log('payload: ', payload)
       commit('SAVE_PALLET', payload)
       db.collection('desmet-pallets-pbfno')
@@ -119,7 +118,7 @@ export default new Vuex.Store({
           console.error("Error adding document: ", error)
         })
     },
-    addProjectItem({ commit }, payload) { 
+    addProjectItem({ commit }, payload) {
       commit('ADD_PROJECT_ITEM', payload)
     },
     addActuator({ commit }, payload) {
@@ -133,15 +132,12 @@ export default new Vuex.Store({
         console.error("Error adding document: ", error)
       })
     },
-    async getInspections({ commit }) { 
+    async getInspections({ commit }) {
       try {
-        // console.log('get inspections from firestore')
         const allInspections = await db.collection('inspections').get()
-        allInspections.docs.forEach(doc => {
-          // console.log('Docs:', doc.data())
-          commit('GET_INSPECTIONS', doc.data())
-        })
-      } catch (err) { 
+        const data = allInspections.docs.map(doc => doc.data())
+        commit('GET_INSPECTIONS', data)
+      } catch (err) {
         console.log('Error: ', err)
       }
     },
@@ -158,7 +154,7 @@ export default new Vuex.Store({
         navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude
         const lon = position.coords.longitude
-        // need to find the client location 
+        // need to find the client location
         // const url = `https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
         // const res = await axios.get(url)
@@ -182,7 +178,7 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    isUserExist(state) { 
+    isUserExist(state) {
       if (state.user === null) {
         return false
       } else {
