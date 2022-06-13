@@ -4,11 +4,11 @@
       <v-img
         class="pa-4 pt-7"
         height="190"
-        src="img/space.jpg"
+        src="img/series-1000.png"
         gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
       >
         <v-avatar size="70" class="mb-2">
-          <img :src="defaultImage" alt="User Avatar" />
+          <img src="img/vsi.png" alt="Valve Solutions Inc" />
           <!-- <img
             v-if="!userDB"
             :src="defaultImage"
@@ -43,7 +43,7 @@
       color="#primary"
       dark
       prominent
-      src="img/space.jpg"
+      src="img/building.png"
       :height="$route.path === '/todo' ? 220 : 190"
     >
       <template v-slot:img="{ props }">
@@ -114,18 +114,16 @@ export default {
         icon: "mdi-help-box",
         to: "/about",
       },
-      {
-        title: "Desmet-Packing",
-        icon: "mdi-clipboard-list-outline",
-        to: "/desmet/packing",
-      },
-      {
-        title: "Desmet-Pallets",
-        icon: "mdi-clipboard-list-outline",
-        to: "/desmet/pallets",
-      },
-
-      // { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
+      // {
+      //   title: "Desmet-Packing",
+      //   icon: "mdi-clipboard-list-outline",
+      //   to: "/desmet/packing",
+      // },
+      // {
+      //   title: "Desmet-Pallets",
+      //   icon: "mdi-clipboard-list-outline",
+      //   to: "/desmet/pallets",
+      // },
     ],
   }),
 };

@@ -23,6 +23,9 @@ export default new Vuex.Store({
     palletsPBF: [],
   },
   mutations: {
+    UPDATING_INSPECTION(state, payload) { 
+      state.InspectionsFromFirestore = payload
+    },
     GET_INSPECTIONS(state, payload) {
       state.InspectionsFromFirestore = payload;
     },
@@ -53,6 +56,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async updatingInspection({ commit }, payload) {
+      try {
+        console.log("id", id)
+        const response = await db.collection('inspections').doc(payload.id).update({
+          ...payload
+        })
+        console.log('response: ', response)
+      } catch (error) {
+        console.log(error)
+      }
+    },
     async getPalletsPBFNO({ commit }) {
       const palletsPBFNO = await db.collection('desmet-pallets-pbfno').get()
       palletsPBFNO.docs.forEach(doc => {

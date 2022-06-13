@@ -18,6 +18,10 @@
       <v-row>
         <v-col v-for="(item, i) in InspectionsFromFirestore" cols="4" :key="i">
           <v-card>
+            <v-img
+              src="../../../public/img/actuator.jpeg"
+              height="200px"
+            ></v-img>
             <v-card-title>
               <span class="mr-2"> # {{ item.inspection.id }} </span>
               <v-chip small> {{ item.inspection.date }}</v-chip>
@@ -72,64 +76,91 @@
             <v-row>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
+                  label="*Actuator model"
                   v-model="currentData.data[currentDataIndex].actuatorModel"
-                  label="Actuator model"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                  v-model="currentData.data[currentDataIndex].actuatorSerialNumber"
-                  label="Actuator Serial Number"
+                  label="*Actuator Serial Number"
+                  required
+                  v-model="
+                    currentData.data[currentDataIndex].actuatorSerialNumber
+                  "
                 >
                 </v-text-field>
               </v-col>
-              <!-- <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Control pack" persistent-hint required>{{
-                  currentData.data[0].controlPack
-                }}</v-text-field>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field
+                  label="*Control pack"
+                  required
+                  v-model="currentData.data[currentDataIndex].controlPack"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field
+                  label="*Test"
+                  v-model="currentData.data[currentDataIndex].visual"
+                >
+                  prueba {{ currentData.data[currentDataIndex].visual }}
+                </v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
+                <!-- Necesito agarrar el valor del vselect y mostrarlo en el cliente -->
                 <v-select
-                  label="Visual"
-                  :items="['Good', 'Bad', 'Not sure']"
+                  :value="currentData.data[currentDataIndex].state"
+                  v-model="getNewValue"
+                  @change="newValueSelected($event)"
+                  label="*Visual"
+                  :items="item"
+                  required
+                >
+                </v-select>
+                <v-select
+                  :value="currentData.data[currentDataIndex].state"
+                  v-model="getNewValue"
+                  @change="newValueSelected($event)"
+                  label="*Water inspection"
+                  :items="item"
+                  required
+                ></v-select>
+                <!--<v-select
+                  @change="newValueSelected($event)"
+                  label="*Operational test"
+                  v-model="currentData.data[currentDataIndex].operationalTest"
+                  :items="item"
                   required
                 ></v-select>
                 <v-select
-                  label="Water inspection"
-                  :items="['Good', 'Bad', 'Not sure']"
+                  @change="newValueSelected($event)"
+                  label="*Wire  compartiment"
+                  v-model="currentData.data[currentDataIndex].wireCompartiment"
+                  :items="item"
                   required
                 ></v-select>
                 <v-select
-                  label="Operational test"
-                  :items="['Good', 'Bad', 'Not sure']"
+                  @change="newValueSelected($event)"
+                  label="*Handwheel bolt pattern"
+                  v-model="currentData.data[currentDataIndex].handwheelBoltPatern"
+                  :items="item"
                   required
-                ></v-select>
-                <v-select
-                  label="Wire  compartiment"
-                  :items="['Good', 'Bad', 'Not sure']"
-                  required
-                ></v-select>
-                <v-select
-                  label="Handwheel bolt pattern"
-                  :items="['Good', 'Bad', 'Not sure']"
-                  required
-                ></v-select>
+                ></v-select>  -->
               </v-col>
 
               <v-col cols="12">
-                <v-text-field label="Observaciones" type="textarea" required>
-                  {{ currentData.data[0].observaciones }}
+                <v-text-field
+                  v-model="currentData.data[currentDataIndex].observaciones"
+                  label="*Observaciones"
+                  type="textarea"
+                  required
+                >
                 </v-text-field>
-              </v-col> -->
+              </v-col>
             </v-row>
           </v-container>
 
-          <!-- <v-autocomplete
-                  :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                  label="Interests"
-                  multiple
-                ></v-autocomplete> -->
           <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
@@ -137,9 +168,7 @@
           <v-btn color="blue darken-1" text @click="modalShowData = false">
             Close
           </v-btn>
-          <v-btn color="blue darken-1" text @click="updatingData">
-            Save
-          </v-btn>
+          <v-btn color="blue darken-1" text @click="updatingData"> Save </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -163,23 +192,23 @@ export default {
       currentData: null,
       currentDataIndex: 0,
       modalShowData: false,
+      item: ["Good", "Bad", "Not sure"],
     };
   },
-  updated() {
-    // if(this.InspectionsFromFirestore)
-  },
   created() {
-    // checar como puedo hacer que se cargue la data de firestore cuando se agrege un nuevo registro
-    // if(){this.InspectionsFromFirestore}
     this.getInspections();
     this.updatingData();
-    // console.log(
-    //   "this.InspectionsFromFirestore",
-    //   this.InspectionsFromFirestore[0].inspection
-    // );
   },
   computed: {
     ...mapState(["actuators", "allInpections", "InspectionsFromFirestore"]),
+    getNewValue: {
+      get() {
+        return this.currentData.data[this.currentDataIndex];
+      },
+      set(value) {
+        this.currentData.data[this.currentDataIndex] = value;
+      },
+    },
     isInspectionCreated() {
       return this.InspectionsFromFirestore.length;
     },
@@ -191,7 +220,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getInspections"]),
+    ...mapActions(["getInspections", "updatingInspection"]),
+    newValueSelected(event) {
+      console.log(event);
+    },
+
     showDataReports(inspecction) {
       this.currentData = inspecction;
       this.modalShowData = true;
@@ -200,15 +233,16 @@ export default {
       pdfGenerator(data);
     },
     updatingData() {
-      console.log("updatingData", this.currentData);
-      // this.InspectionsFromFirestore.map((inspection) => {
-      //   console.log('hey', inspection);
-      // });
-      // if(this.InspectionsFromFirestore.)
       /*
       vuex -> update InspectionsFromFirestore ->
           --> firestore -> update -> actuliza el state
       */
+      try {
+        console.log("updatingData", this.currentData);
+        this.$store.dispatch("updatingInspection", this.currentData);
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };
