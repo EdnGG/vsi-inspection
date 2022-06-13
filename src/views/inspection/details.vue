@@ -56,6 +56,7 @@
         </v-col>
       </v-row>
     </v-container>
+
     <!-- MODAL -->
     <v-dialog v-model="modalShowData" persistent max-width="600px">
       <v-card v-if="currentData">
@@ -99,17 +100,41 @@
                 >
                 </v-text-field>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field
-                  label="*Test"
-                  v-model="currentData.data[currentDataIndex].visual"
-                >
-                  prueba {{ currentData.data[currentDataIndex].visual }}
-                </v-text-field>
-              </v-col>
+             
               <v-col cols="12" sm="6">
                 <!-- Necesito agarrar el valor del vselect y mostrarlo en el cliente -->
-                <v-select
+                <v-text-field
+                  v-model="currentData.data[currentDataIndex].visual"
+                  label="*Visual"
+                  required
+                >
+                </v-text-field>
+                <v-text-field
+                  v-model="currentData.data[currentDataIndex].waterInspection"
+                  label="*Water inspection"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  label="*Operational test"
+                  v-model="currentData.data[currentDataIndex].operationalTest"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  label="*Wire  compartiment"
+                  v-model="currentData.data[currentDataIndex].wireCompartiment"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  label="*Handwheel bolt pattern"
+                  v-model="
+                    currentData.data[currentDataIndex].handwheelBoltPatern
+                  "
+                  required
+                ></v-text-field>
+
+                <!-- V-SELECTS -->
+
+                <!--<v-select
                   :value="currentData.data[currentDataIndex].state"
                   v-model="getNewValue"
                   @change="newValueSelected($event)"
@@ -126,7 +151,7 @@
                   :items="item"
                   required
                 ></v-select>
-                <!--<v-select
+                <v-select
                   @change="newValueSelected($event)"
                   label="*Operational test"
                   v-model="currentData.data[currentDataIndex].operationalTest"
@@ -168,7 +193,9 @@
           <v-btn color="blue darken-1" text @click="modalShowData = false">
             Close
           </v-btn>
-          <v-btn color="blue darken-1" text @click="updatingData"> Save </v-btn>
+          <v-btn color="blue darken-1" text @click="updatingData(currentData)"> 
+            Save 
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -232,17 +259,18 @@ export default {
     downloadPDF(data) {
       pdfGenerator(data);
     },
-    updatingData() {
+    updatingData(data) {
       /*
       vuex -> update InspectionsFromFirestore ->
           --> firestore -> update -> actuliza el state
       */
-      try {
-        console.log("updatingData", this.currentData);
-        this.$store.dispatch("updatingInspection", this.currentData);
-      } catch (e) {
-        console.log(e);
-      }
+      // try {
+      console.log("updatingData", data);
+      this.$store.dispatch("updatingInspection", data);
+      this.modalShowData = false;
+      // } catch (e) {
+      //   console.log(e);
+      // }
     },
   },
 };

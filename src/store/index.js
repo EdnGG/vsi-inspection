@@ -57,14 +57,18 @@ export default new Vuex.Store({
   },
   actions: {
     async updatingInspection({ commit }, payload) {
+      console.log("payload", payload)
       try {
-        console.log("id", id)
         const response = await db.collection('inspections').doc(payload.id).update({
           ...payload
         })
+        //   .then((querySnapshot) => { 
+        //   console.log("Inspection updated")
+        // })
+
         console.log('response: ', response)
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.log(err)
       }
     },
     async getPalletsPBFNO({ commit }) {
