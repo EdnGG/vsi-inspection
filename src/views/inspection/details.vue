@@ -182,7 +182,6 @@ export default {
   },
   created() {
     this.getInspections();
-    // console.log("inspectionsFromFirestore", this.InspectionsFromFirestore);
   },
   computed: {
     ...mapState(["actuators", "allInpections", "InspectionsFromFirestore"]),
@@ -191,7 +190,7 @@ export default {
       return this.InspectionsFromFirestore.length;
     },
     currentDataActuators() {
-      console.log("item ", this.currentData);
+      // console.log("item ", this.currentData);
       return this.currentData.data.map((item, index) => ({
         text: `${item.actuatorModel} - ${item.actuatorSerialNumber}`,
         value: index,
@@ -214,13 +213,15 @@ export default {
       vuex -> update InspectionsFromFirestore ->
           --> firestore -> update -> actuliza el state
       */
-      // try {
-      console.log("updatingData", this.currentData);
-      this.$store.dispatch("updatingInspection", this.currentData);
-      this.modalShowData = false;
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      try {
+        // No puedo encontrar el UId de la coleccion a la que se refiere el objeto
+
+        console.log("updatingData", this.currentData);
+        this.$store.dispatch("updatingInspection", this.currentData);
+        this.modalShowData = false;
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };

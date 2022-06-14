@@ -57,16 +57,18 @@ export default new Vuex.Store({
   },
   actions: {
     async updatingInspection({ commit, state }, payload) {
-      console.log("state ",  state.allInpections)
+      // console.log("state ",  state.allInpections)
       try {
-        // const response = db.collection('inspections')
-        // 
-        const response = await db.collection('inspections').doc(state.user.uid).update({
-          ...payload
+        // No puedo encontrar el UId de la coleccion a la que se refiere el objeto
+        db.collection('inspections').doc(payload.id).set({inspection: payload}).then((docRef) => {
+          console.log("Document updating with ID: ", docRef)
+        }).catch((error) => {
+          console.error("Error adding document: ", error)
         })
+        // const response = await db.collection('inspections').doc().update({
+        //   ...payload
+        // })
         // commit('UPDATING_INSPECTION', payload)
-        console.log('response: ', response)
-        // return response
       } catch (err) {
         console.log(err)
       }
