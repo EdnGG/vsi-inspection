@@ -55,7 +55,9 @@
 
       <v-container class="header-container pa-0">
         <v-row>
-          <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon 
+            v-if="user"
+            @click="drawer = !drawer"></v-app-bar-nav-icon>
           <v-spacer></v-spacer>
           <!-- <search v-if="$route.path === '/todo'" /> -->
           <menu-rigth-side />
@@ -88,6 +90,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   components: {
     "live-date-time": require("@/components/Tools/LiveDateTime.vue").default,
@@ -126,6 +129,9 @@ export default {
       // },
     ],
   }),
+  computed: {
+    ...mapState(["user"]),
+  },
 };
 </script>
 

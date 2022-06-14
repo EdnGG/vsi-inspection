@@ -56,17 +56,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async updatingInspection({ commit }, payload) {
-      console.log("payload", payload)
+    async updatingInspection({ commit, state }, payload) {
+      console.log("state ",  state.allInpections)
       try {
-        const response = await db.collection('inspections').doc(payload.id).update({
+        // const response = db.collection('inspections')
+        // 
+        const response = await db.collection('inspections').doc(state.user.uid).update({
           ...payload
         })
-        //   .then((querySnapshot) => { 
-        //   console.log("Inspection updated")
-        // })
-
+        // commit('UPDATING_INSPECTION', payload)
         console.log('response: ', response)
+        // return response
       } catch (err) {
         console.log(err)
       }
@@ -82,7 +82,7 @@ export default new Vuex.Store({
       console.log('user from actions/isUserActive: ', user)
       commit('SET_USER', user)
     },
-    signOut({ commit }) {
+    signOut() {
       auth.signOut().then(() => {
         router.push('/')
       })

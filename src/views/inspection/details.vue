@@ -61,7 +61,7 @@
     <v-dialog v-model="modalShowData" persistent max-width="600px">
       <v-card v-if="currentData">
         <v-card-title>
-          <span class="text-h5"> Inspection number {{ currentData.id }} </span>
+          <span class="text-h5"> Inspection number <strong>{{ currentData.id }}</strong> </span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -69,7 +69,7 @@
               <v-col>
                 <v-autocomplete
                   v-model="currentDataIndex"
-                  label="Seleccionar el motor a revisar"
+                  label="Pick an actuator to check"
                   :items="currentDataActuators"
                 ></v-autocomplete>
               </v-col>
@@ -77,15 +77,15 @@
             <v-row>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                  label="*Actuator model"
+                  label="Actuator model"
                   v-model="currentData.data[currentDataIndex].actuatorModel"
-                  required
+                  
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                  label="*Actuator Serial Number"
-                  required
+                  label="Actuator Serial Number"
+                  
                   v-model="
                     currentData.data[currentDataIndex].actuatorSerialNumber
                   "
@@ -94,107 +94,65 @@
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                  label="*Control pack"
-                  required
+                  label="Control pack"
+                  
                   v-model="currentData.data[currentDataIndex].controlPack"
                 >
                 </v-text-field>
               </v-col>
-             
+
               <v-col cols="12" sm="6">
-                <!-- Necesito agarrar el valor del vselect y mostrarlo en el cliente -->
-                <v-text-field
+                <v-select
                   v-model="currentData.data[currentDataIndex].visual"
-                  label="*Visual"
-                  required
-                >
-                </v-text-field>
-                <v-text-field
-                  v-model="currentData.data[currentDataIndex].waterInspection"
-                  label="*Water inspection"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  label="*Operational test"
-                  v-model="currentData.data[currentDataIndex].operationalTest"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  label="*Wire  compartiment"
-                  v-model="currentData.data[currentDataIndex].wireCompartiment"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  label="*Handwheel bolt pattern"
-                  v-model="
-                    currentData.data[currentDataIndex].handwheelBoltPatern
-                  "
-                  required
-                ></v-text-field>
-
-                <!-- V-SELECTS -->
-
-                <!--<v-select
-                  :value="currentData.data[currentDataIndex].state"
-                  v-model="getNewValue"
-                  @change="newValueSelected($event)"
-                  label="*Visual"
-                  :items="item"
-                  required
+                  label="Visual"
+                  :items="items"
                 >
                 </v-select>
                 <v-select
-                  :value="currentData.data[currentDataIndex].state"
-                  v-model="getNewValue"
-                  @change="newValueSelected($event)"
-                  label="*Water inspection"
-                  :items="item"
-                  required
+                  v-model="currentData.data[currentDataIndex].waterInspection"
+                  label="Water inspection"
+                  :items="items"
                 ></v-select>
                 <v-select
-                  @change="newValueSelected($event)"
-                  label="*Operational test"
+                  label="Operational test"
                   v-model="currentData.data[currentDataIndex].operationalTest"
-                  :items="item"
-                  required
+                  :items="items"
                 ></v-select>
                 <v-select
-                  @change="newValueSelected($event)"
-                  label="*Wire  compartiment"
+                  label="Wire  compartiment"
                   v-model="currentData.data[currentDataIndex].wireCompartiment"
-                  :items="item"
-                  required
+                  :items="items"
                 ></v-select>
                 <v-select
-                  @change="newValueSelected($event)"
-                  label="*Handwheel bolt pattern"
-                  v-model="currentData.data[currentDataIndex].handwheelBoltPatern"
-                  :items="item"
-                  required
-                ></v-select>  -->
+                  label="Handwheel bolt pattern"
+                  v-model="
+                    currentData.data[currentDataIndex].handwheelBoltPatern
+                  "
+                  :items="items"
+                ></v-select>
               </v-col>
 
               <v-col cols="12">
                 <v-text-field
                   v-model="currentData.data[currentDataIndex].observaciones"
-                  label="*Observaciones"
+                  label="Observaciones"
                   type="textarea"
-                  required
+                  
                 >
                 </v-text-field>
               </v-col>
             </v-row>
           </v-container>
 
-          <small>*indicates required field</small>
+          <!-- <small>indicates required field</small> -->
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="modalShowData = false">
             Close
           </v-btn>
-          <v-btn color="blue darken-1" text @click="updatingData(currentData)"> 
-            Save 
+          <v-btn color="blue darken-1" text @click="updatingData">
+            Save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -219,27 +177,21 @@ export default {
       currentData: null,
       currentDataIndex: 0,
       modalShowData: false,
-      item: ["Good", "Bad", "Not sure"],
+      items: ["Good", "Bad", "Not sure"],
     };
   },
   created() {
     this.getInspections();
-    this.updatingData();
+    // console.log("inspectionsFromFirestore", this.InspectionsFromFirestore);
   },
   computed: {
     ...mapState(["actuators", "allInpections", "InspectionsFromFirestore"]),
-    getNewValue: {
-      get() {
-        return this.currentData.data[this.currentDataIndex];
-      },
-      set(value) {
-        this.currentData.data[this.currentDataIndex] = value;
-      },
-    },
+
     isInspectionCreated() {
       return this.InspectionsFromFirestore.length;
     },
     currentDataActuators() {
+      console.log("item ", this.currentData);
       return this.currentData.data.map((item, index) => ({
         text: `${item.actuatorModel} - ${item.actuatorSerialNumber}`,
         value: index,
@@ -248,25 +200,23 @@ export default {
   },
   methods: {
     ...mapActions(["getInspections", "updatingInspection"]),
-    newValueSelected(event) {
-      console.log(event);
-    },
 
-    showDataReports(inspecction) {
-      this.currentData = inspecction;
+    showDataReports(inspection) {
+      console.log("inspecction", inspection);
+      this.currentData = inspection;
       this.modalShowData = true;
     },
     downloadPDF(data) {
       pdfGenerator(data);
     },
-    updatingData(data) {
+    updatingData() {
       /*
       vuex -> update InspectionsFromFirestore ->
           --> firestore -> update -> actuliza el state
       */
       // try {
-      console.log("updatingData", data);
-      this.$store.dispatch("updatingInspection", data);
+      console.log("updatingData", this.currentData);
+      this.$store.dispatch("updatingInspection", this.currentData);
       this.modalShowData = false;
       // } catch (e) {
       //   console.log(e);
