@@ -198,7 +198,8 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getInspections", "updatingInspection"]),
+    ...mapActions("updatingInspection", ["updatingInspection"]),
+    ...mapActions("getInspections", ["getInspections"]),
 
     showDataReports(inspection) {
       console.log("inspecction", inspection);
