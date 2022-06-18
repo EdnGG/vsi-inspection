@@ -5,6 +5,7 @@ import createPersistedState from 'vuex-persistedstate'
 import { db, storage, auth } from '../firebase.js';
 
 import router from '../router'
+import inspection from '../modules/inspection'
 
 
 Vue.use(Vuex)
@@ -56,22 +57,31 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async updatingInspection({ commit, state }, payload) {
+    updatingInspection({ commit }, payload) {
       // console.log("state ",  state.allInpections)
-      try {
-        // No puedo encontrar el UId de la coleccion a la que se refiere el objeto
+      // try {
+        /*No puedo encontrar el UId de la coleccion a la que se refiere el objeto
         db.collection('inspections').doc(payload.id).set({inspection: payload}).then((docRef) => {
           console.log("Document updating with ID: ", docRef)
         }).catch((error) => {
           console.error("Error adding document: ", error)
         })
+        */
+        //Que parametro lleva dentro del doc?
+
+        db.collection('inspections').doc(payload.id).update({inspection: payload}).then((docRef) => {
+          console.log("Document updating with ID: ", docRef)
+        }).catch((error) => {
+          console.error("Error adding document: ", error)
+        })
+        console.log("payload ", payload)
         // const response = await db.collection('inspections').doc().update({
         //   ...payload
         // })
         // commit('UPDATING_INSPECTION', payload)
-      } catch (err) {
-        console.log(err)
-      }
+      // } catch (err) {
+      //   console.log(err)
+      // }
     },
     async getPalletsPBFNO({ commit }) {
       const palletsPBFNO = await db.collection('desmet-pallets-pbfno').get()
@@ -209,5 +219,6 @@ export default new Vuex.Store({
   },
   plugins: [createPersistedState()],
   modules: {
+    inspection
   }
 })

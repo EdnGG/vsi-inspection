@@ -21,17 +21,6 @@ auth.onAuthStateChanged((user) => {
     store.dispatch("isUserActive", user);
   }
 
-  // Vue.use(require('vue-moment'));
-  // Vue.use(VueAxios, axios);
-
-  // Vue.config.productionTip = false
-
-  // new Vue({
-  //   router,
-  //   store,
-  //   vuetify,
-  //   render: h => h(App)
-  // }).$mount('#app')
 });
 
 Vue.use(require("vue-moment"));
