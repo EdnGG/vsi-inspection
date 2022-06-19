@@ -1,14 +1,13 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import axios from 'axios';
-import createPersistedState from 'vuex-persistedstate'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 import { db, storage, auth } from '../firebase.js';
 
-import router from '../router'
-import inspection from '../modules/inspection'
+import router from '../router';
+import inspection from './modules/inspection';
+import { getLocalWeather } from '../services';
 
-
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -16,7 +15,6 @@ export default new Vuex.Store({
     user: null,
     error: null,
     allInpections: [],
-    InspectionsFromFirestore: [],
     actuators: [],
     desmetOrder: [],
     project: [],
@@ -24,201 +22,143 @@ export default new Vuex.Store({
     palletsPBF: [],
   },
   mutations: {
-    UPDATING_INSPECTION(state, payload) { 
-      state.InspectionsFromFirestore = payload
-    },
-    GET_INSPECTIONS(state, payload) {
+    UPDATING_INSPECTION(state, payload) {
       state.InspectionsFromFirestore = payload;
     },
     SET_USER(state, payload) {
-      state.user = payload
-      console.log('state.user: ', payload)
+      state.user = payload;
+      console.log('state.user: ', payload);
     },
     SET_ERROR(state, payload) {
-      state.error = payload
+      state.error = payload;
     },
     SET_LOCAL_WEATHER(state, payload) {
-      state.weather = payload
+      state.weather = payload;
     },
     ADD_ACTUATOR(state, payload) {
-      state.actuators.push(payload)
+      state.actuators.push(payload);
     },
     ADD_PROJECT_ITEM(state, payload) {
-      state.project.push(payload)
+      state.project.push(payload);
     },
     ADD_INSPECTION(state, payload) {
-      state.allInpections.push(payload)
+      state.allInpections.push(payload);
     },
     ADD_DESMET_ORDER(state, payload) {
-      state.desmetOrder.push(payload)
+      state.desmetOrder.push(payload);
     },
     SAVE_PALLET(state, payload) {
-      state.palletsPBF.push(payload)
-    }
+      state.palletsPBF.push(payload);
+    },
   },
   actions: {
-    updatingInspection({ commit }, payload) {
-      // console.log("state ",  state.allInpections)
-      // try {
-        /*No puedo encontrar el UId de la coleccion a la que se refiere el objeto
-        db.collection('inspections').doc(payload.id).set({inspection: payload}).then((docRef) => {
-          console.log("Document updating with ID: ", docRef)
-        }).catch((error) => {
-          console.error("Error adding document: ", error)
-        })
-        */
-        //Que parametro lleva dentro del doc?
-
-        db.collection('inspections').doc(payload.id).update({inspection: payload}).then((docRef) => {
-          console.log("Document updating with ID: ", docRef)
-        }).catch((error) => {
-          console.error("Error adding document: ", error)
-        })
-        console.log("payload ", payload)
-        // const response = await db.collection('inspections').doc().update({
-        //   ...payload
-        // })
-        // commit('UPDATING_INSPECTION', payload)
-      // } catch (err) {
-      //   console.log(err)
-      // }
-    },
     async getPalletsPBFNO({ commit }) {
-      const palletsPBFNO = await db.collection('desmet-pallets-pbfno').get()
-      palletsPBFNO.docs.forEach(doc => {
-        console.log('Docs:', doc.data())
-        commit('SAVE_PALLET', doc.data())
-      })
+      const palletsPBFNO = await db.collection('desmet-pallets-pbfno').get();
+      palletsPBFNO.docs.forEach((doc) => {
+        console.log('Docs:', doc.data());
+        commit('SAVE_PALLET', doc.data());
+      });
     },
-    isUserActive({ commit }, user ) {
-      console.log('user from actions/isUserActive: ', user)
-      commit('SET_USER', user)
+    isUserActive({ commit }, user) {
+      console.log('user from actions/isUserActive: ', user);
+      commit('SET_USER', user);
     },
     signOut() {
       auth.signOut().then(() => {
-        router.push('/')
-      })
+        router.push('/');
+      });
     },
     loginUser({ commit }, payload) {
-      auth.signInWithEmailAndPassword(payload.email, payload.password)
-        .then(res => {
+      auth
+        .signInWithEmailAndPassword(payload.email, payload.password)
+        .then((res) => {
           const userLogged = {
             uid: res.user.uid,
             email: res.user.email,
             name: res.user.name || 'Joe Doe',
             role: res.user.role || 'USER',
-          }
-          commit('SET_USER', userLogged)
-          router.push('/about')
+          };
+          commit('SET_USER', userLogged);
+          router.push('/about');
         })
-        .catch(error => {
-          commit('SET_ERROR', error)
-        })
+        .catch((error) => {
+          commit('SET_ERROR', error);
+        });
     },
     createUser({ commit }, user) {
-      auth.createUserWithEmailAndPassword(user.email, user.password)
-        .then(res => {
-          console.log('res: ', res)
+      auth
+        .createUserWithEmailAndPassword(user.email, user.password)
+        .then((res) => {
+          console.log('res: ', res);
           const newUser = {
             uid: res.user.uid,
             email: res.user.email,
             name: res.user.name || 'Joe Doe',
             role: res.user.role || 'USER',
-          }
-          commit('SET_USER', newUser)
-          router.push('/about')
-        }).catch(error => {
-          console.log('error: ', error)
-          commit('SET_ERROR', error)
+          };
+          commit('SET_USER', newUser);
+          router.push('/about');
         })
-
+        .catch((error) => {
+          console.log('error: ', error);
+          commit('SET_ERROR', error);
+        });
     },
     savePallet({ commit }, payload) {
-      console.log('payload: ', payload)
-      commit('SAVE_PALLET', payload)
+      console.log('payload: ', payload);
+      commit('SAVE_PALLET', payload);
       db.collection('desmet-pallets-pbfno')
         .add({
           // payload
           palletNumber: payload.palletNumber,
           item: payload.items,
           image: payload.image,
-        }).then((docRef) => {
-          console.log("Document written with ID: ", docRef.id)
-        }).catch((error) => {
-          console.error("Error adding document: ", error)
         })
+        .then((docRef) => {
+          console.log('Document written with ID: ', docRef.id);
+        })
+        .catch((error) => {
+          console.error('Error adding document: ', error);
+        });
     },
     addProjectItem({ commit }, payload) {
-      commit('ADD_PROJECT_ITEM', payload)
+      commit('ADD_PROJECT_ITEM', payload);
     },
-    addActuator({ commit }, payload) {
-      commit('ADD_ACTUATOR', payload)
-    },
-    addInspection({commit}, payload) {
-      commit('ADD_INSPECTION', payload)
-      db.collection('inspections').add({inspection: payload}).then((docRef) => {
-        console.log("Document written with ID: ", docRef.id)
-      }).catch((error) => {
-        console.error("Error adding document: ", error)
-      })
-    },
-    async getInspections({ commit }) {
-      try {
-        const allInspections = await db.collection('inspections').get()
-        const data = allInspections.docs.map(doc => doc.data())
-        commit('GET_INSPECTIONS', data)
-      } catch (err) {
-        console.log('Error: ', err)
-      }
-    },
-    addDesmetOrder({commit}, payload) {
-      commit('ADD_DESMET_ORDER', payload)
-      db.collection('desmetOrder').add({desmetOrder: payload}).then((docRef) => {
-        console.log("Document written with ID: ", docRef.id)
-      }).catch((error) => {
-        console.error("Error adding document: ", error)
-      })
+    addDesmetOrder({ commit }, payload) {
+      commit('ADD_DESMET_ORDER', payload);
+      db.collection('desmetOrder')
+        .add({ desmetOrder: payload })
+        .then((docRef) => {
+          console.log('Document written with ID: ', docRef.id);
+        })
+        .catch((error) => {
+          console.error('Error adding document: ', error);
+        });
     },
     async getLocalWeather({ commit }) {
-      try{
-        navigator.geolocation.getCurrentPosition(position => {
-        const lat = position.coords.latitude
-        const lon = position.coords.longitude
-        // need to find the client location
-        // const url = `https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
-        // const res = await axios.get(url)
-        // const weather = await res.data
-        // console.log(weather)
-        // commit('SET_LOCAL_WEATHER', await weather)
-        axios.get(url)
-          .then(res => {
-            const weather = res.data
-            // console.log(weather)
-            commit('SET_LOCAL_WEATHER', weather)
-          })
-          .catch(err => {
-            console.error(err)
-          })
-
-      })
-    } catch(e){
-      console.error(e)
-    }
+      try {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const weather = await getLocalWeather({ lat, lng });
+          commit('SET_LOCAL_WEATHER', weather);
+        });
+      } catch (e) {
+        console.error(e);
+      }
     },
   },
   getters: {
     isUserExist(state) {
       if (state.user === null) {
-        return false
+        return false;
       } else {
-        return true
+        return true;
       }
-    }
-
+    },
   },
   plugins: [createPersistedState()],
   modules: {
-    inspection
-  }
-})
+    inspection,
+  },
+});

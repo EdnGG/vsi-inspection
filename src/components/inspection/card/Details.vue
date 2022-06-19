@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 export default {
   props: ["id", "technicalName", "date", "inspection"],
   data() {
@@ -50,11 +50,8 @@ export default {
       title: "Inspectioon",
     };
   },
-  computed: {
-    ...mapState(["inspections"]),
-  },
   methods: {
-    ...mapActions(["getInspection"]),
+    ...mapActions('inspection',["getInspection"]),
   },
 };
 </script>

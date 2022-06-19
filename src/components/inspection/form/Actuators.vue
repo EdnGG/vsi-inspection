@@ -287,8 +287,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["addInspection", "addActuator"]),
-
+    ...mapActions('inspection', ["addInspection"]),
     addActuator({ step }) {
       this.totalInspection.data.push(this.tmpData);
       this.tmpData = {
@@ -309,7 +308,7 @@ export default {
     },
     submit() {
       try {
-        this.$store.dispatch("addInspection", this.totalInspection);
+        this.addInspection(this.totalInspection);
         pdfGenerator(this.totalInspection);
         this.modalSubmit = false;
       } catch (err) {
