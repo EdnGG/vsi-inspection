@@ -25,7 +25,7 @@ const pdfGenerator = (data, title = 'VSI Incomming report') => {
       item.operationalTest,
       item.wireCompartiment,
       item.handwheelBoltPatern,
-      item.observations,
+      item.observaciones,
     ];
   });
 
@@ -58,7 +58,7 @@ const pdfGenerator = (data, title = 'VSI Incomming report') => {
       ...body,
       [
         {
-          content: 'Observaciones:',
+          content: 'Final notes:',
           colSpan: 2,
           styles: {
             fillColor: 'green',
