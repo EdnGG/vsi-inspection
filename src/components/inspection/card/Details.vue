@@ -47,11 +47,11 @@ export default {
   data() {
     return {
       defaultImage: "https://lenguajejs.com/javascript/logo.svg",
-      title: "Inspectioon",
+      title: "Inspection",
     };
   },
   methods: {
-    ...mapActions('inspection',["getInspection"]),
+    ...mapActions("inspection", ["getInspection"]),
   },
 };
 </script>

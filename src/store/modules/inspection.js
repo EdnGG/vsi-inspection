@@ -4,7 +4,7 @@ import {
   updateDocument,
 } from '../../services';
 
-export default {
+export default { 
   namespaced: true,
   state: {
     InspectionsFromFirestore: [],

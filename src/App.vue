@@ -130,7 +130,7 @@ export default {
     ],
   }),
   computed: {
-    ...mapState(["user"]),
+    ...mapState("authentication", ["user"]),
   },
 };
 </script>

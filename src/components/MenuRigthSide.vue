@@ -74,10 +74,10 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["isUserExist"]),
+    ...mapGetters("authentication", ["isUserExist"]),
   },
   methods: {
-    ...mapActions(["signOut"]),
+    ...mapActions("authentication", ["signOut"]),
   },
 };
 </script>

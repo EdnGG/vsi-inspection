@@ -229,7 +229,7 @@
 import CoreCustomSelect from "@/components/core/CustomSelect.vue";
 import { mapState } from "vuex";
 import { mapActions } from "vuex";
-import pdfGenerator from "@/helpers/pdfGenerator.js";
+// import pdfGenerator from "@/helpers/pdfGenerator.js";
 
 export default {
   components: {
@@ -287,7 +287,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('inspection', ["addInspection"]),
+    ...mapActions("inspection", ["addInspection"]),
     addActuator({ step }) {
       this.totalInspection.data.push(this.tmpData);
       this.tmpData = {
@@ -303,13 +303,13 @@ export default {
       };
       this.e1 = step;
     },
-    pdfGenerator() {
-      pdfGenerator();
-    },
+    // pdfGenerator() {
+    //   pdfGenerator();
+    // },
     submit() {
       try {
         this.addInspection(this.totalInspection);
-        pdfGenerator(this.totalInspection);
+        // pdfGenerator(this.totalInspection);
         this.modalSubmit = false;
       } catch (err) {
         console.log(`Error: ${err}`);

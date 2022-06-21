@@ -68,16 +68,16 @@ export default {
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
       userLogin: {
-        email: "",
-        password: "",
+        email: "gresseden@gmail.com",
+        password: "123123123",
       },
     };
   },
   computed: {
-    ...mapState(["user", "error"]),
+    ...mapState("authentication", ["user"]),
   },
   methods: {
-    ...mapActions(["loginUser"]),
+    ...mapActions("authentication", ["loginUser"]),
     validate() {
       return this.$refs.form.validate();
     },

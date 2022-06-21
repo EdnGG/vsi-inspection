@@ -90,7 +90,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user", "error"]),
+    ...mapState("authentication", ["user"]),
     disabledButton() {
       return (
         this.userRegister.password === this.userRegister.repeatPassword &&
@@ -100,7 +100,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["createUser"]),
+    ...mapActions("authentication", ["createUser"]),
     validate() {
       return this.$refs.form.validate();
     },
