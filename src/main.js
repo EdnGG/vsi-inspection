@@ -16,10 +16,10 @@ auth.onAuthStateChanged((user) => {
       uid: user.uid,
       email: user.email,
     };
-    store.dispatch("isUserActive", userDetected);
+    store.dispatch("authentication/isUserActive", userDetected);
   } else {
     console.log("user false: ", user);
-    store.dispatch("isUserActive", user);
+    store.dispatch("authentication/isUserActive", user);
   }
 
 });

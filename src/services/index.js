@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { db, storage, auth } from '../firebase';
+import axios from "axios";
+import { db, storage, auth } from "../firebase";
 
 const WEATHER_API_KEY = process.env.VUE_APP_WEATHER_API_KEY;
 
@@ -17,6 +17,12 @@ export const getLocalWeather = async ({ lat, lng }) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getPaginationLength = async (collection) => {
+  const querySnapshot = await db.collection(collection).get();
+  console.log("size: ", querySnapshot.size);
+  return querySnapshot.size;
 };
 
 export const getAllDocuments = async (collection) => {
@@ -40,28 +46,26 @@ export const updateDocument = async (collection, id, data) => {
 
 export const signOut = async () => {
   await auth.signOut();
-}
+};
 
-export const login = async (user) => { 
+export const login = async (user) => {
   const res = await auth.signInWithEmailAndPassword(user.email, user.password);
   const userLogged = {
     uid: res.user.uid,
     email: res.user.email,
   };
   return userLogged;
-}
+};
 
-export const newUser = async (user) => { 
-
-  const res = await auth.createUserWithEmailAndPassword(user.email, user.password);
+export const newUser = async (user) => {
+  const res = await auth.createUserWithEmailAndPassword(
+    user.email,
+    user.password
+  );
   const userCreated = {
     uid: res.user.uid,
     email: res.user.email,
-    role: 'USER',
+    role: "USER",
   };
   return userCreated;
-  
-  
-}
-
-
+};

@@ -2,6 +2,7 @@ import {
   getAllDocuments,
   createDocument,
   updateDocument,
+  getPaginationLength
 } from '../../services';
 
 export default { 
@@ -15,6 +16,21 @@ export default {
     },
   },
   actions: {
+    async getPagination({ commit }, payload) { 
+      // Need to check this action
+      const { collection, page } = payload;
+      const querySnapshot = await getAllDocuments(collection);
+      const data = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), uid: doc.id };
+      });
+      const pagination = {
+        data,
+        page,
+        totalPages: Math.ceil(data.length / 10),
+      };
+      return pagination;
+
+    },
     async updatingInspection({ commit }, payload) {
       console.log('payload: ', payload);
       try {
