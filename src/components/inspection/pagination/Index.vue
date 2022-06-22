@@ -5,9 +5,9 @@
         <v-col cols="8">
           <v-container class="max-width">
             <v-pagination
-              v-model="page"
+              v-model="itemsPerPage"
               class="my-4"
-              :length="15"
+              :length="calculatePages"
               circle
             ></v-pagination>
           </v-container>
@@ -20,16 +20,16 @@
 <script>
 export default {
   name: "Index",
-  props: {
-    // page: {
-    //   type: Number,
-    //   default: 1,
-    // },
-  },
+  props: ["totalInspections", "itemsPerPage"],
   data() {
     return {
-      page: 1,
+      // page: itemsPerPage,
     };
+  },
+  computed: {
+    calculatePages() {
+      return Math.ceil(this.totalInspections / this.itemsPerPage);
+    },
   },
 };
 </script>

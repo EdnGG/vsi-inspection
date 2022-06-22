@@ -152,7 +152,12 @@
       </v-card>
     </v-dialog>
     <div>
-      <inspectionPaginationIndex />
+    <h5>{{paginationLength}}</h5>
+    <h5>{{totalInspections}}</h5>
+      <inspectionPaginationIndex 
+        :totalInspections="totalInspections"
+        :itemsPerPage="itemsPerPage"
+      />
     </div>
   </v-container>
 </template>
@@ -172,7 +177,9 @@ export default {
   },
   data() {
     return {
-      // currentPage: 1,
+      pages: null,
+      itemsPerPage: 6,
+      totalInspections: null,
       message: "No Inspections to show",
       currentData: null,
       currentDataUID: null,
@@ -183,12 +190,15 @@ export default {
   },
   created() {
     this.getInspections();
+    this.totalInspections = this.paginationLength;
+    // this.getPagination();
   },
   computed: {
     ...mapState({
       InspectionsFromFirestore: (state) =>
         state.inspection.InspectionsFromFirestore,
     }),
+    ...mapState("inspection", ["paginationLength"]),
 
     isInspectionCreated() {
       return this.InspectionsFromFirestore.length;
@@ -201,7 +211,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions("inspection", ["updatingInspection", "getInspections"]),
+    ...mapActions("inspection", [
+      "updatingInspection",
+      "getInspections",
+      "getPagination",
+    ]),
 
     showDataReports(item) {
       console.log("item ", item);

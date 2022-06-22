@@ -68,8 +68,10 @@ export default {
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
       userLogin: {
-        email: "gresseden@gmail.com",
-        password: "123123123",
+        email: "",
+        password: "",
+        // email: "gresseden@gmail.com",
+        // password: "123123123",
       },
     };
   },

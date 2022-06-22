@@ -28,7 +28,7 @@ export const getPaginationLength = async (collection) => {
 export const getAllDocuments = async (collection) => {
   const documents = await db.collection(collection).get();
   const data = documents.docs.map((doc) => {
-    return { ...doc.data(), uid: doc.id };
+    return { ...doc.data(), uid: doc.id, };
   });
   return data;
 };
