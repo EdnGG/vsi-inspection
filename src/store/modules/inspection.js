@@ -2,41 +2,35 @@ import {
   getAllDocuments,
   createDocument,
   updateDocument,
-  getPaginationLength
+  getPaginationLength,
 } from '../../services';
 
-export default { 
+export default {
   namespaced: true,
   state: {
     InspectionsFromFirestore: [],
     paginationLength: 0,
+    lastDocument: null,
+    pagination: {
+      totalPages: 0,
+      currentPage: 0,
+      disabled: false,
+    },
   },
   mutations: {
-    SET_PAGINATION(state, payload) { 
-      state.paginationLength = payload;
+    SET_LAST_DOCUMENT(state, payload) {
+      state.lastDocument = payload;
+    },
+    SET_PAGINATION(state, payload) {
+      state.pagination = payload;
     },
     GET_INSPECTIONS(state, payload) {
+      // state.InspectionsFromFirestore =
+      //   state.InspectionsFromFirestore.concat(payload);
       state.InspectionsFromFirestore = payload;
     },
   },
   actions: {
-    // async getPagination({ commit }, payload) { 
-    //   // Need to check this action
-    //   const { collection, page } = payload;
-    //   const querySnapshot = await getAllDocuments(collection);
-    //   const data = querySnapshot.docs.map((doc) => {
-    //     return { ...doc.data(), uid: doc.id };
-    //   });
-    //   const pagination = {
-    //     data,
-    //     page,
-    //     totalPages: Math.ceil(data.length / 10),
-    //   };
-    //   console.log('pagination: ', pagination);
-    //   commit('SET_PAGINATION', pagination);
-    //   return pagination;
-
-    // },
     async updatingInspection({ commit }, payload) {
       console.log('payload: ', payload);
       try {
@@ -58,14 +52,25 @@ export default {
         console.error('Error adding document: ', error);
       }
     },
-    async getInspections({ commit }) {
+    async getInspections({ commit, state }, payload) {
       try {
-        const data = await getAllDocuments('inspections');
-        const pages = await getPaginationLength('inspections')
+        const { data, lastVisible, total } = await getAllDocuments(
+          'inspections',
+          payload ,
+        );
+
         console.log('data: ', data);
-        console.log('objects: ', pages);
-        commit('SET_PAGINATION', pages)
+        commit('SET_LAST_DOCUMENT', lastVisible);
         commit('GET_INSPECTIONS', data);
+
+        const totalPages = Math.ceil(total / payload.limit);
+        const currentPage = payload.page;
+
+        commit('SET_PAGINATION', {
+          totalPages,
+          currentPage,
+          disabled: totalPages === currentPage,
+        });
       } catch (err) {
         console.log('Error: ', err);
       }

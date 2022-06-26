@@ -152,22 +152,22 @@
       </v-card>
     </v-dialog>
     <div>
-    <h5>{{paginationLength}}</h5>
-    <h5>{{totalInspections}}</h5>
-      <inspectionPaginationIndex 
-        :totalInspections="totalInspections"
-        :itemsPerPage="itemsPerPage"
-      />
+      <v-pagination
+        v-model="page"
+        :length="pagination.totalPages"
+        @input="getAllInspections"
+        circle
+      ></v-pagination>
     </div>
   </v-container>
 </template>
 
 <script>
-import NoContent from "@/components/Tools/NoContent.vue";
-import InspectionCardDetails from "@/components/inspection/card/Details.vue";
-import inspectionPaginationIndex from "@/components/inspection/pagination/Index.vue";
-import { mapState, mapActions } from "vuex";
-import pdfGenerator from "@/helpers/pdfGenerator.js";
+import NoContent from '@/components/Tools/NoContent.vue';
+import InspectionCardDetails from '@/components/inspection/card/Details.vue';
+import inspectionPaginationIndex from '@/components/inspection/pagination/Index.vue';
+import { mapState, mapActions } from 'vuex';
+import pdfGenerator from '@/helpers/pdfGenerator.js';
 
 export default {
   components: {
@@ -178,27 +178,27 @@ export default {
   data() {
     return {
       pages: null,
+      page: 1,
       itemsPerPage: 6,
       totalInspections: null,
-      message: "No Inspections to show",
+      message: 'No Inspections to show',
       currentData: null,
       currentDataUID: null,
       currentDataIndex: 0,
       modalShowData: false,
-      items: ["Good", "Bad", "Not sure"],
+      items: ['Good', 'Bad', 'Not sure'],
     };
   },
   created() {
-    this.getInspections();
+    this.getAllInspections();
     this.totalInspections = this.paginationLength;
-    // this.getPagination();
   },
   computed: {
     ...mapState({
       InspectionsFromFirestore: (state) =>
         state.inspection.InspectionsFromFirestore,
+      pagination: (state) => state.inspection.pagination,
     }),
-    ...mapState("inspection", ["paginationLength"]),
 
     isInspectionCreated() {
       return this.InspectionsFromFirestore.length;
@@ -211,14 +211,21 @@ export default {
     },
   },
   methods: {
-    ...mapActions("inspection", [
-      "updatingInspection",
-      "getInspections",
-      "getPagination",
+    ...mapActions('inspection', [
+      'updatingInspection',
+      'getInspections',
+      'getPagination',
     ]),
 
+    getAllInspections() {
+      this.getInspections({
+        limit: 1,
+        page: this.page,
+      });
+    },
+
     showDataReports(item) {
-      console.log("item ", item);
+      console.log('item ', item);
       this.currentData = item.inspection;
       this.currentDataUID = item.uid;
       this.modalShowData = true;
@@ -231,7 +238,10 @@ export default {
         uid: this.currentDataUID,
         data: this.currentData,
       });
-      await this.getInspections();
+      await this.getInspections({
+        limit: 1,
+        page: 1,
+      });
       this.modalShowData = false;
     },
   },
