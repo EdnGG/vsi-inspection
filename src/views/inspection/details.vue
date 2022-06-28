@@ -57,7 +57,7 @@
       </v-row>
     </v-container>
     <v-container>
-      <v-row>
+      <v-row class="text-center">
         <v-col>
           <v-btn
             color="blue"
@@ -168,11 +168,11 @@
 </template>
 
 <script>
-import NoContent from '@/components/Tools/NoContent.vue';
-import InspectionCardDetails from '@/components/inspection/card/Details.vue';
-import inspectionPaginationIndex from '@/components/inspection/pagination/Index.vue';
-import { mapState, mapActions } from 'vuex';
-import pdfGenerator from '@/helpers/pdfGenerator.js';
+import NoContent from "@/components/Tools/NoContent.vue";
+import InspectionCardDetails from "@/components/inspection/card/Details.vue";
+import inspectionPaginationIndex from "@/components/inspection/pagination/Index.vue";
+import { mapState, mapActions } from "vuex";
+import pdfGenerator from "@/helpers/pdfGenerator.js";
 
 export default {
   components: {
@@ -184,12 +184,12 @@ export default {
     return {
       // itemsPerPage: 6,
       totalInspections: null,
-      message: 'No Inspections to show',
+      message: "No Inspections to show",
       currentData: null,
       currentDataUID: null,
       currentDataIndex: 0,
       modalShowData: false,
-      items: ['Good', 'Bad', 'Not sure'],
+      items: ["Good", "Bad", "Not sure"],
     };
   },
   created() {
@@ -213,14 +213,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions('inspection', [
-      'updatingInspection',
-      'getInspections',
-      'getPagination',
+    ...mapActions("inspection", [
+      "updatingInspection",
+      "getInspections",
+      "getPagination",
     ]),
 
     showDataReports(item) {
-      console.log('item ', item);
+      console.log("item ", item);
       this.currentData = item.inspection;
       this.currentDataUID = item.uid;
       this.modalShowData = true;
