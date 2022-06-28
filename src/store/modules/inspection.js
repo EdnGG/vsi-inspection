@@ -25,9 +25,8 @@ export default {
       state.pagination = payload;
     },
     GET_INSPECTIONS(state, payload) {
-      // state.InspectionsFromFirestore =
-      //   state.InspectionsFromFirestore.concat(payload);
-      state.InspectionsFromFirestore = payload;
+      state.InspectionsFromFirestore =
+        state.InspectionsFromFirestore.concat(payload);
     },
   },
   actions: {
@@ -52,19 +51,24 @@ export default {
         console.error('Error adding document: ', error);
       }
     },
-    async getInspections({ commit, state }, payload) {
+
+    async getInspections({ commit, state }, { limit }) {
       try {
+        if (state.pagination.disabled) return;
+
         const { data, lastVisible, total } = await getAllDocuments(
           'inspections',
-          payload ,
+          {
+            limit,
+            lastDocument: state.lastDocument,
+          },
         );
 
-        console.log('data: ', data);
         commit('SET_LAST_DOCUMENT', lastVisible);
         commit('GET_INSPECTIONS', data);
 
-        const totalPages = Math.ceil(total / payload.limit);
-        const currentPage = payload.page;
+        const totalPages = Math.ceil(total / limit);
+        const currentPage = state.pagination.currentPage + 1;
 
         commit('SET_PAGINATION', {
           totalPages,

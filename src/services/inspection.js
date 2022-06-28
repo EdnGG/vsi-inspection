@@ -6,24 +6,20 @@ export const getPaginationLength = async (collection) => {
   return querySnapshot.size;
 };
 
-export const getAllDocuments = async (collection, { limit, page }) => {
-  console.log('limit: ', limit);
-  console.log('page: ', page);
+export const getAllDocuments = async (collection, { limit, lastDocument }) => {
   const total = await db
     .collection(collection)
     .get()
     .then((snapshot) => snapshot.size);
 
-  const lastDocument = limit * page - 1;
-  console.log('lastDocument: ', lastDocument);
-
   const documents = db
     .collection(collection)
     .orderBy('inspection')
-    // .startAt(lastDocument)
+    .startAfter(lastDocument)
     .limit(limit);
 
   const documentSnapshots = await documents.get();
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
   const data = documentSnapshots.docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
@@ -32,6 +28,7 @@ export const getAllDocuments = async (collection, { limit, page }) => {
   return {
     data,
     total,
+    lastVisible,
   };
 };
 

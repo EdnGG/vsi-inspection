@@ -56,6 +56,19 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-container>
+      <v-row>
+        <v-col>
+          <v-btn
+            color="blue"
+            @click="getInspections({ limit: 1 })"
+            :disabled="pagination.disabled"
+          >
+            Load More
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
 
     <!-- MODAL -->
     <v-dialog v-model="modalShowData" persistent max-width="600px">
@@ -151,14 +164,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <div>
-      <v-pagination
-        v-model="page"
-        :length="pagination.totalPages"
-        @input="getAllInspections"
-        circle
-      ></v-pagination>
-    </div>
   </v-container>
 </template>
 
@@ -177,9 +182,7 @@ export default {
   },
   data() {
     return {
-      pages: null,
-      page: 1,
-      itemsPerPage: 6,
+      // itemsPerPage: 6,
       totalInspections: null,
       message: 'No Inspections to show',
       currentData: null,
@@ -190,8 +193,7 @@ export default {
     };
   },
   created() {
-    this.getAllInspections();
-    this.totalInspections = this.paginationLength;
+    this.getInspections({ limit: 1 });
   },
   computed: {
     ...mapState({
@@ -217,13 +219,6 @@ export default {
       'getPagination',
     ]),
 
-    getAllInspections() {
-      this.getInspections({
-        limit: 1,
-        page: this.page,
-      });
-    },
-
     showDataReports(item) {
       console.log('item ', item);
       this.currentData = item.inspection;
@@ -237,10 +232,6 @@ export default {
       await this.updatingInspection({
         uid: this.currentDataUID,
         data: this.currentData,
-      });
-      await this.getInspections({
-        limit: 1,
-        page: 1,
       });
       this.modalShowData = false;
     },
