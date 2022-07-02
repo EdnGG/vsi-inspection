@@ -25,3 +25,13 @@ export const newUser = async (user) => {
   };
   return userCreated;
 };
+
+export const resetPass = async (email) => { 
+  try {
+    await auth.sendPasswordResetEmail(email);
+  } catch (error) {
+    console.log(error);
+  }
+
+}
+  

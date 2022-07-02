@@ -1,6 +1,6 @@
 import router from "../../router";
 
-import { newUser, login, signOut } from "../../services";
+import { newUser, login, signOut, resetPass } from "../../services";
 
 export default {
   namespaced: true,
@@ -44,6 +44,15 @@ export default {
         console.error("error: ", err);
       }
     },
+    async resetPassword({ commit }, payload) {
+      console.log('payload: ', payload)
+      try {
+        await resetPass(payload);
+        router.push("/");
+      } catch (err) {
+        console.error("error: ", err);
+      }
+    }
   },
   getters: {
     isUserExist(state) {

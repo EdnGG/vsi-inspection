@@ -1,6 +1,11 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" :mobile-breakpoint="768" app>
+    <v-navigation-drawer 
+      v-if="user"
+      v-model="drawer" 
+      :mobile-breakpoint="768" 
+      app
+    >
       <v-img
         class="pa-4 pt-7"
         height="190"

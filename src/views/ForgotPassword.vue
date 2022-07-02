@@ -23,7 +23,7 @@
               :disabled="!valid"
               color="success"
               class="mr-4"
-              @click="forgotPassword"
+              @click="resetPass"
             >
               Send Email
             </v-btn>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -59,37 +60,18 @@ export default {
     };
   },
   methods: {
+    ...mapActions("authentication", ["resetPassword"]),
     validate() {
       this.$refs.form.validate();
     },
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-    forgotPassword() {
-      if (this.validate) {
-        console.log("peticion PUT/forgot-password");
-        console.log("email: " + this.user.email);
-        this.axios
-          .put("/forgot-password", { email: this.user.email })
-          .then((res) => {
-            this.$store.commit(
-              "showSnackbar",
-              `Please check your email: ${this.user.email} and follow the instructions`
-            );
-            // this.$router.push({ name: "Login" });
-            console.log("res.data: ", res.data);
-          })
-          .catch((e) => {
-            console.log("error", e);
-            // this.message.text = e.response.data.message
-            // this.message.color = 'danger'
-            // this.showAlert()
-          });
-      }
+    resetPass() {
+      this.resetPassword(this.user.email);
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>
