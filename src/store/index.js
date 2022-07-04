@@ -13,7 +13,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     weather: {},
-    // user: null,
     error: null,
     allInpections: [],
     actuators: [],
@@ -21,8 +20,23 @@ export default new Vuex.Store({
     project: [],
     palletsPBFNO: [],
     palletsPBF: [],
+    // snackbar: {
+    //   show: false,
+    //   text: '',
+    // },
   },
   mutations: {
+    // SHOW_SNACKBAR (state, payload) {
+    //   let timeout = 0
+    //   if (state.snackbar.show) {
+    //     state.snackbar.show = false
+    //     timeout = 300
+    //   }
+    //   setTimeout(() => {
+    //     state.snackbar.show = true,
+    //       state.snackbar.text = payload
+    //   }, timeout)
+    // },
     UPDATING_INSPECTION(state, payload) {
       state.InspectionsFromFirestore = payload;
     },

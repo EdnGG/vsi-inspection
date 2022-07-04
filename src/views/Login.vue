@@ -86,9 +86,9 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-    login() {
-      console.log("login");
-    },
+    // login() {
+    //   console.log("login");
+    // },
   },
 };
 </script>

@@ -6,8 +6,23 @@ export default {
   namespaced: true,
   state: {
     user: null,
+    snackbar: {
+      show: false,
+      text: '',
+    },
   },
   mutations: {
+    SHOW_SNACKBAR (state, payload) {
+      let timeout = 0
+      if (state.snackbar.show) {
+        state.snackbar.show = false
+        timeout = 300
+      }
+      setTimeout(() => {
+        state.snackbar.show = true,
+          state.snackbar.text = payload
+      }, timeout)
+    },
     SET_USER(state, payload) {
       state.user = payload;
       console.log("state.user: ", payload);
@@ -30,13 +45,14 @@ export default {
       try {
         const res = await login(payload);
         commit("SET_USER", res);
+        commit("SHOW_SNACKBAR", "Login successful");
         router.push("/inspection/details");
       } catch (err) {
         console.error("error: ", err);
       }
     },
     async createUser({ commit }, payload) {
-      try {
+      try { 
         const res = await newUser(payload);
         commit("SET_USER", res);
         router.push("/inspection/details");

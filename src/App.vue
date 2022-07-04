@@ -90,6 +90,7 @@
     <v-main>
       <!--  -->
       <router-view></router-view>
+      <snackbar />
     </v-main>
   </v-app>
 </template>
@@ -98,6 +99,7 @@
 import { mapState } from "vuex";
 export default {
   components: {
+    snackbar: require("@/components/core/Snackbar.vue").default,
     "live-date-time": require("@/components/Tools/LiveDateTime.vue").default,
     "menu-rigth-side": require("@/components/MenuRigthSide.vue").default,
     "local-weather": require("@/components/Tools/LocalWeather.vue").default,
