@@ -55,7 +55,7 @@
 
       <v-container class="header-container pa-0">
         <v-row>
-          <v-app-bar-nav-icon 
+          <v-app-bar-nav-icon
             v-if="user"
             @click="drawer = !drawer"></v-app-bar-nav-icon>
           <v-spacer></v-spacer>
@@ -85,17 +85,21 @@
     <v-main>
       <!--  -->
       <router-view></router-view>
+      <CustomSnackbar />
     </v-main>
   </v-app>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import CustomSnackbar from "./components/core/CustomSnackbar.vue";
+
 export default {
   components: {
     "live-date-time": require("@/components/Tools/LiveDateTime.vue").default,
     "menu-rigth-side": require("@/components/MenuRigthSide.vue").default,
     "local-weather": require("@/components/Tools/LocalWeather.vue").default,
+    CustomSnackbar,
   },
   data: () => ({
     drawer: null,

@@ -1,6 +1,7 @@
-import router from "../../router";
+import router from '../../router';
+import { showSnackbar } from '../../helpers/snackbar';
 
-import { newUser, login, signOut } from "../../services";
+import { newUser, login, signOut } from '../../services';
 
 export default {
   namespaced: true,
@@ -10,38 +11,41 @@ export default {
   mutations: {
     SET_USER(state, payload) {
       state.user = payload;
-      console.log("state.user: ", payload);
+      console.log('state.user: ', payload);
     },
   },
   actions: {
     isUserActive({ commit }, user) {
-      console.log("user from actions/isUserActive: ", user);
-      commit("SET_USER", user);
+      console.log('user from actions/isUserActive: ', user);
+      commit('SET_USER', user);
     },
     async signOut() {
       try {
         await signOut();
-        router.push("/");
+        router.push('/');
       } catch (err) {
-        console.error("error: ", err);
+        console.error('error: ', err);
       }
     },
     async loginUser({ commit }, payload) {
       try {
         const res = await login(payload);
-        commit("SET_USER", res);
-        router.push("/inspection/details");
+        commit('SET_USER', res);
+        showSnackbar.success(commit, 'Login successful');
+        showSnackbar.error(commit, 'Login successful');
+
+        router.push('/inspection/details');
       } catch (err) {
-        console.error("error: ", err);
+        console.error('error: ', err);
       }
     },
     async createUser({ commit }, payload) {
       try {
         const res = await newUser(payload);
-        commit("SET_USER", res);
-        router.push("/inspection/details");
+        commit('SET_USER', res);
+        router.push('/inspection/details');
       } catch (err) {
-        console.error("error: ", err);
+        console.error('error: ', err);
       }
     },
   },
