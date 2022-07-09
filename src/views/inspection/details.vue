@@ -14,9 +14,14 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container class="d-flex d-wrap">
+    <v-container class="d-flex d-wrap" >
       <v-row>
-        <v-col v-for="(item, i) in InspectionsFromFirestore" cols="4" :key="i">
+
+        <v-col 
+          v-for="(item, i) in InspectionsFromFirestore" 
+          cols="12" sm="12" md="6" lg="4" xl="3"
+          :key="i"
+        >
           <v-card>
             <v-img
               src="../../../public/img/actuator.jpeg"
@@ -182,7 +187,7 @@ export default {
   },
   data() {
     return {
-      limit: 3,
+      limit: 4,
       totalInspections: null,
       message: "No Inspections to show",
       currentData: null,

@@ -8,6 +8,13 @@ import VueAxios from "vue-axios";
 
 import { auth } from "./firebase.js";
 
+// export default new Vuetify({
+//   breakpoint: {
+//     mobileBreakpoint: 'sm' // This is equivalent to a value of 960
+//   },
+// })
+
+
 //  No supe como acceder al modulo authentication de vuex
 auth.onAuthStateChanged((user) => {
   if (user) {
