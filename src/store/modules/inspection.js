@@ -1,9 +1,13 @@
+import router from "../../router";
 import {
   getAllDocuments,
   createDocument,
   updateDocument,
   getPaginationLength,
 } from '../../services';
+
+import { showSnackbar } from '../../helpers/snackbar';
+
 
 export default {
   namespaced: true,
@@ -16,8 +20,23 @@ export default {
       currentPage: 0,
       disabled: false,
     },
+    snackbar: {
+      show: false,
+      text: '',
+    },
   },
   mutations: {
+    SHOW_SNACKBAR (state, payload) {
+      let timeout = 0
+      if (state.snackbar.show) {
+        state.snackbar.show = false
+        timeout = 300
+      }
+      setTimeout(() => {
+        state.snackbar.show = true,
+          state.snackbar.text = payload
+      }, timeout)
+    },
     SET_LAST_DOCUMENT(state, payload) {
       state.lastDocument = payload;
     },
@@ -31,12 +50,14 @@ export default {
   },
   actions: {
     async updatingInspection({ commit }, payload) {
-      console.log('payload: ', payload);
+      // console.log('payload: ', payload);
       try {
         await updateDocument('inspections', payload.uid, {
           inspection: payload.data,
         });
+        showSnackbar.success(commit, 'inspection updated');
       } catch (error) {
+        showSnackbar.error(commit, err.message);
         console.error('error: ', error);
       }
     },
@@ -45,9 +66,12 @@ export default {
         const doc = await createDocument('inspections', {
           inspection: payload,
         });
-        console.log('Document written with ID: ', doc);
+        router.push("/inspection/details");
+        showSnackbar.success(commit, 'inspection added');
+        // console.log('Document written with ID: ', doc);
         // commit('ADD_INSPECTION', payload);
       } catch (error) {
+        showSnackbar.error(commit, err.message);
         console.error('Error adding document: ', error);
       }
     },

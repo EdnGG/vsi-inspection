@@ -64,7 +64,6 @@
             v-if="user"
             @click="drawer = !drawer"></v-app-bar-nav-icon>
           <v-spacer></v-spacer>
-          <!-- <search v-if="$route.path === '/todo'" /> -->
           <menu-rigth-side />
         </v-row>
 
@@ -81,12 +80,6 @@
       </v-container>
     </v-app-bar>
 
-    <!-- <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Application</v-toolbar-title>
-    </v-app-bar> -->
-
     <v-main>
       <!--  -->
       <router-view></router-view>
@@ -101,7 +94,6 @@ import CustomSnackbar from "./components/core/CustomSnackbar.vue";
 export default {
   components: {
     CustomSnackbar,
-    // snackbar: require("@/components/core/Snackbar.vue").default,
     "live-date-time": require("@/components/Tools/LiveDateTime.vue").default,
     "menu-rigth-side": require("@/components/MenuRigthSide.vue").default,
     "local-weather": require("@/components/Tools/LocalWeather.vue").default,

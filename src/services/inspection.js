@@ -1,4 +1,4 @@
-import { db, storage, auth } from '../firebase';
+import { db } from '../firebase';
 
 export const getPaginationLength = async (collection) => {
   const querySnapshot = await db.collection(collection).get();
@@ -12,7 +12,7 @@ export const getAllDocuments = async (collection, { limit, lastDocument }) => {
     .get()
     .then((snapshot) => snapshot.size);
 
-  const documents = db
+  const documents = await db
     .collection(collection)
     .orderBy('inspection')
     .startAfter(lastDocument)

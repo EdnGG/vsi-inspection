@@ -280,11 +280,11 @@ export default {
         }
       });
     },
-    hide() {
-      return {
-        display: this.firstVal ? "none" : "block",
-      };
-    },
+    // hide() {
+    //   return {
+    //     display: this.firstVal ? "none" : "block",
+    //   };
+    // },
   },
   methods: {
     ...mapActions("inspection", ["addInspection"]),
@@ -303,9 +303,6 @@ export default {
       };
       this.e1 = step;
     },
-    // pdfGenerator() {
-    //   pdfGenerator();
-    // },
     submit() {
       try {
         this.addInspection(this.totalInspection);

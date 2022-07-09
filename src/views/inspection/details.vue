@@ -61,7 +61,7 @@
         <v-col>
           <v-btn
             color="blue"
-            @click="getInspections({ limit: 1 })"
+            @click="getInspections({ limit: limit })"
             :disabled="pagination.disabled"
           >
             Load More
@@ -182,7 +182,7 @@ export default {
   },
   data() {
     return {
-      // itemsPerPage: 6,
+      limit: 3,
       totalInspections: null,
       message: "No Inspections to show",
       currentData: null,
@@ -192,9 +192,13 @@ export default {
       items: ["Good", "Bad", "Not sure"],
     };
   },
-  created() {
-    this.getInspections({ limit: 1 });
+  mounted() {
+    if (this.isInspectionCreated) {
+      return;
+    }
+    this.getInspections({ limit: this.limit });
   },
+
   computed: {
     ...mapState({
       InspectionsFromFirestore: (state) =>

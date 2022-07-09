@@ -2,7 +2,7 @@
   <v-snackbar v-model="showSnackbar" :multi-line="true" :color="themeSnackbar">
     {{ msgSnackbar }}
     <template v-slot:action="{ attrs }">
-      <v-btn color="red" text v-bind="attrs" @click="showSnackbar = false">
+      <v-btn color="white" text v-bind="attrs" @click="showSnackbar = false">
         Close
       </v-btn>
     </template>

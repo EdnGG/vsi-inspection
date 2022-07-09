@@ -34,11 +34,13 @@ export default {
       console.log("user from actions/isUserActive: ", user);
       commit("SET_USER", user);
     },
-    async signOut() {
+    async signOut({ commit }) {
       try {
         await signOut();
+        showSnackbar.success(commit, 'Logout successful');
         router.push("/");
       } catch (err) {
+        showSnackbar.error(commit, err.message);
         console.error("error: ", err);
       }
     },
@@ -57,17 +59,20 @@ export default {
       try { 
         const res = await newUser(payload);
         commit("SET_USER", res);
+        showSnackbar.success(commit, 'User created successfully');
         router.push("/inspection/details");
       } catch (err) {
+        showSnackbar.error(commit, err.message);
         console.error("error: ", err);
       }
     },
     async resetPassword({ commit }, payload) {
-      console.log('payload: ', payload)
       try {
         await resetPass(payload);
+        showSnackbar.success(commit, 'Please check your email inbox and your spam folder');
         router.push("/");
       } catch (err) {
+        showSnackbar.error(commit, err.message);
         console.error("error: ", err);
       }
     }
