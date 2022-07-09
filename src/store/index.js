@@ -6,6 +6,7 @@ import { db, storage, auth } from '../firebase.js';
 import router from '../router';
 import inspection from './modules/inspection';
 import authentication from './modules/authentication';
+import utils from './modules/utils';
 import { getLocalWeather } from '../services';
 
 Vue.use(Vuex);
@@ -130,5 +131,6 @@ export default new Vuex.Store({
   modules: {
     inspection,
     authentication,
+    utils
   },
 });

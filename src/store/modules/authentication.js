@@ -1,4 +1,5 @@
 import router from "../../router";
+import { showSnackbar } from '../../helpers/snackbar';
 
 import { newUser, login, signOut, resetPass } from "../../services";
 
@@ -45,9 +46,10 @@ export default {
       try {
         const res = await login(payload);
         commit("SET_USER", res);
-        commit("SHOW_SNACKBAR", "Login successful");
+        showSnackbar.success(commit, 'Login successful');
         router.push("/inspection/details");
       } catch (err) {
+        showSnackbar.error(commit, err.message);
         console.error("error: ", err);
       }
     },
