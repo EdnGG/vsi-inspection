@@ -280,16 +280,18 @@ export default {
         }
       });
     },
-    // hide() {
-    //   return {
-    //     display: this.firstVal ? "none" : "block",
-    //   };
-    // },
   },
   methods: {
     ...mapActions("inspection", ["addInspection"]),
     addActuator({ step }) {
+      Object.entries(this.tmpData).forEach(([key, value]) => {
+        if (value === "") {
+          return console.log(`${key} is required`);
+        }
+      });
+
       this.totalInspection.data.push(this.tmpData);
+
       this.tmpData = {
         actuatorModel: "",
         actuatorSerialNumber: "",
@@ -301,6 +303,7 @@ export default {
         handwheelBoltPatern: "",
         observaciones: "",
       };
+
       this.e1 = step;
     },
     submit() {
