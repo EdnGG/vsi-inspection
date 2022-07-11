@@ -6,3 +6,4 @@ export const showSnackbar = {
     commit('utils/SHOW_MESSAGE',  { msg, theme: '#880E4F', show: true }, { root: true });
   },
 };
+ 

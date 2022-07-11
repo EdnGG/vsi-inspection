@@ -75,7 +75,6 @@ export default {
         console.error('Error adding document: ', error);
       }
     },
-
     async getInspections({ commit, state }, { limit }) {
       try {
         if (state.pagination.disabled) return;
@@ -102,6 +101,21 @@ export default {
       } catch (err) {
         console.log('Error: ', err);
       }
+    },
+    addActuatorToInspection({ commit }, payload) { 
+      console.log('Payload: ', payload);
+      Object.entries(payload).forEach(([key, value]) => { 
+        console.log('key: ', key);
+        console.log('value: ', value);
+        // Falla cuando quiere detectar si algun value esta vacio
+
+        if (value === '') {
+          return showSnackbar.error(commit, 'Please fill all fields');
+        } else { 
+          showSnackbar.success(commit, 'Actuator added');
+        }
+      })
+      
     },
   },
 

@@ -222,13 +222,27 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
+    <div>
+     <v-alert 
+      type="error"
+      dismissible
+      color="cyan"
+      border="left"
+      elevation="2"
+      colored-border
+      icon="mdi-twitter"
+      v-show="error">
+      {{ 'Please make sure to fill all the fields' }}
+    </v-alert>
+    </div>
   </v-container>
 </template>
 
 <script>
 import CoreCustomSelect from "@/components/core/CustomSelect.vue";
 import { mapState } from "vuex";
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
+import { showSnackbar } from "@/helpers/snackbar.js";
 // import pdfGenerator from "@/helpers/pdfGenerator.js";
 
 export default {
@@ -236,6 +250,7 @@ export default {
     CoreCustomSelect,
   },
   data: () => ({
+    error: false,
     e1: 1,
     modalSubmit: false,
     firstVal: false,
@@ -282,13 +297,20 @@ export default {
     },
   },
   methods: {
-    ...mapActions("inspection", ["addInspection"]),
+    ...mapActions("inspection", ["addInspection", "addActuatorToInspection"]),
+    // ...mapMutations("utils", ["SHOW_MESSAGE"]),
     addActuator({ step }) {
-      Object.entries(this.tmpData).forEach(([key, value]) => {
-        if (value === "") {
-          return console.log(`${key} is required`);
-        }
-      });
+      this.addActuatorToInspection(this.tmpData);
+      // necesito traer el snackbar par mostrar el mensaje
+      //  const act = Object.entries(this.tmpData).forEach(([key, value]) => {
+      //    return console.log(`${key} is required`);
+      //  }
+      // return (this.error = true);
+      // this.showSnackbar('"' + key + '" is required');
+      // return this.SHOW_MESSAGE(`${key} is required`);
+      // return this.showSnackbar(`${key} is required`);
+
+      // this.totalInspection.data.push(this.tmpData);
 
       this.totalInspection.data.push(this.tmpData);
 
@@ -303,7 +325,6 @@ export default {
         handwheelBoltPatern: "",
         observaciones: "",
       };
-
       this.e1 = step;
     },
     submit() {
