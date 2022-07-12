@@ -124,32 +124,27 @@
           <core-custom-select
             v-model="tmpData.visual"
             title="Visual"
-            :rules="inspectionRules"
-            required
+            
           ></core-custom-select>
           <core-custom-select
             v-model="tmpData.waterInspection"
             title="Water Inspection"
-            :rules="inspectionRules"
-            required
+            
           ></core-custom-select>
           <core-custom-select
             v-model="tmpData.operationalTest"
             title="Operational Test"
-            :rules="inspectionRules"
-            required
+            
           ></core-custom-select>
           <core-custom-select
             v-model="tmpData.wireCompartiment"
             title="Wire Compartiment"
-            :rules="inspectionRules"
-            required
+            
           ></core-custom-select>
           <core-custom-select
             v-model="tmpData.handwheelBoltPatern"
             title="Handwheel Bolt Patern"
-            :rules="inspectionRules"
-            required
+            
           ></core-custom-select>
           </v-form>
           <div class="d-flex">
@@ -258,6 +253,7 @@ export default {
     CoreCustomSelect,
   },
   data: () => ({
+    required: true,
     e1: 1,
     step1: null,
     step2: null,
@@ -288,6 +284,7 @@ export default {
       observaciones: "",
     },
     inspectionRules: [(v) => !!v || "Field is required"],
+    selectRules: [(v) => v.length > 0 || "Item is required in select 2"],
   }),
   computed: {
     ...mapState(["inspections", "allInspections"]),

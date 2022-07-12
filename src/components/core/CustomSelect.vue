@@ -10,6 +10,7 @@
       <v-select
         v-model="computedState" 
         required
+        :rules="selectRules"
         :value="value"
         :items="items.map(item => item.state)"
         item-text="state"
@@ -33,8 +34,13 @@ export default {
       type: String,
       default: null,
     },
+    required: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
+    selectRules: [(v) => v.length > 0 || "Item is required in select 2"],
     items: [
       { state: "Good", item: "Looks good" },
       { state: "Bad", item: "Looks Bad" },
