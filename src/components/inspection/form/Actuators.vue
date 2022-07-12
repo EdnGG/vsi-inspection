@@ -301,7 +301,8 @@ export default {
     // ...mapMutations("utils", ["SHOW_MESSAGE"]),
     addActuator({ step }) {
       this.addActuatorToInspection(this.tmpData);
-      // necesito traer el snackbar par mostrar el mensaje
+      // Necesito traer el snackbar par mostrar el mensaje
+
       //  const act = Object.entries(this.tmpData).forEach(([key, value]) => {
       //    return console.log(`${key} is required`);
       //  }
@@ -325,6 +326,7 @@ export default {
         handwheelBoltPatern: "",
         observaciones: "",
       };
+
       this.e1 = step;
     },
     submit() {
