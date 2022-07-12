@@ -156,6 +156,7 @@
         </v-stepper-content>
 
         <v-stepper-content step="4">
+        <v-form ref="step4" lazy-validation> 
           <v-row>
             <v-col cols="12">
               <v-container fluid>
@@ -170,7 +171,7 @@
               </v-container>
             </v-col>
           </v-row>
-
+        </v-form>
           <div class="d-flex">
             <v-btn
               class="mr-2"
@@ -310,9 +311,13 @@ export default {
   methods: {
     ...mapActions("inspection", ["addInspection"]),
     addActuator({ step }) {
-      this.totalInspection.data.push(this.tmpData);
-      this.$refs.step2.reset();
-      this.e1 = step;
+      if (this.$refs.step4.validate()) {
+        // this.nextStep4();
+        this.totalInspection.data.push(this.tmpData);
+        this.$refs.step2.reset();
+        this.e1 = step;
+      }
+      return;
     },
     submit() {
       try {
@@ -338,11 +343,11 @@ export default {
         this.e1 = 4;
       }
     },
-    nextStep4() {
-      if (this.$refs.step4.validate()) {
-        this.e1 = 5;
-      }
-    },
+    // nextStep4() {
+    //   if (this.$refs.step4.validate()) {
+    //     this.e1 = 5;
+    //   }
+    // },
     beforeWindowUnload(e) {
       console.log("beforeWindowUnload", e);
       if (this.completed) {
