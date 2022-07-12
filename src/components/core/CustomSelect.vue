@@ -9,6 +9,7 @@
       <!-- capturar selec.state -->
       <v-select
         v-model="computedState" 
+        required
         :value="value"
         :items="items.map(item => item.state)"
         item-text="state"
@@ -26,7 +27,7 @@ export default {
   props: {
     title: {
       type: String,
-      require: true,
+      required: true,
     },
     value: {
       type: String,

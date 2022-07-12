@@ -15,96 +15,104 @@
 
       <v-stepper-items>
         <v-stepper-content step="1">
-          <v-row justify="space-between" class="mb-4">
-            <v-col cols="12" md="3">
-              <v-text-field
-                v-model.trim="totalInspection.id"
-                :rules="inspectionRules"
-                :counter="10"
-                label="Inspection #"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="3">
-              <v-menu
-                ref="menuDate"
-                v-model="menuDate"
-                :close-on-content-click="false"
-                :return-value.sync="date"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="totalInspection.date"
-                    label="Date"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="totalInspection.date"
-                  no-title
-                  scrollable
+          <v-form ref="step1" lazy-validation>
+            <v-row justify="space-between" class="mb-4">
+              <v-col cols="12" md="3">
+                <v-text-field
+                  v-model.trim="totalInspection.id"
+                  :rules="inspectionRules"
+                  :counter="10"
+                  label="Inspection #"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="3">
+                <v-menu
+                  ref="menuDate"
+                  v-model="menuDate"
+                  :close-on-content-click="false"
+                  :return-value.sync="date"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
                 >
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="menuDate = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="$refs.menuDate.save(date)"
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="totalInspection.date"
+                      label="Date"
+                      prepend-icon="mdi-calendar"
+                      :rules="inspectionRules"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="totalInspection.date"
+                    no-title
+                    scrollable
                   >
-                    OK
-                  </v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-            <v-col cols="12" md="3">
-              <v-text-field
-                v-model.trim="totalInspection.technical"
-                :rules="inspectionRules"
-                label="Technical Name"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menuDate = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.menuDate.save(date)"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="12" md="3">
+                <v-text-field
+                  v-model.trim="totalInspection.technical"
+                  :rules="inspectionRules"
+                  label="Technical Name"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-form>
           <div class="d-flex">
-            <v-btn color="primary" @click="e1 = 2"> Continue </v-btn>
+            <v-btn color="primary" @click="nextStep1"> Continue </v-btn>
           </div>
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          <v-row justify="space-between" class="mb-4">
-            <v-col cols="12" md="3">
-              <v-text-field
-                v-model="tmpData.actuatorModel"
-                label="Actuator Model"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="3">
-              <v-text-field
-                v-model="tmpData.actuatorSerialNumber"
-                label="Actuator Serial Number"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="3">
-              <v-text-field
-                v-model="tmpData.controlPack"
-                label="Control Pack Model"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
+          <v-form ref="step2" lazy-validation>
+            <v-row justify="space-between" class="mb-4">
+              <v-col cols="12" md="3">
+                <v-text-field
+                  v-model="tmpData.actuatorModel"
+                  label="Actuator Model"
+                  :rules="inspectionRules"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="3">
+                <v-text-field
+                  v-model="tmpData.actuatorSerialNumber"
+                  label="Actuator Serial Number"
+                  :rules="inspectionRules"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="3">
+                <v-text-field
+                  v-model="tmpData.controlPack"
+                  label="Control Pack Model"
+                  :rules="inspectionRules"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-form>
 
           <div class="d-flex">
-            <v-btn color="primary" @click="e1 = 3" class="mr-2">
+            <v-btn color="primary" @click="nextStep2" class="mr-2">
               Continue
             </v-btn>
             <v-btn text @click="e1 = 1"> Back </v-btn>
@@ -112,28 +120,40 @@
         </v-stepper-content>
 
         <v-stepper-content step="3">
+        <v-form ref="step3" lazy-validation>
           <core-custom-select
             v-model="tmpData.visual"
             title="Visual"
+            :rules="inspectionRules"
+            required
           ></core-custom-select>
           <core-custom-select
             v-model="tmpData.waterInspection"
             title="Water Inspection"
+            :rules="inspectionRules"
+            required
           ></core-custom-select>
           <core-custom-select
             v-model="tmpData.operationalTest"
             title="Operational Test"
+            :rules="inspectionRules"
+            required
           ></core-custom-select>
           <core-custom-select
             v-model="tmpData.wireCompartiment"
             title="Wire Compartiment"
+            :rules="inspectionRules"
+            required
           ></core-custom-select>
           <core-custom-select
             v-model="tmpData.handwheelBoltPatern"
             title="Handwheel Bolt Patern"
+            :rules="inspectionRules"
+            required
           ></core-custom-select>
+          </v-form>
           <div class="d-flex">
-            <v-btn color="primary" @click="e1 = 4" class="mr-2">
+            <v-btn color="primary" @click="nextStep3" class="mr-2">
               Continue
             </v-btn>
             <v-btn text @click="e1 = 2"> Back </v-btn>
@@ -145,10 +165,12 @@
             <v-col cols="12">
               <v-container fluid>
                 <v-textarea
+                  v-model.trim="tmpData.observaciones"
                   clearable
                   clear-icon="mdi-close-circle"
                   label="Notes:"
-                  v-model.trim="tmpData.observaciones"
+                  required
+                  :rules="inspectionRules"
                 ></v-textarea>
               </v-container>
             </v-col>
@@ -222,27 +244,13 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-    <div>
-     <v-alert 
-      type="error"
-      dismissible
-      color="cyan"
-      border="left"
-      elevation="2"
-      colored-border
-      icon="mdi-twitter"
-      v-show="error">
-      {{ 'Please make sure to fill all the fields' }}
-    </v-alert>
-    </div>
   </v-container>
 </template>
 
 <script>
 import CoreCustomSelect from "@/components/core/CustomSelect.vue";
 import { mapState } from "vuex";
-import { mapActions, mapMutations } from "vuex";
-import { showSnackbar } from "@/helpers/snackbar.js";
+import { mapActions } from "vuex";
 // import pdfGenerator from "@/helpers/pdfGenerator.js";
 
 export default {
@@ -250,8 +258,9 @@ export default {
     CoreCustomSelect,
   },
   data: () => ({
-    error: false,
     e1: 1,
+    step1: null,
+    step2: null,
     modalSubmit: false,
     firstVal: false,
     menuDate: false,
@@ -295,38 +304,17 @@ export default {
         }
       });
     },
+    hide() {
+      return {
+        display: this.firstVal ? "none" : "block",
+      };
+    },
   },
   methods: {
-    ...mapActions("inspection", ["addInspection", "addActuatorToInspection"]),
-    // ...mapMutations("utils", ["SHOW_MESSAGE"]),
+    ...mapActions("inspection", ["addInspection"]),
     addActuator({ step }) {
-      this.addActuatorToInspection(this.tmpData);
-      // Necesito traer el snackbar par mostrar el mensaje
-
-      //  const act = Object.entries(this.tmpData).forEach(([key, value]) => {
-      //    return console.log(`${key} is required`);
-      //  }
-      // return (this.error = true);
-      // this.showSnackbar('"' + key + '" is required');
-      // return this.SHOW_MESSAGE(`${key} is required`);
-      // return this.showSnackbar(`${key} is required`);
-
-      // this.totalInspection.data.push(this.tmpData);
-
       this.totalInspection.data.push(this.tmpData);
-
-      this.tmpData = {
-        actuatorModel: "",
-        actuatorSerialNumber: "",
-        controlPack: "",
-        visual: "",
-        waterInspection: "",
-        operationalTest: "",
-        wireCompartiment: "",
-        handwheelBoltPatern: "",
-        observaciones: "",
-      };
-
+      this.$refs.step2.reset();
       this.e1 = step;
     },
     submit() {
@@ -336,6 +324,33 @@ export default {
         this.modalSubmit = false;
       } catch (err) {
         console.log(`Error: ${err}`);
+      }
+    },
+    nextStep1() {
+      if (this.$refs.step1.validate()) {
+        this.e1 = 2;
+      }
+    },
+    nextStep2() {
+      if (this.$refs.step2.validate()) {
+        this.e1 = 3;
+      }
+    },
+    nextStep3() {
+      if (this.$refs.step3.validate()) {
+        this.e1 = 4;
+      }
+    },
+    nextStep4() {
+      if (this.$refs.step4.validate()) {
+        this.e1 = 5;
+      }
+    },
+    beforeWindowUnload(e) {
+      console.log("beforeWindowUnload", e);
+      if (this.completed) {
+        e.preventDefault();
+        e.returnValue = "";
       }
     },
   },
