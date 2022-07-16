@@ -192,18 +192,22 @@
         </v-stepper-content>
 
         <v-stepper-content step="5">
+        <v-form ref="step5" lazy-validation> 
           <v-row>
             <v-col cols="12">
               <v-container fluid>
                 <v-textarea
-                  clearable
                   clear-icon="mdi-close-circle"
                   label="Final notes:"
                   v-model.trim="totalInspection.observaciones"
+                  :rules="inspectionRules"
+                  required
+                  clearable
                 ></v-textarea>
               </v-container>
             </v-col>
           </v-row>
+          </v-form>
           <!--  -->
           <v-dialog
             style="padding-top: 10px"
@@ -245,9 +249,9 @@
 
 <script>
 import CoreCustomSelect from "@/components/core/CustomSelect.vue";
+import sendEmail from "@/helpers/sendEmail.js";
 import { mapState } from "vuex";
 import { mapActions } from "vuex";
-// import pdfGenerator from "@/helpers/pdfGenerator.js";
 
 export default {
   components: {
@@ -313,6 +317,7 @@ export default {
     addActuator({ step }) {
       if (this.$refs.step4.validate()) {
         // this.nextStep4();
+        this.sendEmail();
         this.totalInspection.data.push(this.tmpData);
         this.$refs.step2.reset();
         this.e1 = step;
@@ -321,9 +326,11 @@ export default {
     },
     submit() {
       try {
-        this.addInspection(this.totalInspection);
-        // pdfGenerator(this.totalInspection);
-        this.modalSubmit = false;
+        if (this.$refs.step5.validate()) {
+          this.addInspection(this.totalInspection);
+          this.modalSubmit = false;
+        }
+        // return;
       } catch (err) {
         console.log(`Error: ${err}`);
       }
@@ -343,18 +350,13 @@ export default {
         this.e1 = 4;
       }
     },
-    // nextStep4() {
-    //   if (this.$refs.step4.validate()) {
-    //     this.e1 = 5;
+    // beforeWindowUnload(e) {
+    //   console.log("beforeWindowUnload", e);
+    //   if (this.completed) {
+    //     e.preventDefault();
+    //     e.returnValue = "";
     //   }
     // },
-    beforeWindowUnload(e) {
-      console.log("beforeWindowUnload", e);
-      if (this.completed) {
-        e.preventDefault();
-        e.returnValue = "";
-      }
-    },
   },
 };
 </script>

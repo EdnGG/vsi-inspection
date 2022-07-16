@@ -40,7 +40,7 @@ export default {
     },
   },
   data: () => ({
-    selectRules: [(v) => v.length > 0 || "Item is required in select 2"],
+    selectRules: [(v) => v.length > 0 || "Item is required to select"],
     items: [
       { state: "Good", item: "Looks good" },
       { state: "Bad", item: "Looks Bad" },
