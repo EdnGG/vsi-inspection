@@ -111,12 +111,12 @@ export default new Vuex.Store({
   },
   getters: {
   },
-  plugins: [createPersistedState({
-    paths: ['authentication'],
-  })],
   modules: {
     inspection,
     authentication,
     utils,
   },
+  plugins: [createPersistedState({
+    paths: ['authentication'],
+  })],
 });
