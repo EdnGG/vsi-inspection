@@ -55,7 +55,16 @@ const routes = [
         path: 'details',
         component: () =>
           import(
-            /* webpackChunkName: "about" */ '../views/inspection/details.vue'
+            /* webpackChunkName: "details" */ '../views/inspection/details/index.vue'
+          ),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'details/:uid',
+        name: 'inspection_details_uid',
+        component: () =>
+          import(
+            /* webpackChunkName: "details" */ '../views/inspection/details/[uid].vue'
           ),
         meta: { requiresAuth: true },
       },

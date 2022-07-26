@@ -19,7 +19,7 @@
         <v-col v-for="(item, i) in InspectionsFromFirestore" cols="4" :key="i">
           <v-card>
             <v-img
-              src="../../../public/img/actuator.jpeg"
+              src="../../../../public/img/actuator.jpeg"
               height="200px"
             ></v-img>
             <v-card-title>
@@ -219,11 +219,14 @@ export default {
       'getPagination',
     ]),
 
-    showDataReports(item) {
-      console.log('item ', item);
-      this.currentData = item.inspection;
-      this.currentDataUID = item.uid;
-      this.modalShowData = true;
+    showDataReports({uid}) {
+      // this.currentData = item.inspection;
+      // this.currentDataUID = item.uid;
+      // this.modalShowData = true;
+      this.$router.push({
+        name: 'inspection_details_uid',
+        params: { uid },
+      });
     },
     downloadPDF(data) {
       pdfGenerator(data);
