@@ -103,53 +103,18 @@ export default {
       }
     },
     addActuatorToInspection({ commit }, payload) { 
-
-
       console.log('Payload: ', payload);
+      Object.entries(payload).forEach(([key, value]) => { 
+        console.log('key: ', key);
+        console.log('value: ', value);
+        // Falla cuando quiere detectar si algun value esta vacio
 
-      let convertedPayload = []
-      convertedPayload.push(payload)
-
-      convertedPayload.forEach((element, i) => {
-        console.log('Element: ', element);
-        if ( element[i] === '') { 
-          return console.log('empty');
+        if (value === '') {
+          return showSnackbar.error(commit, 'Please fill all fields');
+        } else { 
+          showSnackbar.success(commit, 'Actuator added');
         }
-      });
-
-      
-
-
-      // for (let item of payload) { 
-      //   console.log('item :', item)
-      //   // if (item === '') { 
-      //   //   console.log('Empty item');
-      //   //   return showSnackbar.error(commit, 'Please fill all fields');
-      //   // }
-      // }
-
-      // return 
-
-      // Object.entries(payload).forEach((item, i) => { 
-      //   console.log('index: ', i);
-      //   console.log('item : ', item);
-      //   // console.log('value: ', value);
-      //   // Falla cuando quiere detectar si algun value esta vacio
-
-
-
-      //   if (item === '') {
-      //     return showSnackbar.error(commit, 'Please fill all fields');
-      //   }
-        
-      //   // return
-      //   // else {
-      //   //   showSnackbar.success(commit, 'Actuator added');
-      //   // }
-        
-      // })
-
-      // return
+      })
       
     },
   },

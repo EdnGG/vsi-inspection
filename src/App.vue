@@ -75,7 +75,6 @@
         <v-row id="row__tools">
           <live-date-time />
           <local-weather />
-          <!-- {{ user }} -->
         </v-row>
 
       </v-container>
