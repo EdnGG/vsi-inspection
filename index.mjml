@@ -1,0 +1,77 @@
+<mjml>
+  <mj-head>
+    <mj-title>Electric Actuators Inspection</mj-title>
+    <mj-preview>Electric Actuators Inspection</mj-preview>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-all>
+      <mj-text font-weight="400" font-size="16px" color="#000000" line-height="24px" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-text>
+    </mj-attributes>
+    <mj-style inline="inline">
+      .body-section {
+      -webkit-box-shadow: 1px 4px 11px 0px rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 1px 4px 11px 0px rgba(0, 0, 0, 0.15);
+      box-shadow: 1px 4px 11px 0px rgba(0, 0, 0, 0.15);
+      }
+    </mj-style>
+    <mj-style inline="inline">
+      .text-link {
+      color: #5e6ebf
+      }
+    </mj-style>
+    <mj-style inline="inline">
+      .footer-link {
+      color: #888888
+      }
+    </mj-style>
+
+  </mj-head>
+  <mj-body background-color="#E7E7E7" width="600px">
+    <mj-section full-width="full-width" background-color="#008000" padding-bottom="0">
+      <mj-column width="100%">
+        <mj-image src="https://valvesolutions.com/wp-content/uploads/2020/12/Valve-Solutions-Logo-1-150x72-1.png" alt="" align="center" width="150px" />
+        <mj-text color="#ffffff" font-weight="bold" align="center" text-transform="uppercase" font-size="16px" letter-spacing="1px" padding-top="30px">
+          Electric Actuators Inspection Report
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-wrapper padding-top="0" padding-bottom="0" css-class="body-section">
+      <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px">
+        <mj-column width="100%">
+          <mj-text color="#212b35" font-weight="bold" font-size="20px">
+            An Electric Actuators Inspection has been carried out with the following PO:
+          </mj-text>
+          <mj-text color="#637381" font-size="16px" align="center">
+            ${snap.data().inspection.id}
+          </mj-text>
+          <mj-text color="#212b35" font-weight="bold" font-size="18px" align="center">
+            Inspection Details
+          </mj-text>
+          <mj-text color="#637381" font-size="16px">
+            <ul>
+              <li style="padding-bottom: 20px">
+                <strong>Date:</strong> ${snap.data().inspection.date}</li>
+              <li style="padding-bottom: 20px">
+                <strong>Observations:</strong> ${snap.data().inspection.observaciones}
+              </li>
+              <li>
+                <strong>Technical Name:</strong> ${snap.data().inspection.technical}
+              </li>
+            </ul>
+          </mj-text>
+          <mj-button background-color="#008000" align="center" color="#ffffff" font-size="17px" font-weight="bold" href="https://inspection-6c319.web.app/" width="300px">
+            Login
+          </mj-button>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+
+    <mj-wrapper full-width="full-width">
+      <mj-section padding-top="0">
+        <mj-group>
+          <mj-column width="100%" padding-right="0">
+          </mj-column>
+        </mj-group>
+      </mj-section>
+    </mj-wrapper>
+  </mj-body>
+</mjml>
