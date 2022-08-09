@@ -298,7 +298,18 @@ export default {
   methods: {
     ...mapActions('inspection', ['addInspection']),
     addActuator({ step }) {
-      this.totalInspection.data.push(this.tmpData);
+      this.totalInspection.data.push({...this.tmpData});
+      this.tmpData = {
+        actuatorModel: '',
+        actuatorSerialNumber: '',
+        controlPack: '',
+        visual: '',
+        waterInspection: '',
+        operationalTest: '',
+        wireCompartiment: '',
+        handwheelBoltPatern: '',
+        observaciones: '',
+      };
       this.$refs.step2.reset();
       this.e1 = step;
     },
