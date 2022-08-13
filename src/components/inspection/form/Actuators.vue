@@ -241,9 +241,7 @@
 <script>
 import CoreCustomSelect from "@/components/core/CustomSelect.vue";
 import { mapState } from "vuex";
-import { mapActions, mapMutations } from "vuex";
-import { showSnackbar } from "@/helpers/snackbar.js";
-// import pdfGenerator from "@/helpers/pdfGenerator.js";
+import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -298,20 +296,8 @@ export default {
   },
   methods: {
     ...mapActions("inspection", ["addInspection", "addActuatorToInspection"]),
-    // ...mapMutations("utils", ["SHOW_MESSAGE"]),
     addActuator({ step }) {
       this.addActuatorToInspection(this.tmpData);
-      // necesito traer el snackbar par mostrar el mensaje
-      //  const act = Object.entries(this.tmpData).forEach(([key, value]) => {
-      //    return console.log(`${key} is required`);
-      //  }
-      // return (this.error = true);
-      // this.showSnackbar('"' + key + '" is required');
-      // return this.SHOW_MESSAGE(`${key} is required`);
-      // return this.showSnackbar(`${key} is required`);
-
-      // this.totalInspection.data.push(this.tmpData);
-
       this.totalInspection.data.push(this.tmpData);
 
       this.tmpData = {
@@ -330,7 +316,6 @@ export default {
     submit() {
       try {
         this.addInspection(this.totalInspection);
-        // pdfGenerator(this.totalInspection);
         this.modalSubmit = false;
       } catch (err) {
         console.log(`Error: ${err}`);
@@ -344,7 +329,6 @@ export default {
 @media (max-width: 390px) {
   .mobile-container {
     display: flex;
-    /* flex-wrap: wrap; */
     flex-direction: column;
     justify-content: center;
   }
@@ -354,6 +338,5 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  /* width: 0%; */
 }
 </style>

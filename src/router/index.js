@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import { auth } from '../firebase.js'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -61,14 +62,14 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    const user = auth.currentUser
-    if (!user) {
+    const isUserExist = store.getters['authentication/isUserExist']
+    if (isUserExist) {
+      next()
+    } else {
       next({
         path: '/',
         query: { redirect: to.fullPath }
       })
-    } else {
-      next()
     }
   } else {
     next()

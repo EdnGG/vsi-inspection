@@ -11,10 +11,8 @@ admin.initializeApp(functions.config().firebase);
 // FIREBASE FUNCTIONS
 exports.sendEmail = functions.firestore
   .document("inspections/{inspectionsId}")
-  .onCreate( async (snap, context) => {
-    // const doc = snap.data();
-    // console.log("snap.data(): ", snap.data());
-// to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}`,
+  .onCreate(async (snap, context) => {
+    // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}`,
     const data = {
       from: `noreply@inspection-6c319.web.app/`,
       to: `${process.env.EMAIL_ADMIN}`,
@@ -442,7 +440,9 @@ exports.sendEmail = functions.firestore
                                         </li>
                                         <li style="padding-bottom: 20px">
                                           <strong>Observations:</strong>
-                                          ${snap.data().inspection.observaciones}
+                                          ${
+                                            snap.data().inspection.observaciones
+                                          }
                                         </li>
                                         <li>
                                           <strong>Technical Name:</strong>
@@ -508,7 +508,7 @@ exports.sendEmail = functions.firestore
                                                 border-radius: 3px;
                                               "
                                               target="_blank"
-                                              >Login</a
+                                              >Go to Website</a
                                             >
                                           </td>
                                         </tr>
@@ -662,9 +662,9 @@ exports.sendEmail = functions.firestore
       `,
     };
 
-   await mg.messages().send(data, (error, body) => {
-      console.log('data: ', data)
-      console.log('body: ', body)
+    await mg.messages().send(data, (error, body) => {
+      console.log("data: ", data);
+      console.log("body: ", body);
       if (error) {
         return console.log(`error: `, error);
       }
