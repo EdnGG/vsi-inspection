@@ -298,8 +298,7 @@ export default {
     ...mapActions("inspection", ["addInspection", "addActuatorToInspection"]),
     addActuator({ step }) {
       this.addActuatorToInspection(this.tmpData);
-      this.totalInspection.data.push(this.tmpData);
-
+      this.totalInspection.data.push({ ...this.tmpData });
       this.tmpData = {
         actuatorModel: "",
         actuatorSerialNumber: "",

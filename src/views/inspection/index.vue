@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row class="text-center">
-      <v-col cols="12" sm="12"  justify-center align-center class="primary">
+      <v-col cols="12" sm="12" justify-center align-center class="primary">
         <h1>Inspection</h1>
         <h2>Inspection page</h2>
       </v-col>

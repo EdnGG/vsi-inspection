@@ -14,17 +14,12 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container class="d-flex d-wrap" >
+    <v-container class="d-flex d-wrap">
       <v-row>
-
-        <v-col 
-          v-for="(item, i) in InspectionsFromFirestore" 
-          cols="12" sm="12" md="6" lg="4" xl="3"
-          :key="i"
-        >
+        <v-col v-for="(item, i) in InspectionsFromFirestore" cols="4" :key="i">
           <v-card>
             <v-img
-              src="../../../public/img/actuator.jpeg"
+              src="/../../../public/img/actuator.jpeg"
               height="200px"
             ></v-img>
             <v-card-title>
@@ -62,11 +57,11 @@
       </v-row>
     </v-container>
     <v-container>
-      <v-row class="text-center">
+      <v-row>
         <v-col>
           <v-btn
             color="blue"
-            @click="getInspections({ limit: limit })"
+            @click="getInspections({ limit: 1 })"
             :disabled="pagination.disabled"
           >
             Load More
@@ -187,7 +182,7 @@ export default {
   },
   data() {
     return {
-      limit: 4,
+      // itemsPerPage: 6,
       totalInspections: null,
       message: "No Inspections to show",
       currentData: null,
@@ -197,13 +192,9 @@ export default {
       items: ["Good", "Bad", "Not sure"],
     };
   },
-  mounted() {
-    if (this.isInspectionCreated) {
-      return;
-    }
-    this.getInspections({ limit: this.limit });
+  created() {
+    this.getInspections({ limit: 1 });
   },
-
   computed: {
     ...mapState({
       InspectionsFromFirestore: (state) =>
@@ -228,11 +219,14 @@ export default {
       "getPagination",
     ]),
 
-    showDataReports(item) {
-      console.log("item ", item);
-      this.currentData = item.inspection;
-      this.currentDataUID = item.uid;
-      this.modalShowData = true;
+    showDataReports({ uid }) {
+      // this.currentData = item.inspection;
+      // this.currentDataUID = item.uid;
+      // this.modalShowData = true;
+      this.$router.push({
+        name: "inspection_details_uid",
+        params: { uid },
+      });
     },
     downloadPDF(data) {
       pdfGenerator(data);
