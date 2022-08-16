@@ -10,17 +10,18 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    name: 'Login',
     component: AuthLayout,
-    children: [{ path: '', component: Login }],
+    children: [
+      { path: '', name: 'Login', component: Login }
+    ],
   },
   {
     path: '/signup',
-    name: 'SignUp',
     component: AuthLayout,
     children: [
       {
         path: '',
+        name: 'SignUp',
         component: () =>
           import(/* webpackChunkName: "about" */ '../views/SignUp.vue'),
       },
@@ -28,11 +29,11 @@ const routes = [
   },
   {
     path: '/forgot-password',
-    name: 'ForgotPassword',
     component: AuthLayout,
     children: [
       {
         path: '',
+        name: 'ForgotPassword',
         component: () =>
           import(/* webpackChunkName: "about" */ '../views/ForgotPassword.vue'),
       },
@@ -40,11 +41,11 @@ const routes = [
   },
   {
     path: '/inspection',
-    name: 'Inspection',
     component: MainLayout,
     children: [
       {
         path: '',
+        name: 'Inspection',
         component: () =>
           import(
             /* webpackChunkName: "about" */ '../views/inspection/index.vue'
