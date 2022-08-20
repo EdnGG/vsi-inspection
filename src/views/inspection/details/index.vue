@@ -16,7 +16,10 @@
     </v-container>
     <v-container class="d-flex d-wrap">
       <v-row>
-        <v-col v-for="(item, i) in InspectionsFromFirestore" cols="4" :key="i">
+      <!-- {{ InspectionsFromFirestore }} -->
+        <v-col v-for="(item, i) in InspectionsFromFirestore" 
+        cols="12" sm="12" md="6" lg="4" xl="3"
+        :key="i">
           <v-card>
             <v-img
               src="/../../../public/img/actuator.jpeg"
@@ -61,7 +64,7 @@
         <v-col>
           <v-btn
             color="blue"
-            @click="getInspections({ limit: 1 })"
+            @click="getInspections({ limit: 4 })"
             :disabled="pagination.disabled"
           >
             Load More
@@ -168,11 +171,11 @@
 </template>
 
 <script>
-import NoContent from "@/components/Tools/NoContent.vue";
-import InspectionCardDetails from "@/components/inspection/card/Details.vue";
-import inspectionPaginationIndex from "@/components/inspection/pagination/Index.vue";
-import { mapState, mapActions } from "vuex";
-import pdfGenerator from "@/helpers/pdfGenerator.js";
+import NoContent from '@/components/Tools/NoContent.vue';
+import InspectionCardDetails from '@/components/inspection/card/Details.vue';
+import inspectionPaginationIndex from '@/components/inspection/pagination/Index.vue';
+import { mapState, mapActions } from 'vuex';
+import pdfGenerator from '@/helpers/pdfGenerator.js';
 
 export default {
   components: {
@@ -182,18 +185,21 @@ export default {
   },
   data() {
     return {
-      // itemsPerPage: 6,
+      limit: 4,
       totalInspections: null,
-      message: "No Inspections to show",
+      message: 'No Inspections to show',
       currentData: null,
       currentDataUID: null,
       currentDataIndex: 0,
       modalShowData: false,
-      items: ["Good", "Bad", "Not sure"],
+      items: ['Good', 'Bad', 'Not sure'],
     };
   },
-  created() {
-    this.getInspections({ limit: 1 });
+  mounted() {
+    if (this.isInspectionCreated) {
+      return;
+    }
+    this.getInspections({ limit: this.limit });
   },
   computed: {
     ...mapState({
@@ -213,10 +219,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions("inspection", [
-      "updatingInspection",
-      "getInspections",
-      "getPagination",
+    ...mapActions('inspection', [
+      'updatingInspection',
+      'getInspections',
+      'getPagination',
     ]),
 
     showDataReports({ uid }) {
@@ -224,7 +230,7 @@ export default {
       // this.currentDataUID = item.uid;
       // this.modalShowData = true;
       this.$router.push({
-        name: "inspection_details_uid",
+        name: 'inspection_details_uid',
         params: { uid },
       });
     },
