@@ -130,6 +130,7 @@ export default {
       inspection: {
         data: [],
       },
+      // inspection: [],
       currentDataUID: null,
       isLoading: false,
       dialog: false,
