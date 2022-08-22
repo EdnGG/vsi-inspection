@@ -102,20 +102,20 @@ export default {
         console.log('Error: ', err);
       }
     },
-    addActuatorToInspection({ commit }, payload) { 
+    addActuatorToInspection({ commit }, payload) {
       console.log('Payload: ', payload);
-      Object.entries(payload).forEach(([key, value]) => { 
+      Object.entries(payload).forEach(([key, value]) => {
         console.log('key: ', key);
         console.log('value: ', value);
         // Falla cuando quiere detectar si algun value esta vacio
 
         if (value === '') {
           return showSnackbar.error(commit, 'Please fill all fields');
-        } else { 
+        } else {
           showSnackbar.success(commit, 'Actuator added');
         }
       })
-      
+
     },
   },
 

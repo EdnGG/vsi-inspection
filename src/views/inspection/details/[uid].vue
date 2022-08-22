@@ -127,7 +127,7 @@ export default {
   name: 'Detail',
   data() {
     return {
-      inspection: {
+      currentInspection: {
         data: [],
       },
       // inspection: [],
@@ -194,7 +194,7 @@ export default {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          this.inspection = doc.data().inspection;
+          this.currentInspection = doc.data().inspection;
         } else {
           console.log('No such document!');
         }
@@ -217,23 +217,25 @@ export default {
       // 'getInspections',
       // 'getPagination',
     ]),
-    async updatingData() {
+   async updatingData() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.currentInspection.data[this.editedIndex], this.editedItem);
+      } else {
+        this.currentInspection.data.push(this.editedItem);
+      }
       await this.updatingInspection({
         uid: this.$route.params.uid,
-        // uid: ,
-        // objeto llega vacio
-        // Se actuliza en firestore pero no en la vista
-        data: (this.inspection.data = this.editedItem),
+        data: this.currentInspection,
       });
-      this.dialog = false;
+      this.close();
     },
     editItem(item) {
-      this.editedIndex = this.inspection.data.indexOf(item);
+      this.editedIndex = this.currentInspection.data.indexOf(item);
       this.editedItem = { ...item };
       this.dialog = true;
     },
     deleteItem(item) {
-      this.editedIndex = this.inspection.data.indexOf(item);
+      this.editedIndex = this.currentInspection.data.indexOf(item);
       this.editedItem = { ...item };
       this.dialogDelete = true;
     },
@@ -257,19 +259,6 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
-    },
-
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.inspection.data[this.editedIndex], this.editedItem);
-      } else {
-        this.inspection.data.push(this.editedItem);
-      }
-      this.close();
-      console.log(this.$route.params.uid);
-      // Update inspection in firestore
-      // this.$store.dispatch('updateInspection', this.inspection);
-      console.log(this.inspection);
     },
 
     // save axios.post('/api/inspections', this.inspection.data({...this.editedItem}))
