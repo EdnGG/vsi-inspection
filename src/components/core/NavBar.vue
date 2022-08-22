@@ -38,10 +38,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import LiveDateTime from "@/components/Tools/LiveDateTime.vue";
-import LocalWeather from "@/components/Tools/LocalWeather.vue";
-import MenuRigthSide from "@/components/MenuRigthSide.vue";
+import { mapState } from 'vuex';
+import LiveDateTime from '@/components/Tools/LiveDateTime.vue';
+import LocalWeather from '@/components/Tools/LocalWeather.vue';
+import MenuRigthSide from '@/components/MenuRigthSide.vue';
 
 export default {
   components: {
@@ -50,10 +50,11 @@ export default {
     MenuRigthSide,
   },
   data: () => ({
-    title: "Inspection",
+    title: 'Inspection',
+    drawer: false,
   }),
   computed: {
-    ...mapState("authentication", ["user"]),
+    ...mapState('authentication', ['user']),
   },
 };
 </script>

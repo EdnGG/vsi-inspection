@@ -20,7 +20,7 @@
             v-model="userLogin.password"
             :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
             :rules="[rules.required, rules.min]"
-            @keyup.enter="login"
+            
             name="input-10-2"
             label="Password"
             hint="At least 8 characters"
@@ -53,33 +53,33 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
   data() {
     return {
       show4: false,
       rules: {
-        required: (value) => !!value || "Required.",
-        min: (v) => v.length >= 8 || "Min 8 characters",
+        required: (value) => !!value || 'Required.',
+        min: (v) => v.length >= 8 || 'Min 8 characters',
       },
       emailRules: [
-        (v) => !!v || "E-mail is required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+        (v) => !!v || 'E-mail is required',
+        (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
       userLogin: {
-        email: "",
-        password: "",
+        email: '',
+        password: '',
         // email: "gresseden@gmail.com",
         // password: "luciababy",
       },
     };
   },
   computed: {
-    ...mapState("authentication", ["user"]),
+    ...mapState('authentication', ['user']),
   },
   methods: {
-    ...mapActions("authentication", ["loginUser"]),
+    ...mapActions('authentication', ['loginUser']),
     validate() {
       return this.$refs.form.validate();
     },

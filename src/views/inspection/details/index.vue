@@ -237,13 +237,13 @@ export default {
     downloadPDF(data) {
       pdfGenerator(data);
     },
-    async updatingData() {
-      await this.updatingInspection({
-        uid: this.currentDataUID,
-        data: this.currentData,
-      });
-      this.modalShowData = false;
-    },
+    // async updatingData() {
+    //   await this.updatingInspection({
+    //     uid: this.currentDataUID,
+    //     data: this.currentData,
+    //   });
+    //   this.modalShowData = false;
+    // },
   },
 };
 </script>

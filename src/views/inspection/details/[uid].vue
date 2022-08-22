@@ -82,7 +82,7 @@
                 <v-btn color="blue darken-1" text @click="close">
                   Cancel
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
+                <v-btn color="blue darken-1" text @click="updatingData()"> Update </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -122,6 +122,7 @@
 
 <script>
 import { db } from '@/firebase';
+import { mapState, mapActions } from 'vuex';
 export default {
   name: 'Detail',
   data() {
@@ -129,10 +130,12 @@ export default {
       inspection: {
         data: [],
       },
+      currentDataUID: null,
       isLoading: false,
       dialog: false,
       dialogDelete: false,
       editedIndex: -1,
+
       editedItem: {
         actuatorModel: '',
         actuatorSerialNumber: '',
@@ -144,6 +147,7 @@ export default {
         handwheelBoltPatern: '',
         observaciones: '',
       },
+
       defaultItem: {
         actuatorModel: '',
         actuatorSerialNumber: '',
@@ -182,6 +186,7 @@ export default {
     };
   },
   created() {
+    // console.log('this.$route.params.uid: ', this.$route.params.uid);
     this.isLoading = true;
     db.collection('inspections')
       .doc(this.$route.params.uid)
@@ -206,6 +211,21 @@ export default {
     },
   },
   methods: {
+    ...mapActions('inspection', [
+      'updatingInspection',
+      // 'getInspections',
+      // 'getPagination',
+    ]),
+    async updatingData() {
+      await this.updatingInspection({
+        uid: this.$route.params.uid,
+        // uid: ,
+        // objeto llega vacio
+        // Se actuliza en firestore pero no en la vista
+        data: (this.inspection.data = this.editedItem),
+      });
+      this.dialog = false;
+    },
     editItem(item) {
       this.editedIndex = this.inspection.data.indexOf(item);
       this.editedItem = { ...item };
