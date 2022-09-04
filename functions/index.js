@@ -1,13 +1,14 @@
 require("dotenv").config();
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const sgMail = require("@sendgrid/mail");
+// const sgMail = require("@sendgrid/mail");
 const mailgun = require("mailgun-js");
 const mg = mailgun({
   apiKey: process.env.MAILGUN_API_KEY,
   domain: process.env.MAILGUN_DOMAIN_CLOUD,
 });
 admin.initializeApp(functions.config().firebase);
+
 // FIREBASE FUNCTIONS
 exports.sendEmail = functions.firestore
   .document("inspections/{inspectionsId}")
@@ -663,8 +664,8 @@ exports.sendEmail = functions.firestore
     };
 
     await mg.messages().send(data, (error, body) => {
-      console.log("data: ", data);
-      console.log("body: ", body);
+      // console.log("data: ", data);
+      // console.log("body: ", body);
       if (error) {
         return console.log(`error: `, error);
       }
