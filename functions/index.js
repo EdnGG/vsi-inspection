@@ -12,7 +12,7 @@ admin.initializeApp(functions.config().firebase);
 exports.sendEmail = functions.firestore
   .document("inspections/{inspectionsId}")
   .onCreate(async (snap, context) => {
-    // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}`,
+    // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
     const data = {
       from: `noreply@inspection-6c319.web.app/`,
       to: `${process.env.EMAIL_ADMIN}`,

@@ -15,7 +15,6 @@ import { auth } from "./firebase.js";
 // })
 
 
-//  No supe como acceder al modulo authentication de vuex
 auth.onAuthStateChanged((user) => {
   if (user) {
     console.log("user: ", user);

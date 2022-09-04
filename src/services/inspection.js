@@ -40,3 +40,8 @@ export const createDocument = async (collection, data) => {
 export const updateDocument = async (collection, id, data) => {
   await db.collection(collection).doc(id).update(data);
 };
+
+export const deleteDocument = async (collection, id, data) => {
+  await db.collection(collection).doc(id).update(data);
+}
+

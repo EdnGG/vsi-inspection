@@ -3,10 +3,12 @@ import {
   getAllDocuments,
   createDocument,
   updateDocument,
+  deleteDocument,
   getPaginationLength,
 } from '../../services';
 
 import { showSnackbar } from '../../helpers/snackbar';
+// import { indexOf } from "core-js/core/array";
 
 
 export default {
@@ -49,6 +51,17 @@ export default {
     },
   },
   actions: {
+    async deleteActuator({ commit }, payload) {  
+      try {
+        await deleteDocument('inspections', payload.uid, {
+          inspection: payload.data,
+        });
+        showSnackbar.success(commit, 'Actuator deleted successfully');
+      } catch (error) { 
+        showSnackbar.error(commit, err.message);
+        console.error('error: ', error);
+      } 
+    },
     async updatingInspection({ commit }, payload) {
       // console.log('payload: ', payload);
       try {
@@ -105,10 +118,8 @@ export default {
     addActuatorToInspection({ commit }, payload) {
       console.log('Payload: ', payload);
       Object.entries(payload).forEach(([key, value]) => {
-        console.log('key: ', key);
-        console.log('value: ', value);
-        // Falla cuando quiere detectar si algun value esta vacio
-
+        // console.log('key: ', key);
+        // console.log('value: ', value);
         if (value === '') {
           return showSnackbar.error(commit, 'Please fill all fields');
         } else {

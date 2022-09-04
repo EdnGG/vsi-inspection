@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="inspection.data"
+      :items="currentInspection.data"
       sort-by="calories"
       class="elevation-1">
       <template v-slot:top>
@@ -130,7 +130,6 @@ export default {
       currentInspection: {
         data: [],
       },
-      // inspection: [],
       currentDataUID: null,
       isLoading: false,
       dialog: false,
@@ -187,7 +186,6 @@ export default {
     };
   },
   created() {
-    // console.log('this.$route.params.uid: ', this.$route.params.uid);
     this.isLoading = true;
     db.collection('inspections')
       .doc(this.$route.params.uid)
@@ -212,14 +210,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions('inspection', [
-      'updatingInspection',
-      // 'getInspections',
-      // 'getPagination',
-    ]),
-   async updatingData() {
+    ...mapActions('inspection', ['updatingInspection', 'deleteActuator']),
+    async updatingData() {
       if (this.editedIndex > -1) {
-        Object.assign(this.currentInspection.data[this.editedIndex], this.editedItem);
+        Object.assign(
+          this.currentInspection.data[this.editedIndex],
+          this.editedItem,
+        );
       } else {
         this.currentInspection.data.push(this.editedItem);
       }
@@ -228,6 +225,18 @@ export default {
         data: this.currentInspection,
       });
       this.close();
+    },
+    async deleteItemConfirm() {
+      try {
+        this.currentInspection.data.splice(this.editedIndex, 1);
+        await this.deleteActuator({
+          uid: this.$route.params.uid,
+          data: this.currentInspection,
+        });
+        this.closeDelete();
+      } catch (error) {
+        console.log(error);
+      }
     },
     editItem(item) {
       this.editedIndex = this.currentInspection.data.indexOf(item);
@@ -238,11 +247,6 @@ export default {
       this.editedIndex = this.currentInspection.data.indexOf(item);
       this.editedItem = { ...item };
       this.dialogDelete = true;
-    },
-
-    deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
-      this.closeDelete();
     },
 
     close() {
