@@ -4,7 +4,7 @@ const admin = require("firebase-admin");
 // const sgMail = require("@sendgrid/mail");
 const mailgun = require("mailgun-js");
 const mg = mailgun({
-  apiKey: process.env.MAILGUN_API_KEY,
+  apiKey: process.env.MAILGUN_API_KEY, 
   domain: process.env.MAILGUN_DOMAIN_CLOUD,
 });
 admin.initializeApp(functions.config().firebase);
