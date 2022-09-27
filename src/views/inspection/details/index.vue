@@ -4,7 +4,7 @@
       <div id="view_inspection--title">
       <v-row class="text-center">
         <v-col cols="12" sm="12" justify-center align-center >
-          <h1>View Inspection</h1>
+          <h1>View Inspection Reports</h1>
         </v-col>
       </v-row>
     </div>

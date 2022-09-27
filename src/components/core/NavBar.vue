@@ -25,7 +25,7 @@
       </v-row>
 
       <v-row>
-        <v-app-bar-title class="ml-4 text-h4">
+        <v-app-bar-title class="ml-4 text-h3">
           {{ title }}
         </v-app-bar-title>
       </v-row>
@@ -50,11 +50,16 @@ export default {
     MenuRigthSide,
   },
   data: () => ({
-    title: 'Inspection',
-    drawer: false,
+    title: 'Inspections',
+    drawer: null,
   }),
   computed: {
     ...mapState('authentication', ['user']),
+
+    drawerMenu() {
+      // return this.$store.state.drawerMenu;
+      commit('drawerMenu', this.drawer);
+    },
   },
 };
 </script>

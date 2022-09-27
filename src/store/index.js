@@ -21,6 +21,7 @@ export default new Vuex.Store({
     project: [],
     palletsPBFNO: [],
     palletsPBF: [],
+    drawerMenu: null,
     // snackbar: {
     //   show: false,
     //   text: '',
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     //       state.snackbar.text = payload
     //   }, timeout)
     // },
+    SET_DRAWER_MENU(state, payload) {
+      state.drawerMenu = payload;
+    },
     UPDATING_INSPECTION(state, payload) {
       state.InspectionsFromFirestore = payload;
     },

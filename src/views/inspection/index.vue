@@ -3,7 +3,7 @@
     <div id="add_inspection--title">
     <v-row class="text-center ">
       <v-col cols="12" sm="12" justify-center align-center >
-        <h1>Inspection</h1>
+        <h1>Add Inspection Report</h1>
         
       </v-col>
     </v-row>
