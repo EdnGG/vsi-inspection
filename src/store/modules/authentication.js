@@ -26,12 +26,12 @@ export default {
     },
     SET_USER(state, payload) {
       state.user = payload;
-      console.log("state.user: ", payload);
+      // console.log("state.user: ", payload);
     },
   },
   actions: {
     isUserActive({ commit }, user) {
-      console.log("user from actions/isUserActive: ", user);
+      // console.log("user from actions/isUserActive: ", user);
       commit("SET_USER", user);
     },
     async signOut({ commit }) {

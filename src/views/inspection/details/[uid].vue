@@ -264,9 +264,6 @@ export default {
         this.editedIndex = -1;
       });
     },
-
-    // save axios.post('/api/inspections', this.inspection.data({...this.editedItem}))
-    // delete axios.delete('/api/inspections', this.inspection.data = this.inspection.data.filter(item => item.id !== this.editedItem.id))
   },
   watch: {
     dialog(val) {

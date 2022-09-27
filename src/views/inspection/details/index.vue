@@ -1,11 +1,13 @@
 <template>
   <v-container fluid>
     <v-container>
+      <div id="view_inspection--title">
       <v-row class="text-center">
-        <v-col cols="12" sm="12" justify-center align-center class="info">
+        <v-col cols="12" sm="12" justify-center align-center >
           <h1>View Inspection</h1>
         </v-col>
       </v-row>
+    </div>
     </v-container>
     <v-container v-if="!isInspectionCreated">
       <v-row class="text-center">
@@ -22,7 +24,7 @@
         :key="i">
           <v-card>
             <v-img
-              src="/../../../public/img/actuator.jpeg"
+              src="../../../../public/img/actuator.jpeg"
               height="200px"
             ></v-img>
             <v-card-title>
@@ -59,7 +61,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container>
+    <v-container class="text-center">
       <v-row>
         <v-col>
           <v-btn
@@ -226,9 +228,6 @@ export default {
     ]),
 
     showDataReports({ uid }) {
-      // this.currentData = item.inspection;
-      // this.currentDataUID = item.uid;
-      // this.modalShowData = true;
       this.$router.push({
         name: 'inspection_details_uid',
         params: { uid },
@@ -237,18 +236,19 @@ export default {
     downloadPDF(data) {
       pdfGenerator(data);
     },
-    // async updatingData() {
-    //   await this.updatingInspection({
-    //     uid: this.currentDataUID,
-    //     data: this.currentData,
-    //   });
-    //   this.modalShowData = false;
-    // },
   },
 };
 </script>
 
 <style scoped>
+#view_inspection--title {
+  background-color: #2196f3;
+  color: #fff;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 10px;
+}
+
 .card-container {
   display: flex;
   flex-wrap: wrap;

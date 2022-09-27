@@ -43,7 +43,7 @@ export default new Vuex.Store({
     },
     SET_USER(state, payload) {
       state.user = payload;
-      console.log('state.user: ', payload);
+      // console.log('state.user: ', payload);
     },
     SET_ERROR(state, payload) {
       state.error = payload;
@@ -71,16 +71,16 @@ export default new Vuex.Store({
     async getPalletsPBFNO({ commit }) {
       const palletsPBFNO = await db.collection('desmet-pallets-pbfno').get();
       palletsPBFNO.docs.forEach((doc) => {
-        console.log('Docs:', doc.data());
+        // console.log('Docs:', doc.data());
         commit('SAVE_PALLET', doc.data());
       });
     },
     isUserActive({ commit }, user) {
-      console.log('user from actions/isUserActive: ', user);
+      // console.log('user from actions/isUserActive: ', user);
       commit('SET_USER', user);
     },
     savePallet({ commit }, payload) {
-      console.log('payload: ', payload);
+      // console.log('payload: ', payload);
       commit('SAVE_PALLET', payload);
       db.collection('desmet-pallets-pbfno')
         .add({
@@ -90,7 +90,7 @@ export default new Vuex.Store({
           image: payload.image,
         })
         .then((docRef) => {
-          console.log('Document written with ID: ', docRef.id);
+          // console.log('Document written with ID: ', docRef.id);
         })
         .catch((error) => {
           console.error('Error adding document: ', error);
@@ -104,7 +104,7 @@ export default new Vuex.Store({
       db.collection('desmetOrder')
         .add({ desmetOrder: payload })
         .then((docRef) => {
-          console.log('Document written with ID: ', docRef.id);
+          // console.log('Document written with ID: ', docRef.id);
         })
         .catch((error) => {
           console.error('Error adding document: ', error);

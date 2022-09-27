@@ -3,11 +3,12 @@
     <v-img
       class="pa-4 pt-7"
       height="190"
-      src="img/series-1000.png"
+      src="../../../public/img/series-1000.png"
       gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
     >
       <v-avatar size="70" class="mb-2">
-        <img src="img/vsi.png" alt="Valve Solutions Inc" />
+        <!-- <img src="public/img/vsi.png" alt="Valve Solutions Inc" /> -->
+        <v-img src="../../../public/img/vsi.png" alt="Valve Solutions Inc" />
       </v-avatar>
     </v-img>
 
@@ -31,20 +32,20 @@ export default {
     drawer: null,
     items: [
       {
-        title: "Add Inspection",
-        icon: "mdi-format-list-checks",
-        to: "/inspection",
+        title: 'Add Inspection',
+        icon: 'mdi-format-list-checks',
+        to: '/inspection',
       },
       {
-        title: "view Inspection",
-        icon: "mdi-emoticon-cool-outline",
-        to: "/inspection/details",
+        title: 'view Inspection',
+        icon: 'mdi-emoticon-cool-outline',
+        to: '/inspection/details',
       },
-      {
-        title: "About",
-        icon: "mdi-help-box",
-        to: "/about",
-      },
+      // {
+      //   title: "About",
+      //   icon: "mdi-help-box",
+      //   to: "/about",
+      // },
     ],
   }),
 };

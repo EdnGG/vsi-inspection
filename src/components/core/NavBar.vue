@@ -4,7 +4,7 @@
     color="#primary"
     dark
     prominent
-    src="img/building.png"
+    src="../../../public/img/building.png"
     :height="$route.path === '/todo' ? 220 : 190"
   >
     <template v-slot:img="{ props }">

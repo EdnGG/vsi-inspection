@@ -1,11 +1,13 @@
 <template>
   <v-container fluid>
-    <v-row class="text-center">
-      <v-col cols="12" sm="12" justify-center align-center class="primary">
+    <div id="add_inspection--title">
+    <v-row class="text-center ">
+      <v-col cols="12" sm="12" justify-center align-center >
         <h1>Inspection</h1>
-        <h2>Inspection page</h2>
+        
       </v-col>
     </v-row>
+  </div>
     <v-row class="text-center">
       <v-col justify-center align-center cols="12" sm="12" class="text-center">
         <inspection-form-actuators></inspection-form-actuators>
@@ -15,14 +17,14 @@
 </template>
 
 <script>
-import InspectionFormActuators from "@/components/inspection/form/Actuators.vue";
+import InspectionFormActuators from '@/components/inspection/form/Actuators.vue';
 export default {
   components: {
     InspectionFormActuators,
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm(
-      "Do you really want to leave? you have unsaved changes!"
+      "If you leave this page, all data it's going to be lost!",
     );
     if (answer) {
       next();
@@ -32,3 +34,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#add_inspection--title {
+  background-color: #2196f3;
+  color: #fff;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 10px;
+}
+</style>
+
