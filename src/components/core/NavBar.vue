@@ -16,9 +16,13 @@
 
     <v-container class="header-container pa-0">
       <v-row>
-        <v-app-bar-nav-icon
+        <!-- <v-app-bar-nav-icon
           v-if="user"
           @click="drawer = !drawer"
+        ></v-app-bar-nav-icon> -->
+        <v-app-bar-nav-icon
+          v-if="user"
+          @click="changeDrawer"
         ></v-app-bar-nav-icon>
         <v-spacer></v-spacer>
         <menu-rigth-side />
@@ -51,8 +55,16 @@ export default {
   },
   data: () => ({
     title: 'Inspections',
-    drawer: null,
+    drawer: false,
   }),
+  methods: {
+    changeDrawer() {
+      this.drawer = !this.drawer;
+      console.log('clicked: ', this.drawer);
+      // this.$store.commit('changeDrawer', this.drawer);
+      this.$emit('changeDrawer', this.drawer);
+    },
+  },
   computed: {
     ...mapState('authentication', ['user']),
 

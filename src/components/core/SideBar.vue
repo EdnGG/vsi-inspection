@@ -1,6 +1,13 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" :mobile-breakpoint="768" app>
+    <!-- <v-navigation-drawer 
+    v-model="drawer" 
+    :mobile-breakpoint="768" 
+    app> -->
+    <v-navigation-drawer 
+    :drawer="drawer" 
+    :mobile-breakpoint="768" 
+    app>
       <v-img
         class="pa-4 pt-7"
         height="190"
@@ -34,8 +41,14 @@
 <script>
 import { mapState } from 'vuex';
 export default {
+  props: {
+    drawer: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data: () => ({
-    drawer: null,
+    // drawer: null,
     items: [
       {
         title: 'Add Inspection',
