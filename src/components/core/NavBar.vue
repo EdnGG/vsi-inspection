@@ -20,10 +20,12 @@
           v-if="user"
           @click="drawer = !drawer"
         ></v-app-bar-nav-icon> -->
+
         <v-app-bar-nav-icon
           v-if="user"
           @click="changeDrawer"
         ></v-app-bar-nav-icon>
+
         <v-spacer></v-spacer>
         <menu-rigth-side />
       </v-row>
@@ -43,6 +45,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { bus } from '../../main';
 import LiveDateTime from '@/components/Tools/LiveDateTime.vue';
 import LocalWeather from '@/components/Tools/LocalWeather.vue';
 import MenuRigthSide from '@/components/MenuRigthSide.vue';
@@ -60,19 +63,29 @@ export default {
   methods: {
     changeDrawer() {
       this.drawer = !this.drawer;
-      console.log('clicked: ', this.drawer);
-      // this.$store.commit('changeDrawer', this.drawer);
-      this.$emit('changeDrawer', this.drawer);
+      // console.log('clicked: ', this.drawer);
+      this.$store.commit('CHANGE_DRAWER_MENU', this.drawer);
+      // this.$emit('changeDrawer', this.drawer);
     },
   },
   computed: {
     ...mapState('authentication', ['user']),
 
-    drawerMenu() {
-      // return this.$store.state.drawerMenu;
-      commit('drawerMenu', this.drawer);
-    },
+    // drawerMenu() {
+    //   commit('drawerMenu', this.drawer);
+    // },
   },
+  created() {
+    // bus.$on('changeDrawer', (drawer) => {
+    //   this.drawer = drawer;
+    // });
+  },
+  // watch: {
+  //   drawer() {
+  //     console.log('drawer: ', this.drawer);
+  //     this.$emit('changeDrawer', this.drawer);
+  //   },
+  // },
 };
 </script>
 

@@ -4,10 +4,12 @@
     v-model="drawer" 
     :mobile-breakpoint="768" 
     app> -->
+
     <v-navigation-drawer 
-    :drawer="drawer" 
+    v-model="computedDrawer" 
     :mobile-breakpoint="768" 
     app>
+
       <v-img
         class="pa-4 pt-7"
         height="190"
@@ -39,14 +41,10 @@
 </template>
 
 <script>
+// changeDrawer
 import { mapState } from 'vuex';
+import { bus } from '../../main';
 export default {
-  props: {
-    drawer: {
-      type: Boolean,
-      default: false,
-    },
-  },
   data: () => ({
     // drawer: null,
     items: [
@@ -67,14 +65,37 @@ export default {
       // },
     ],
   }),
+  created() {
+    // console.log('THE DRAWER: ', this.drawerMenu);
+    // bus.$on('changeDrawer', (value) => {
+    //   console.log('changeDrawer', value);
+    //   this.drawer = value;
+    // });
+    // this.drawer = this.$route.path === '/inspection' ? true : false;
+  },
   computed: {
     ...mapState('authentication', ['user']),
-    // ...mapState(['drawer']),
+    ...mapState(['drawerMenu']),
+    computedDrawer: {
+      get() {
+        return this.drawerMenu;
+      },
+      set(value) {
+        this.$store.commit('CHANGE_DRAWER_MENU', value);
+      },
+      // return this.drawerMenu;
+    },
+  },
+  methods: {
+    changeDrawer() {
+      this.drawer = !this.drawer;
+    },
   },
   // watchers: {
-  //   drawerMenu() {
-  //     // return this.$store.state.drawerMenu;
-  //     commit('drawerMenu', this.drawer);
+  //   drawer() {
+  //     this.drawer = !this.drawer;
+  //     console.log('clicked: ', this.drawer);
+  //     this.$emit('drawerMenu', this.drawer);
   //   },
   // },
 };

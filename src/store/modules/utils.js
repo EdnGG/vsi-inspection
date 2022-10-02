@@ -7,7 +7,6 @@ export default {
   },
   mutations: {
     SHOW_MESSAGE(state, payload) {
-      console.log('payload utils module: ', payload);
       if (!payload.show) {
         state.showSnackbar = false;
       } else {
