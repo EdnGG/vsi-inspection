@@ -1,23 +1,23 @@
-require("dotenv").config();
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+require('dotenv').config();
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 // const sgMail = require("@sendgrid/mail");
-const mailgun = require("mailgun-js");
+const mailgun = require('mailgun-js');
 const mg = mailgun({
-  apiKey: process.env.MAILGUN_API_KEY, 
+  apiKey: process.env.MAILGUN_API_KEY,
   domain: process.env.MAILGUN_DOMAIN_CLOUD,
 });
 admin.initializeApp(functions.config().firebase);
 
 // FIREBASE FUNCTIONS
 exports.sendEmail = functions.firestore
-  .document("inspections/{inspectionsId}")
+  .document('inspections/{inspectionsId}')
   .onCreate(async (snap, context) => {
     const data = {
-      // to: `${process.env.EMAIL_ADMIN}`,
+      // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
       from: `noreply@inspection-6c319.web.app/`,
-      to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
-      subject: "Inspection Report",
+      to: `${process.env.EMAIL_ADMIN}`,
+      subject: 'Inspection Report',
       html: `
       <!DOCTYPE html>
 <html

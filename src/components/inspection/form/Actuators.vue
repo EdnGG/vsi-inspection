@@ -79,11 +79,19 @@
           <v-form ref="step2" lazy-validation>
             <v-row justify="space-between" class="mb-4">
               <v-col cols="12" md="3">
-                <v-text-field
+                
+                <core-custom-select-actuator
+                  v-model="tmpData.actuatorModel"
+                  title="Actuator Model"
+                >
+                </core-custom-select-actuator>
+
+                <!-- <v-text-field
                   v-model="tmpData.actuatorModel"
                   label="Actuator Model"
                   :rules="inspectionRules"
-                  required></v-text-field>
+                  required>
+                </v-text-field> -->
               </v-col>
               <v-col cols="12" md="3">
                 <v-text-field
@@ -214,34 +222,74 @@
 </template>
 
 <script>
-  import CoreCustomSelect from '@/components/core/CustomSelect.vue';
-  import { mapState } from 'vuex';
-  import { mapActions } from 'vuex';
-  // import pdfGenerator from "@/helpers/pdfGenerator.js";
+import CoreCustomSelect from '@/components/core/CustomSelect.vue';
+import CoreCustomSelectActuator from '@/components/core/CustomSelectActuator.vue';
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
+// import pdfGenerator from "@/helpers/pdfGenerator.js";
 
-  export default {
-    components: {
-      CoreCustomSelect,
-    },
-    data: () => ({
-      e1: 1,
-      step1: null,
-      step2: null,
-      modalSubmit: false,
-      firstVal: false,
-      menuDate: false,
-      prevButton: false,
-      nextButton: false,
-      select: { state: '', item: 'Select one' },
+export default {
+  components: {
+    CoreCustomSelect,
+    CoreCustomSelectActuator,
+  },
+  data: () => ({
+    e1: 1,
+    step1: null,
+    step2: null,
+    modalSubmit: false,
+    firstVal: false,
+    menuDate: false,
+    prevButton: false,
+    nextButton: false,
+    select: { state: '', item: 'Select one' },
+    date: '',
+    totalInspection: {
+      id: '',
       date: '',
-      totalInspection: {
-        id: '',
-        date: '',
-        technical: '',
-        observaciones: '',
-        data: [],
-      },
-      tmpData: {
+      technical: '',
+      observaciones: '',
+      data: [],
+    },
+    tmpData: {
+      actuatorModel: '',
+      actuatorSerialNumber: '',
+      controlPack: '',
+      visual: '',
+      waterInspection: '',
+      operationalTest: '',
+      wireCompartiment: '',
+      handwheelBoltPatern: '',
+      observaciones: '',
+    },
+    inspectionRules: [(v) => !!v || 'Field is required'],
+  }),
+  computed: {
+    ...mapState(['inspections', 'allInspections']),
+    datosArray() {
+      return [
+        this.inspection.data.visual,
+        this.inspection.data.waterInspection,
+        this.inspection.data.operationalTest,
+        this.inspection.data.wireCompartiment,
+        this.inspection.data.handwheelBoltPatern,
+      ].filter((item) => {
+        if (item) {
+          return item;
+        }
+      });
+    },
+    hide() {
+      return {
+        display: this.firstVal ? 'none' : 'block',
+      };
+    },
+  },
+  methods: {
+    ...mapActions('inspection', ['addInspection']),
+    addActuator({ step }) {
+      this.totalInspection.data.push({ ...this.tmpData });
+      this.tmpData = {
         actuatorModel: '',
         actuatorSerialNumber: '',
         controlPack: '',
@@ -251,90 +299,52 @@
         wireCompartiment: '',
         handwheelBoltPatern: '',
         observaciones: '',
-      },
-      inspectionRules: [(v) => !!v || 'Field is required'],
-    }),
-    computed: {
-      ...mapState(['inspections', 'allInspections']),
-      datosArray() {
-        return [
-          this.inspection.data.visual,
-          this.inspection.data.waterInspection,
-          this.inspection.data.operationalTest,
-          this.inspection.data.wireCompartiment,
-          this.inspection.data.handwheelBoltPatern,
-        ].filter((item) => {
-          if (item) {
-            return item;
-          }
-        });
-      },
-      hide() {
-        return {
-          display: this.firstVal ? 'none' : 'block',
-        };
-      },
+      };
+      this.$refs.step2.reset();
+      this.e1 = step;
     },
-    methods: {
-      ...mapActions('inspection', ['addInspection']),
-      addActuator({ step }) {
-        this.totalInspection.data.push({ ...this.tmpData });
-        this.tmpData = {
-          actuatorModel: '',
-          actuatorSerialNumber: '',
-          controlPack: '',
-          visual: '',
-          waterInspection: '',
-          operationalTest: '',
-          wireCompartiment: '',
-          handwheelBoltPatern: '',
-          observaciones: '',
-        };
-        this.$refs.step2.reset();
-        this.e1 = step;
-      },
-      submit() {
-        try {
-          this.addInspection(this.totalInspection);
-          this.modalSubmit = false;
-        } catch (err) {
-          console.log(`Error: ${err}`);
-        }
-      },
-      nextStep1() {
-        if (this.$refs.step1.validate()) {
-          this.e1 = 2;
-        }
-      },
-      nextStep2() {
-        if (this.$refs.step2.validate()) {
-          this.e1 = 3;
-        }
-      },
-      beforeWindowUnload(e) {
-        console.log('beforeWindowUnload', e);
-        if (this.completed) {
-          e.preventDefault();
-          e.returnValue = '';
-        }
-      },
+    submit() {
+      try {
+        this.addInspection(this.totalInspection);
+        this.modalSubmit = false;
+      } catch (err) {
+        console.log(`Error: ${err}`);
+      }
     },
-  };
+    nextStep1() {
+      if (this.$refs.step1.validate()) {
+        this.e1 = 2;
+      }
+    },
+    nextStep2() {
+      if (this.$refs.step2.validate()) {
+        this.e1 = 3;
+      }
+    },
+    beforeWindowUnload(e) {
+      console.log('beforeWindowUnload', e);
+      if (this.completed) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-  @media (max-width: 390px) {
-    .mobile-container {
-      display: flex;
-      /* flex-wrap: wrap; */
-      flex-direction: column;
-      justify-content: center;
-    }
-  }
-
-  .button-container {
+@media (max-width: 390px) {
+  .mobile-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+    justify-content: center;
   }
+}
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
 </style>
