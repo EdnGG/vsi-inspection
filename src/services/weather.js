@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const WEATHER_API_KEY = process.env.VUE_APP_WEATHER_API_KEY;
 

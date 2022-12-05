@@ -1,18 +1,18 @@
 // import { initializeApp } from 'firebase/app';
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/auth'
-import 'firebase/storage'
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBMQqWCRuR1CpIsdm-93gHG5IJi_yhg9k8",
-  authDomain: "inspection-6c319.firebaseapp.com",
-  projectId: "inspection-6c319",
-  storageBucket: "inspection-6c319.appspot.com",
-  messagingSenderId: "300530642294",
-  appId: "1:300530642294:web:6540c3d91d5f8775cc9e57"
+  apiKey: process.env.VUE_APP_API_KEY,
+  authDomain: process.env.VUE_APP_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_APP_ID,
 };
 
 // Initialize Firebase
@@ -21,13 +21,12 @@ const firebaseConfig = {
 // const db = getFirestore(app);
 
 // if (!firebase.app.length) {
-  firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 // }
 
 const db = firebase.firestore();
 const auth = firebase.auth();
-const time = firebase.firestore.FieldValue.serverTimeStamp
-const storage = firebase.storage()
-
+const time = firebase.firestore.FieldValue.serverTimeStamp;
+const storage = firebase.storage();
 
 export { auth, db, time, storage };
