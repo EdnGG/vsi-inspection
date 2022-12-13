@@ -145,11 +145,19 @@
           <v-row>
             <v-col cols="12">
               <v-container fluid>
-                <v-textarea
+
+                <core-custom-select-details
+                v-model="tmpData.observaciones"
+                title="Observations"
+                >
+                </core-custom-select-details>
+                <!-- <v-textarea
                   clearable
                   clear-icon="mdi-close-circle"
                   label="Notes:"
-                  v-model.trim="tmpData.observaciones"></v-textarea>
+                  v-model.trim="tmpData.observaciones">
+                </v-textarea> -->
+
               </v-container>
             </v-col>
           </v-row>
@@ -224,6 +232,7 @@
 <script>
 import CoreCustomSelect from '@/components/core/CustomSelect.vue';
 import CoreCustomSelectActuator from '@/components/core/CustomSelectActuator.vue';
+import CoreCustomSelectDetails from '@/components/core/CustomSelectDetails.vue';
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
 // import pdfGenerator from "@/helpers/pdfGenerator.js";
@@ -232,6 +241,7 @@ export default {
   components: {
     CoreCustomSelect,
     CoreCustomSelectActuator,
+    CoreCustomSelectDetails,
   },
   data: () => ({
     e1: 1,

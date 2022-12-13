@@ -12,10 +12,10 @@
         :value="value"
         :items="items.map(item => item)"
         filled
-        
+        multiple
         rounded
         shaped
-        label="Actuator"
+        label="Actuator Details"
       ></v-autocomplete>
       <!-- item-text="state"
       persistent-hint
@@ -40,33 +40,18 @@ export default {
   },
   data: () => ({
     items: [
-      '1005X',
-      '1005XL',
-      '1005X-S',
-      '1010X',
-      '1010X-S',
-      '1020X',
-      '1020X-S',
-      '1040X',
-      '1040X-S',
-      '1060X',
-      '1060X-S',
-      '1100X',
-      '1100X-S',
-      '1005X-24VAC',
-      '1005X-S-24VAC',
-      '1010X-24VAC',
-      '1010X-S-24VAC',
-      '1020X-24VAC',
-      '1020X-S-24VAC',
-      '1040X-24VAC',
-      '1040X-S-24VAC',
-      '1060X-24VAC',
-      '1060X-S-24VAC',
-      '1100X-24VAC',
-      '1100X-S-24VAC',
-      '1160X-24VAC',
-      '1160X-S-24VAC',
+      'Not enought lock tide',
+      'Not tide enought',
+      'Added more grease on gears',
+      'Wrong sticker or missed sticker',
+      'Screw damaged',
+      'Screw missing',
+      'Thread damaged',
+      'Dome damaged',
+      'Indicator damaged',
+      'Control pack damaged',
+      'Control pack missing',
+      'Push button damaged',
     ],
   }),
   model: {
