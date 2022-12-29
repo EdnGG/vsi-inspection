@@ -1,5 +1,6 @@
 require('dotenv').config();
 const functions = require('firebase-functions');
+// const firestore = require('@google-cloud/firestore');
 const admin = require('firebase-admin');
 // const sgMail = require("@sendgrid/mail");
 const mailgun = require('mailgun-js');
@@ -7,17 +8,22 @@ const mg = mailgun({
   apiKey: process.env.MAILGUN_API_KEY,
   domain: process.env.MAILGUN_DOMAIN_CLOUD,
 });
-admin.initializeApp(functions.config().firebase);
+const pdfGenerator = require('./helpers/pdfGenerator');
 
+admin.initializeApp(functions.config().firebase);
 // FIREBASE FUNCTIONS
 exports.sendEmail = functions.firestore
   .document('inspections/{inspectionsId}')
   .onCreate(async (snap, context) => {
+    // pdfGenerator(snap.data());
+    console.log('Info', snap.data());
     const data = {
-      // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
       from: `noreply@inspection-6c319.web.app/`,
       to: `${process.env.EMAIL_ADMIN}`,
+      // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
       subject: 'Inspection Report',
+      attachment: [{}],
+
       html: `
       <!DOCTYPE html>
 <html
@@ -475,6 +481,8 @@ exports.sendEmail = functions.firestore
                                       "
                                     >
                                       <tbody>
+
+
                                         <tr>
                                           <td
                                             align="center"
@@ -513,6 +521,51 @@ exports.sendEmail = functions.firestore
                                             >
                                           </td>
                                         </tr>
+                                
+                                        
+                                        <tr>  
+                                          <td
+                                            align="center"
+                                            bgcolor="#008000"
+                                            role="presentation"
+                                            style="
+                                              border: none;
+                                              border-radius: 3px;
+                                              cursor: auto;
+                                              mso-padding-alt: 10px 25px;
+                                              background: #008000;
+                                            "
+                                            valign="middle"
+                                          >
+                                            <button
+                                              onclick="${console.log(
+                                                'pdf button',
+                                              )}"
+
+                                              style="
+                                                display: inline-block;
+                                                width: 250px;
+                                                background: #008000;
+                                                color: #ffffff;
+                                                font-family: 'Helvetica Neue',
+                                                Helvetica, Arial, sans-serif;
+                                                font-size: 17px;
+                                                font-weight: bold;
+                                                line-height: 120%;
+                                                margin: 0;
+                                                text-decoration: none;
+                                                text-transform: none;
+                                                padding: 10px 25px;
+                                                mso-padding-alt: 0px;
+                                                border-radius: 3px;
+                                              "
+                                              target="_blank"
+                                              >Generate PDF</button
+                                            >
+                                          </td>
+                                        </tr>
+                                          
+
                                       </tbody>
                                     </table>
                                   </td>
@@ -667,7 +720,7 @@ exports.sendEmail = functions.firestore
       // console.log("data: ", data);
       // console.log("body: ", body);
       if (error) {
-        return console.log(`error: `, error);
+        return console.log(`error: `, error.message);
       }
       return console.log(`email send it `, body);
     });

@@ -40,6 +40,7 @@ export default {
   },
   data: () => ({
     items: [
+      'All Good',
       'Not enought lock tide',
       'Not tide enought',
       'Added more grease on gears',
@@ -51,6 +52,8 @@ export default {
       'Indicator damaged',
       'Control pack damaged',
       'Control pack missing',
+      'Control needs to recalibrate',
+      'Push button damaged',
       'Push button damaged',
     ],
   }),
