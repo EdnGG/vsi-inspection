@@ -538,8 +538,8 @@ exports.sendEmail = functions.firestore
                                             valign="middle"
                                           >
                                             <button
-                                              onclick="${console.log(
-                                                'pdf button',
+                                              onclick="${pdfGenerator(
+                                                snap.data(),
                                               )}"
 
                                               style="
