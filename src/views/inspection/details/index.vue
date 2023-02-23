@@ -7,7 +7,7 @@
           <h1>View Inspection Reports</h1>
         </v-col>
       </v-row>
-    </div>
+    </div> 
     </v-container>
     <v-container v-if="!isInspectionCreated">
       <v-row class="text-center">
@@ -26,6 +26,7 @@
             <v-img
               src="../../../../public/img/actuator.jpeg"
               height="200px"
+              @loaded="lastVisible = item.inspection.id"
             ></v-img>
             <v-card-title>
               <span class="mr-2"> # {{ item.inspection.id }} </span>
@@ -66,9 +67,12 @@
         <v-col>
           <v-btn
             color="blue"
-            @click="getInspections({ limit: 4 })"
-            :disabled="pagination.disabled"
+            @click="getInspections({ limit: 3, startAfter: lastVisible })"
           >
+            <!-- linea de abajo va dentro del v-btn -->
+            <!-- @click="getInspections({ limit: 3, startAfer: InspectionsFromFirestore.lenght - 1 } )" -->
+            <!-- @click="getInspections({ limit: 2, startAfter: lastVisible })" -->
+            <!-- :disabled="pagination.disabled" -->
             Load More
           </v-btn>
         </v-col>
@@ -187,7 +191,8 @@ export default {
   },
   data() {
     return {
-      limit: 4,
+      lastVisible: null,
+      limit: 3,
       totalInspections: null,
       message: 'No Inspections to show',
       currentData: null,
@@ -201,7 +206,8 @@ export default {
     if (this.isInspectionCreated) {
       return;
     }
-    this.getInspections({ limit: this.limit });
+    this.getInspections({ limit: 3, startAfter: null });
+    // this.getInspections({ limit: this.limit });
   },
   computed: {
     ...mapState({

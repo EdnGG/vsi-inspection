@@ -1,7 +1,7 @@
 const jsPDF = require('jspdf');
 const autoTable = require('jspdf-autotable');
 
-const pdfGenerator = (data, title = 'VSI Incomming report') => {
+const pdfGenerator = async (data, title = 'VSI Incomming report') => {
   const NUMBER_MAX_COLUMNS = 9;
   const headerBody = [
     'Actuator Model',
@@ -15,7 +15,7 @@ const pdfGenerator = (data, title = 'VSI Incomming report') => {
     'Observations',
   ];
 
-  const body = data.data.map((item) => {
+  const body = await data.data.map((item) => {
     return [
       item.actuatorModel,
       item.actuatorSerialNumber,

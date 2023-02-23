@@ -17,7 +17,7 @@
     "jspdf-autotable": "^3.5.25",
     "vee-validate": "^3.4.14",
     "vue": "^2.6.11",
-    "vue-axios": "^3.4.1",
+    "vue-axios": "^3.4.1", 
     "vue-google-login": "^2.0.5",
     "vue-moment": "^4.1.0",
     "vue-router": "^3.2.0",

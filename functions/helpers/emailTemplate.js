@@ -1,36 +1,9 @@
-require('dotenv').config();
-const jsPDF = require('jspdf');
-const autoTable = require('jspdf-autotable');
-const functions = require('firebase-functions');
-// const firestore = require('@google-cloud/firestore');
-const admin = require('firebase-admin');
-// const sgMail = require("@sendgrid/mail");
-const mailgun = require('mailgun-js');
-const mg = mailgun({
-  apiKey: process.env.MAILGUN_API_KEY,
-  domain: process.env.MAILGUN_DOMAIN_CLOUD,
-});
-// const pdfGenerator = require('./helpers/pdfGenerator');
-// const emailTemplate = require('./helpers/emailTemplate');
-
-admin.initializeApp(functions.config().firebase);
-// FIREBASE FUNCTIONS
-exports.sendEmail = functions.firestore
-  .document('inspections/{inspectionsId}')
-  .onCreate(async (snap, context) => {
-    try {
-      // pdfGenerator(snap.data().inspection);
-      const dataPdf = snap.data().inspection;
-      console.log('Info: ', snap.data());
-      console.log('dataPDF: ', dataPdf);
-      const data = {
-        from: `noreply@inspection-6c319.web.app/`,
-        // to: `${process.env.EMAIL_ADMIN}`,
-        to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
-        subject: 'Inspection Report',
-        // attachment: [{}],
-        html: `
-      <!DOCTYPE html>
+const emailTemplate = (data) => {
+  data.from,
+    data.to,
+    data.subject,
+    (html = `
+  <!DOCTYPE html>
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:v="urn:schemas-microsoft-com:vml"
@@ -528,68 +501,47 @@ exports.sendEmail = functions.firestore
                                         </tr>
                                 
                                         
-                                        <tr>
-                                        <td
-                                          align="center"
-                                          vertical-align="middle"
-                                          style="
-                                            font-size: 0px;
-                                            padding: 10px 25px;
-                                            word-break: break-word;
-                                          "
-                                        >
-                                          <table
-                                            border="0"
-                                            cellpadding="0"
-                                            cellspacing="0"
+                                        <tr>  
+                                          <td
+                                            align="center"
+                                            bgcolor="#008000"
                                             role="presentation"
                                             style="
-                                              border-collapse: separate;
-                                              width: 300px;
-                                              line-height: 100%;
+                                              border: none;
+                                              border-radius: 3px;
+                                              cursor: auto;
+                                              mso-padding-alt: 10px 25px;
+                                              background: #008000;
                                             "
+                                            valign="middle"
                                           >
-                                            <tbody>
-      
-      
-                                              <tr>
-                                                <td
-                                                  align="center"
-                                                  bgcolor="#008000"
-                                                  role="presentation"
-                                                  style="
-                                                    border: none;
-                                                    border-radius: 3px;
-                                                    cursor: auto;
-                                                    mso-padding-alt: 10px 25px;
-                                                    background: #008000;
-                                                  "
-                                                  valign="middle"
-                                                >
-                                                  <button
-                                                    href="https://inspection-6c319.web.app/"
-                                                    style="
-                                                      display: inline-block;
-                                                      width: 250px;
-                                                      background: #008000;
-                                                      color: #ffffff;
-                                                      font-family: 'Helvetica Neue',
-                                                        Helvetica, Arial, sans-serif;
-                                                      font-size: 17px;
-                                                      font-weight: bold;
-                                                      line-height: 120%;
-                                                      margin: 0;
-                                                      text-decoration: none;
-                                                      text-transform: none;
-                                                      padding: 10px 25px;
-                                                      mso-padding-alt: 0px;
-                                                      border-radius: 3px;
-                                                    "
-                                                    target="_blank"
-                                                    >Download PDF<button
-                                                  >
-                                                </td>
-                                              </tr>
+                                            <button
+                                              onclick="${console.log(
+                                                'pdf button',
+                                              )}"
+
+                                              style="
+                                                display: inline-block;
+                                                width: 250px;
+                                                background: #008000;
+                                                color: #ffffff;
+                                                font-family: 'Helvetica Neue',
+                                                Helvetica, Arial, sans-serif;
+                                                font-size: 17px;
+                                                font-weight: bold;
+                                                line-height: 120%;
+                                                margin: 0;
+                                                text-decoration: none;
+                                                text-transform: none;
+                                                padding: 10px 25px;
+                                                mso-padding-alt: 0px;
+                                                border-radius: 3px;
+                                              "
+                                              target="_blank"
+                                              >Generate PDF</button
+                                            >
+                                          </td>
+                                        </tr>
                                           
 
                                       </tbody>
@@ -739,94 +691,7 @@ exports.sendEmail = functions.firestore
     </div>
   </body>
 </html>
-      `,
-      };
-
-      await mg.messages().send(data, (error, body) => {
-        if (error) {
-          console.log(`Error trying to send email: `, error.message);
-          throw new Error(error.message);
-        }
-        return console.log(`Email sent successfully `, body);
-      });
-      // await pdfGenerator(snap.data().inspection);
-    } catch (error) {
-      console.log(error.message);
-    }
-  });
-
-// Create a function to generate a pdf table using jsPDF and jspdf-autotable
-const pdfGenerator = async (data, title = 'VSI Incomming report') => {
-  const NUMBER_MAX_COLUMNS = 9;
-  const headerBody = [
-    'Actuator Model',
-    'Actuator Serial Number',
-    'Control Pack',
-    'Visual',
-    'Water Inspection',
-    'Operational Test',
-    'Wire Compartiment',
-    'Handwheel Bolt Patern',
-    'Observations',
-  ];
-
-  const body = await data.data.map((item) => {
-    return [
-      item.actuatorModel,
-      item.actuatorSerialNumber,
-      item.controlPack,
-      item.visual,
-      item.waterInspection,
-      item.operationalTest,
-      item.wireCompartiment,
-      item.handwheelBoltPatern,
-      item.observaciones,
-    ];
-  });
-
-  const doc = await new jsPDF({
-    orientation: 'landscape',
-    unit: 'mm',
-    format: 'a4',
-  });
-
-  autoTable(doc, {
-    theme: 'grid',
-    font: 'helvetica',
-    cellWidth: 'wrap',
-    head: [
-      [
-        {
-          content: title,
-          colSpan: 9,
-          styles: { halign: 'center', fontSize: 16 },
-        },
-      ],
-    ],
-    body: [
-      [
-        { content: `Number: ${data.id}`, colSpan: NUMBER_MAX_COLUMNS / 3 },
-        { content: `Date: ${data.date}`, colSpan: NUMBER_MAX_COLUMNS / 3 },
-        {
-          content: `Technical: ${data.technical}`,
-          colSpan: NUMBER_MAX_COLUMNS / 3,
-        },
-      ],
-      headerBody,
-      ...body,
-      [
-        {
-          content: 'Final notes:',
-          colSpan: 2,
-          styles: {
-            fillColor: 'green',
-            textColor: '#ffffff',
-          },
-        },
-        { content: data.observaciones, colSpan: NUMBER_MAX_COLUMNS - 2 },
-      ],
-    ],
-  });
-
-  doc.save(`inspection-${data.date}.pdf`);
+      `);
 };
+
+module.exports = emailTemplate;

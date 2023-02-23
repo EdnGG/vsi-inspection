@@ -1,36 +1,4 @@
-require('dotenv').config();
-const jsPDF = require('jspdf');
-const autoTable = require('jspdf-autotable');
-const functions = require('firebase-functions');
-// const firestore = require('@google-cloud/firestore');
-const admin = require('firebase-admin');
-// const sgMail = require("@sendgrid/mail");
-const mailgun = require('mailgun-js');
-const mg = mailgun({
-  apiKey: process.env.MAILGUN_API_KEY,
-  domain: process.env.MAILGUN_DOMAIN_CLOUD,
-});
-// const pdfGenerator = require('./helpers/pdfGenerator');
-// const emailTemplate = require('./helpers/emailTemplate');
-
-admin.initializeApp(functions.config().firebase);
-// FIREBASE FUNCTIONS
-exports.sendEmail = functions.firestore
-  .document('inspections/{inspectionsId}')
-  .onCreate(async (snap, context) => {
-    try {
-      // pdfGenerator(snap.data().inspection);
-      const dataPdf = snap.data().inspection;
-      console.log('Info: ', snap.data());
-      console.log('dataPDF: ', dataPdf);
-      const data = {
-        from: `noreply@inspection-6c319.web.app/`,
-        // to: `${process.env.EMAIL_ADMIN}`,
-        to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
-        subject: 'Inspection Report',
-        // attachment: [{}],
-        html: `
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:v="urn:schemas-microsoft-com:vml"
@@ -38,9 +6,7 @@ exports.sendEmail = functions.firestore
 >
   <head>
     <title>Electric Actuators Inspection</title>
-    <!--[if !mso]><!-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!--<![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <style type="text/css">
@@ -72,23 +38,8 @@ exports.sendEmail = functions.firestore
         margin: 13px 0;
       }
     </style>
-    <!--[if mso]>
-      <noscript>
-        <xml>
-          <o:OfficeDocumentSettings>
-            <o:AllowPNG />
-            <o:PixelsPerInch>96</o:PixelsPerInch>
-          </o:OfficeDocumentSettings>
-        </xml>
-      </noscript>
-    <![endif]-->
-    <!--[if lte mso 11]>
-      <style type="text/css">
-        .mj-outlook-group-fix {
-          width: 100% !important;
-        }
-      </style>
-    <![endif]-->
+   
+   
     <style type="text/css">
       @media only screen and (min-width: 480px) {
         .mj-column-per-100 {
@@ -141,7 +92,6 @@ exports.sendEmail = functions.firestore
         <tbody>
           <tr>
             <td>
-              <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" bgcolor="#008000" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
               <div style="margin: 0px auto; max-width: 600px">
                 <table
                   align="center"
@@ -162,7 +112,6 @@ exports.sendEmail = functions.firestore
                           text-align: center;
                         "
                       >
-                        <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
                         <div
                           class="mj-column-per-100 mj-outlook-group-fix"
                           style="
@@ -256,18 +205,15 @@ exports.sendEmail = functions.firestore
                             </tbody>
                           </table>
                         </div>
-                        <!--[if mso | IE]></td></tr></table><![endif]-->
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
             </td>
           </tr>
         </tbody>
       </table>
-      <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="body-section-outlook" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
       <div
         class="body-section"
         style="
@@ -298,7 +244,6 @@ exports.sendEmail = functions.firestore
                   text-align: center;
                 "
               >
-                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" bgcolor="#ffffff" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
                 <div
                   style="
                     background: #ffffff;
@@ -331,7 +276,6 @@ exports.sendEmail = functions.firestore
                             text-align: center;
                           "
                         >
-                          <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:570px;" ><![endif]-->
                           <div
                             class="mj-column-per-100 mj-outlook-group-fix"
                             style="
@@ -526,70 +470,75 @@ exports.sendEmail = functions.firestore
                                             >
                                           </td>
                                         </tr>
-                                
-                                        
+
                                         <tr>
-                                        <td
-                                          align="center"
-                                          vertical-align="middle"
-                                          style="
-                                            font-size: 0px;
-                                            padding: 10px 25px;
-                                            word-break: break-word;
-                                          "
-                                        >
-                                          <table
-                                            border="0"
-                                            cellpadding="0"
-                                            cellspacing="0"
-                                            role="presentation"
+                                          <td
+                                            align="center"
+                                            vertical-align="middle"
                                             style="
-                                              border-collapse: separate;
-                                              width: 300px;
-                                              line-height: 100%;
+                                              font-size: 0px;
+                                              padding: 10px 25px;
+                                              word-break: break-word;
                                             "
                                           >
-                                            <tbody>
-      
-      
-                                              <tr>
-                                                <td
-                                                  align="center"
-                                                  bgcolor="#008000"
-                                                  role="presentation"
-                                                  style="
-                                                    border: none;
-                                                    border-radius: 3px;
-                                                    cursor: auto;
-                                                    mso-padding-alt: 10px 25px;
-                                                    background: #008000;
-                                                  "
-                                                  valign="middle"
-                                                >
-                                                  <button
-                                                    href="https://inspection-6c319.web.app/"
+                                            <table
+                                              border="0"
+                                              cellpadding="0"
+                                              cellspacing="0"
+                                              role="presentation"
+                                              style="
+                                                border-collapse: separate;
+                                                width: 300px;
+                                                line-height: 100%;
+                                              "
+                                            >
+                                              <tbody>
+        
+        
+                                                <tr>
+                                                  <td
+                                                    align="center"
+                                                    bgcolor="#008000"
+                                                    role="presentation"
                                                     style="
-                                                      display: inline-block;
-                                                      width: 250px;
-                                                      background: #008000;
-                                                      color: #ffffff;
-                                                      font-family: 'Helvetica Neue',
-                                                        Helvetica, Arial, sans-serif;
-                                                      font-size: 17px;
-                                                      font-weight: bold;
-                                                      line-height: 120%;
-                                                      margin: 0;
-                                                      text-decoration: none;
-                                                      text-transform: none;
-                                                      padding: 10px 25px;
-                                                      mso-padding-alt: 0px;
+                                                      border: none;
                                                       border-radius: 3px;
+                                                      cursor: auto;
+                                                      mso-padding-alt: 10px 25px;
+                                                      background: #008000;
                                                     "
-                                                    target="_blank"
-                                                    >Download PDF<button
+                                                    valign="middle"
                                                   >
-                                                </td>
-                                              </tr>
+                                                    <button
+                                                      href="https://inspection-6c319.web.app/"
+                                                      style="
+                                                        display: inline-block;
+                                                        width: 250px;
+                                                        background: #008000;
+                                                        color: #ffffff;
+                                                        font-family: 'Helvetica Neue',
+                                                          Helvetica, Arial, sans-serif;
+                                                        font-size: 17px;
+                                                        font-weight: bold;
+                                                        line-height: 120%;
+                                                        margin: 0;
+                                                        text-decoration: none;
+                                                        text-transform: none;
+                                                        padding: 10px 25px;
+                                                        mso-padding-alt: 0px;
+                                                        border-radius: 3px;
+                                                      "
+                                                      target="_blank"
+                                                      >Go to Website<button
+                                                    >
+                                                  </td>
+                                                </tr>
+                                
+                                        
+                                       
+
+
+                                       
                                           
 
                                       </tbody>
@@ -599,19 +548,16 @@ exports.sendEmail = functions.firestore
                               </tbody>
                             </table>
                           </div>
-                          <!--[if mso | IE]></td></tr></table><![endif]-->
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <!--[if mso | IE]></td></tr></table></td></tr></table><![endif]-->
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <!--[if mso | IE]></td></tr></table><![endif]-->
       <table
         align="center"
         border="0"
@@ -623,7 +569,6 @@ exports.sendEmail = functions.firestore
         <tbody>
           <tr>
             <td>
-              <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
               <div style="margin: 0px auto; max-width: 600px">
                 <table
                   align="center"
@@ -643,7 +588,6 @@ exports.sendEmail = functions.firestore
                           text-align: center;
                         "
                       >
-                        <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
                         <div style="margin: 0px auto; max-width: 600px">
                           <table
                             align="center"
@@ -664,7 +608,6 @@ exports.sendEmail = functions.firestore
                                     text-align: center;
                                   "
                                 >
-                                  <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="width:600px;" ><![endif]-->
                                   <div
                                     class="mj-column-per-100 mj-outlook-group-fix"
                                     style="
@@ -676,7 +619,6 @@ exports.sendEmail = functions.firestore
                                       direction: ltr;
                                     "
                                   >
-                                    <!--[if mso | IE]><table border="0" cellpadding="0" cellspacing="0" role="presentation" ><tr><td style="vertical-align:top;width:600px;" ><![endif]-->
                                     <div
                                       class="mj-column-per-100 mj-outlook-group-fix"
                                       style="
@@ -717,21 +659,17 @@ exports.sendEmail = functions.firestore
                                         </tbody>
                                       </table>
                                     </div>
-                                    <!--[if mso | IE]></td></tr></table><![endif]-->
                                   </div>
-                                  <!--[if mso | IE]></td></tr></table><![endif]-->
                                 </td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
-                        <!--[if mso | IE]></td></tr></table></td></tr></table><![endif]-->
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <!--[if mso | IE]></td></tr></table><![endif]-->
             </td>
           </tr>
         </tbody>
@@ -739,94 +677,3 @@ exports.sendEmail = functions.firestore
     </div>
   </body>
 </html>
-      `,
-      };
-
-      await mg.messages().send(data, (error, body) => {
-        if (error) {
-          console.log(`Error trying to send email: `, error.message);
-          throw new Error(error.message);
-        }
-        return console.log(`Email sent successfully `, body);
-      });
-      // await pdfGenerator(snap.data().inspection);
-    } catch (error) {
-      console.log(error.message);
-    }
-  });
-
-// Create a function to generate a pdf table using jsPDF and jspdf-autotable
-const pdfGenerator = async (data, title = 'VSI Incomming report') => {
-  const NUMBER_MAX_COLUMNS = 9;
-  const headerBody = [
-    'Actuator Model',
-    'Actuator Serial Number',
-    'Control Pack',
-    'Visual',
-    'Water Inspection',
-    'Operational Test',
-    'Wire Compartiment',
-    'Handwheel Bolt Patern',
-    'Observations',
-  ];
-
-  const body = await data.data.map((item) => {
-    return [
-      item.actuatorModel,
-      item.actuatorSerialNumber,
-      item.controlPack,
-      item.visual,
-      item.waterInspection,
-      item.operationalTest,
-      item.wireCompartiment,
-      item.handwheelBoltPatern,
-      item.observaciones,
-    ];
-  });
-
-  const doc = await new jsPDF({
-    orientation: 'landscape',
-    unit: 'mm',
-    format: 'a4',
-  });
-
-  autoTable(doc, {
-    theme: 'grid',
-    font: 'helvetica',
-    cellWidth: 'wrap',
-    head: [
-      [
-        {
-          content: title,
-          colSpan: 9,
-          styles: { halign: 'center', fontSize: 16 },
-        },
-      ],
-    ],
-    body: [
-      [
-        { content: `Number: ${data.id}`, colSpan: NUMBER_MAX_COLUMNS / 3 },
-        { content: `Date: ${data.date}`, colSpan: NUMBER_MAX_COLUMNS / 3 },
-        {
-          content: `Technical: ${data.technical}`,
-          colSpan: NUMBER_MAX_COLUMNS / 3,
-        },
-      ],
-      headerBody,
-      ...body,
-      [
-        {
-          content: 'Final notes:',
-          colSpan: 2,
-          styles: {
-            fillColor: 'green',
-            textColor: '#ffffff',
-          },
-        },
-        { content: data.observaciones, colSpan: NUMBER_MAX_COLUMNS - 2 },
-      ],
-    ],
-  });
-
-  doc.save(`inspection-${data.date}.pdf`);
-};
