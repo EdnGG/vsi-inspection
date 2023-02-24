@@ -16,6 +16,8 @@
         </v-col>
       </v-row>
     </v-container>
+
+
     <v-container class="d-flex d-wrap">
       <v-row>
       <!-- {{ InspectionsFromFirestore }} -->
@@ -26,7 +28,7 @@
             <v-img
               src="../../../../public/img/actuator.jpeg"
               height="200px"
-              @loaded="lastVisible = item.inspection.id"
+              @loaded="lastDocument = item.inspection.id"
             ></v-img>
             <v-card-title>
               <span class="mr-2"> # {{ item.inspection.id }} </span>
@@ -62,12 +64,14 @@
         </v-col>
       </v-row>
     </v-container>
+
+
     <v-container class="text-center">
       <v-row>
         <v-col>
           <v-btn
             color="blue"
-            @click="getInspections({ limit: 3, startAfter: lastVisible })"
+            @click="getInspections({ limit: 3, startAfter: lastDocument })"
           >
             <!-- linea de abajo va dentro del v-btn -->
             <!-- @click="getInspections({ limit: 3, startAfer: InspectionsFromFirestore.lenght - 1 } )" -->
@@ -191,7 +195,7 @@ export default {
   },
   data() {
     return {
-      lastVisible: null,
+      lastDocument: null,
       limit: 3,
       totalInspections: null,
       message: 'No Inspections to show',
@@ -202,11 +206,17 @@ export default {
       items: ['Good', 'Bad', 'Not sure'],
     };
   },
+  updated() {
+    console.log('actualizado', this.lastDocument)
+    this.lastDocument = this.InspectionsFromFirestore[
+      this.InspectionsFromFirestore.length - 1
+    ];
+  },
   mounted() {
     if (this.isInspectionCreated) {
       return;
     }
-    this.getInspections({ limit: 3, startAfter: null });
+    this.getInspections({ limit: 3, startAfter: this.lastDocument });
     // this.getInspections({ limit: this.limit });
   },
   computed: {

@@ -86,18 +86,18 @@ export default {
         console.error('Error adding document: ', error);
       }
     },
-    async getInspections({ commit, state }, { limit }) {
+    async getInspections({ commit, state }, { limit, startAfter }) {
       try {
         // if (state.pagination.disabled) return;
-
+        console.log('startAfter: ', startAfter);
         const { data, lastVisible, total } = await getAllDocuments(
           'inspections',
           {
             limit,
-            lastDocument: state.lastDocument,
+            lastVisible: startAfter,
           },
         );
-
+        // debugger;
         commit('SET_LAST_DOCUMENT', lastVisible);
         commit('GET_INSPECTIONS', data);
 
@@ -113,6 +113,7 @@ export default {
         console.log('Error: ', err.message);
       }
     },
+
     addActuatorToInspection({ commit }, payload) {
       console.log('Payload: ', payload);
       Object.entries(payload).forEach(([key, value]) => {

@@ -100,27 +100,22 @@ export const getAllDocuments = async (collection, { limit, lastVisible }) => {
   const collectionRef = await db.collection(collection);
   const total = await collectionRef.get().then((snapshot) => snapshot.size);
 
-  // const lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-
   let query = collectionRef.orderBy('inspection.date', 'desc');
 
-  // lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-  // debugger;
-  // no entra a esta condicion porque lastVisible es undefined
+  if (lastVisible) {
+    query = query.startAfter(lastVisible.inspection.date);
+  }
 
   query = query.limit(limit);
 
   const querySnapshot = await query.get();
+
   const data = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
     uid: doc.id,
   }));
 
   const lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-
-  if (lastVisible) {
-    query = query.startAfter(lastVisible.data().inspection.date);
-  }
 
   return {
     data,
