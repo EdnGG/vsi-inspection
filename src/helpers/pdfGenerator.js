@@ -153,7 +153,9 @@ const pdfGenerator = (
       ],
       [
         {
-          content: `ORDER QUANTITY: ${data.quantity ? data.quantity : ' '}`,
+          content: `ORDER QUANTITY: ${
+            data.orderQuantity ? data.orderQuantity : ' '
+          }`,
           colSpan: 5,
           styles: { halign: 'left', fillColor: 'white', textColor: 'black' },
         },

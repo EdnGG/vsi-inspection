@@ -22,7 +22,7 @@
                   v-model.trim="totalInspection.id"
                   :rules="inspectionRules"
                   :counter="10"
-                  label="Inspection #"
+                  label="VSI Purchase Order Number"
                   required></v-text-field>
               </v-col>
               <v-col cols="12" md="3">
@@ -65,7 +65,22 @@
                 <v-text-field
                   v-model.trim="totalInspection.technical"
                   :rules="inspectionRules"
-                  label="Technical Name"
+                  label="Inspected by"
+                  required></v-text-field>
+              </v-col>
+              <v-col cols="12" md="3">
+                <v-text-field
+                  v-model.trim="totalInspection.orderQuantity"
+                  :rules="inspectionRules"
+                  label="Order Quantity"
+                  required></v-text-field>
+              </v-col>
+              <v-col cols="12" md="3">
+                <v-text-field
+                  v-model.trim="totalInspection.testSampleSize"
+                  :rules="inspectionRules"
+                  :counter="10"
+                  label="Test Sample Size"
                   required></v-text-field>
               </v-col>
             </v-row>
@@ -258,6 +273,8 @@ export default {
       id: '',
       date: '',
       technical: '',
+      orderQuantity: '',
+      testSampleSize: '',
       observaciones: '',
       data: [],
     },
