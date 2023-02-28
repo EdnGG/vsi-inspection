@@ -19,17 +19,26 @@ const pdfGenerator = (
     halign: 'center',
     fontSize: 11,
   };
+
+  const footerStyles = {
+    fillColor: '#ced4da',
+    halign: 'center',
+    fontSize: 9,
+    textColor: 'black',
+    margin: { top: 20, right: 10, bottom: 20, left: 10 },
+  };
+
   const headerBody = [
     {
       content: 'Actuator Model',
       styles,
     },
     {
-      content: 'Actuator Serial Number',
+      content: 'Control Pack Serial Number',
       styles,
     },
     {
-      content: 'Control Pack',
+      content: 'Actuator Serial Number',
       styles,
     },
     {
@@ -58,11 +67,29 @@ const pdfGenerator = (
     },
   ];
 
+  const footerData = [
+    [
+      {
+        content:
+          'Form Rev: A  Last Revised: 8/24/2021  Last Reviewed: 11/07/2022',
+        colSpan: 9,
+        styles: footerStyles,
+      },
+    ],
+    [
+      {
+        content: 'DISPOSE OF BLANK FORMS AFTER 11/7/2023',
+        colSpan: 9,
+        styles: footerStyles,
+      },
+    ],
+  ];
+
   const body = data.data.map((item) => {
     return [
       item.actuatorModel,
-      item.actuatorSerialNumber,
       item.controlPack,
+      item.actuatorSerialNumber,
       item.visual,
       item.waterInspection,
       item.operationalTest,
@@ -88,7 +115,9 @@ const pdfGenerator = (
     theme: 'grid',
     font: 'helvetica',
     cellWidth: 'wrap',
-    // border: '4px solid black',
+    headStyles: { fillColor: 'gray' }, // Establecer el color de fondo del encabezado aquí
+    styles: { lineWidth: 0.7, lineColor: 'black' }, // establecer la propiedad lineWidth para toda la tabla aquí
+    foot: footerData,
     head: [
       [
         {
@@ -97,90 +126,50 @@ const pdfGenerator = (
           styles: {
             halign: 'center',
             fontSize: 16,
-            lineWidth: 1,
+            lineWidth: 0.7,
             fontStyle: 'bold',
             lineColor: 'black',
             // fillColor: '#F2F2F2',
           },
         },
       ],
-      // Agregar un objeto adicional para la imagen en el encabezado
-      //  [
-      //   {
-      //     content: { image: imgData, width: 50, height: 50 },
-      //     colSpan: 1,
-      //   },
-      // ],
-
-      // [
-      //   {
-      //     content: headerBody,
-      //     colSpan: 9,
-      //     styles: {
-      //       halign: 'center',
-      //       fontSize: 16,
-      //       lineWidth: 1,
-      //       fontStyle: 'bold',
-      //       lineColor: 'black',
-      //       // fillColor: '#F2F2F2',
-      //     },
-      //   },
-      // ],
 
       [
         {
           content: `VSI PURCHASE ORDER NUMBER: ${data.id}`,
           colSpan: NUMBER_MAX_COLUMNS / 3,
+          styles: { halign: 'left', fillColor: 'white', textColor: 'black' },
         },
-        { content: `DATE: ${data.date}`, colSpan: NUMBER_MAX_COLUMNS / 3 },
+        {
+          content: `DATE: ${data.date}`,
+          colSpan: NUMBER_MAX_COLUMNS / 3,
+          styles: { halign: 'left', fillColor: 'white', textColor: 'black' },
+        },
         {
           content: `INSPECTED BY: ${data.technical}`,
           colSpan: NUMBER_MAX_COLUMNS / 3,
+          styles: { halign: 'left', fillColor: 'white', textColor: 'black' },
         },
       ],
       [
         {
           content: `ORDER QUANTITY: ${data.quantity ? data.quantity : ' '}`,
           colSpan: 5,
-          // styles: { halign: 'left', fillColor: '#F2F2F2' },
+          styles: { halign: 'left', fillColor: 'white', textColor: 'black' },
         },
         {
           content: `TEST SAMPLE SIZE: ${
             data.testSampleSize ? data.testSampleSize : ' '
           } `,
           colSpan: 4,
-          // styles: { halign: 'left', fillColor: '#F2F2F2' },
+          styles: { halign: 'left', fillColor: 'white', textColor: 'black' },
         },
       ],
+      headerBody,
     ],
 
     body: [
-      // [
-      //   {
-      //     content: `VSI PURCHASE ORDER NUMBER: ${data.id}`,
-      //     colSpan: NUMBER_MAX_COLUMNS / 3,
-      //   },
-      //   { content: `DATE: ${data.date}`, colSpan: NUMBER_MAX_COLUMNS / 3 },
-      //   {
-      //     content: `INSPECTED BY: ${data.technical}`,
-      //     colSpan: NUMBER_MAX_COLUMNS / 3,
-      //   },
-      // ],
-      // [
-      //   {
-      //     content: `ORDER QUANTITY: ${data.quantity ? data.quantity : ' '}`,
-      //     colSpan: 5,
-      //     styles: { halign: 'left', fillColor: '#F2F2F2' },
-      //   },
-      //   {
-      //     content: `TEST SAMPLE SIZE: ${
-      //       data.testSampleSize ? data.testSampleSize : ' '
-      //     } `,
-      //     colSpan: 4,
-      //     styles: { halign: 'left', fillColor: '#F2F2F2' },
-      //   },
-      // ],
-      headerBody,
+      // headerBody,
       ...body,
       [
         {
@@ -192,50 +181,15 @@ const pdfGenerator = (
             fontStyle: 'bold',
             halign: 'center',
             fontWeight: 'bold',
-            fontSize: 16,
+            fontSize: 14,
             border: '4px solid black',
-            lineWidth: 1,
-            // fillColor: '#F2F2F2',
+            lineWidth: 0.7,
+            // minCellHeight: 90,
           },
         },
         { content: data.observaciones, colSpan: NUMBER_MAX_COLUMNS - 2 },
       ],
     ],
-
-    headStyles: { fillColor: 'gray' }, // Establecer el color de fondo del encabezado aquí
-    styles: { lineWidth: 1, lineColor: 'black' }, // establecer la propiedad lineWidth para toda la tabla aquí
-
-    // didDrawPage: (data) => {
-    //   // Obtener la página actual
-    //   currentPage = doc.internal.getCurrentPageInfo().pageNumber;
-
-    //   // Si es la primera página, no hacemos nada
-    //   if (isFirstPage) {
-    //     isFirstPage = false;
-    //     return;
-    //   }
-
-    //   // Si se cambió de página, agregamos los encabezados y los datos de la tabla
-    //   if (currentPage !== previousPage) {
-    //     doc.autoTable({
-    //       startY: 10, // Espacio superior para los encabezados
-    //       // title: [title],
-    //       head: [...title, headerBody],
-    //       body: [body],
-    //       headStyles: { ...styles, fillColor: 'gray' },
-    //       styles: { lineWidth: 1, lineColor: 'black' },
-    //       didParseCell: (data) => {
-    //         // Ajustar el tamaño de las celdas para que quepan en la página
-    //         if (data.row.index === 0) {
-    //           data.cell.styles.fontSize = 11;
-    //         }
-    //       },
-    //     });
-    //   }
-
-    //   // Actualizar la página anterior
-    //   previousPage = currentPage;
-    // },
   });
 
   doc.save(`inspection-${data.date}.pdf`);
