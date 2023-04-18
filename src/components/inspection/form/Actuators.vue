@@ -72,6 +72,7 @@
                 <v-text-field
                   v-model.trim="totalInspection.orderQuantity"
                   :rules="inspectionRules"
+                  :counter="10"
                   label="Order Quantity"
                   required></v-text-field>
               </v-col>
@@ -101,12 +102,6 @@
                 >
                 </core-custom-select-actuator>
 
-                <!-- <v-text-field
-                  v-model="tmpData.actuatorModel"
-                  label="Actuator Model"
-                  :rules="inspectionRules"
-                  required>
-                </v-text-field> -->
               </v-col>
               <v-col cols="12" md="3">
                 <v-text-field
@@ -258,6 +253,7 @@ export default {
     CoreCustomSelectActuator,
     CoreCustomSelectDetails,
   },
+
   data: () => ({
     e1: 1,
     step1: null,
@@ -348,13 +344,13 @@ export default {
         this.e1 = 3;
       }
     },
-    beforeWindowUnload(e) {
-      console.log('beforeWindowUnload', e);
-      if (this.completed) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    },
+    // beforeWindowUnload(e) {
+    //   console.log('beforeWindowUnload', e);
+    //   if (this.completed) {
+    //     e.preventDefault();
+    //     e.returnValue = '';
+    //   }
+    // },
   },
 };
 </script>

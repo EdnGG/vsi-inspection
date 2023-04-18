@@ -175,14 +175,14 @@
 // module.exports = pdfGenerator2;
 
 const { jsPDF } = require('jspdf');
-const { autoTable } = require('jspdf-autotable');
+const autoTable = require('jspdf-autotable');
 
 const pdfGenerator2 = async (data, title = 'VSI Incoming report') => {
   const NUMBER_MAX_COLUMNS = 9;
   const headerBody = [
     'Actuator Model',
+    'Control Pack Serial Nmber',
     'Actuator Serial Number',
-    'Control Pack',
     'Visual',
     'Water Inspection',
     'Operational Test',
@@ -194,8 +194,8 @@ const pdfGenerator2 = async (data, title = 'VSI Incoming report') => {
   const body = await data.data.map((item) => {
     return [
       item.actuatorModel,
-      item.actuatorSerialNumber,
       item.controlPack,
+      item.actuatorSerialNumber,
       item.visual,
       item.waterInspection,
       item.operationalTest,
@@ -250,7 +250,7 @@ const pdfGenerator2 = async (data, title = 'VSI Incoming report') => {
     columnStyles: { 8: { cellWidth: 'auto' } },
   };
 
-  const table = new autoTable(doc, {
+  autoTable(doc, {
     head: tableData[2],
     body: tableData.slice(3),
     startY: 50,

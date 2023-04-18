@@ -6,9 +6,11 @@
       </v-subheader>
     </v-col>
     <v-col cols="6">
-      <!-- capturar selec.state -->
+      <!-- capturar selec.state 
+      v-model="computedState"  
+      -->
       <v-select
-        v-model="computedState" 
+        v-model="selected" 
         :value="value"
         :items="items.map(item => item.state)"
         item-text="state"
@@ -30,7 +32,7 @@ export default {
     },
     value: {
       type: String,
-      default: null,
+      default: 'Good', // default value could be null
     },
   },
   data: () => ({
@@ -39,6 +41,7 @@ export default {
       { state: 'Bad', item: 'Looks Bad' },
       { state: 'Not sure', item: 'Not sure condition' },
     ],
+    selected: 'good',
   }),
   model: {
     event: 'change',
