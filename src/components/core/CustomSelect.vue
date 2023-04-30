@@ -10,15 +10,15 @@
       v-model="computedState"  
       -->
       <v-select
-        v-model="selected" 
+        v-model="computedState"
         :value="value"
-        :items="items.map(item => item.state)"
+        :items="items.map((item) => item.state)"
         item-text="state"
         persistent-hint
-        item-value="item"
+        item-value="state"
+        return-object
         single-line
-        :hint="computedState ? computedState.value : null"
-      ></v-select>
+        :hint="computedState ? computedState.value : null"></v-select>
     </v-col>
   </v-row>
 </template>
@@ -32,27 +32,29 @@ export default {
     },
     value: {
       type: String,
-      default: 'Good', // default value could be null
+      default: 'Good',
     },
   },
-  data: () => ({
-    items: [
-      { state: 'Good', item: 'Looks good' },
-      { state: 'Bad', item: 'Looks Bad' },
-      { state: 'Not sure', item: 'Not sure condition' },
-    ],
-    selected: 'good',
-  }),
+  data() {
+    return {
+      items: [
+        { state: 'Good', item: 'Looks good' },
+        { state: 'Bad', item: 'Looks Bad' },
+        { state: 'Not sure', item: 'Not sure condition' },
+      ],
+      selected: 'good',
+    };
+  },
   model: {
     event: 'change',
   },
   computed: {
     computedState: {
       get() {
-        return this.value;
+        return { state: this.value };
       },
       set(value) {
-        this.$emit('change', value);
+        this.$emit('change', value.state);
       },
     },
   },

@@ -130,18 +130,23 @@
         <v-stepper-content step="3">
           <core-custom-select
             v-model="tmpData.visual"
+            value="Good"
             title="Visual"></core-custom-select>
           <core-custom-select
             v-model="tmpData.waterInspection"
+            value="Good"
             title="Water Inspection"></core-custom-select>
           <core-custom-select
             v-model="tmpData.operationalTest"
+            value="Good"
             title="Operational Test"></core-custom-select>
           <core-custom-select
             v-model="tmpData.wireCompartiment"
+            value="Good"
             title="Wire Compartiment"></core-custom-select>
           <core-custom-select
             v-model="tmpData.handwheelBoltPatern"
+            value="Good"
             title="Handwheel Bolt Patern"></core-custom-select>
           <div class="d-flex">
             <v-btn color="primary" @click="e1 = 4" class="mr-2">
@@ -175,7 +180,7 @@
           <div class="d-flex">
             <v-btn
               class="mr-2"
-              color="warning"
+              color="success"
               @click="addActuator({ step: 2 })">
               Add Actuator
             </v-btn>
@@ -185,7 +190,18 @@
               class="mr-2">
               Continue
             </v-btn>
-            <v-btn text @click="e1 = 3"> Back </v-btn>
+            <v-btn 
+              color="primary" 
+              @click="e1 = 3"
+              class="mr-2"> 
+              Back 
+            </v-btn>
+            <v-btn 
+              color="warning" 
+              @click="saveAndContinueLater"
+              class="mr-2"> 
+              Save and continue later 
+            </v-btn>
           </div>
         </v-stepper-content>
 
@@ -266,12 +282,12 @@ export default {
     select: { state: '', item: 'Select one' },
     date: '',
     totalInspection: {
-      id: '',
+      id: 'wqeweq',
       date: '',
-      technical: '',
-      orderQuantity: '',
-      testSampleSize: '',
-      observaciones: '',
+      technical: 'wewq',
+      orderQuantity: 'wqeweq',
+      testSampleSize: 'weqw',
+      observaciones: 'weqwe',
       data: [],
     },
     tmpData: {
@@ -325,6 +341,11 @@ export default {
       };
       this.$refs.step2.reset();
       this.e1 = step;
+    },
+    saveAndContinueLater() {
+      console.log('saveAndContinueLater');
+      // save the insepctions and continue later
+      this.addInspection(this.totalInspection);
     },
     submit() {
       try {

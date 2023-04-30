@@ -6,10 +6,12 @@
       </v-subheader>
     </v-col>
     <v-col cols="6">
-      <!-- capturar selec.state -->
+      <!-- capturar selec.state 
+        :value="value"
+      
+      -->
       <v-autocomplete
         v-model="computedState" 
-        :value="value"
         :items="items.map(item => item)"
         filled
         multiple
@@ -33,10 +35,10 @@ export default {
       type: String,
       require: true,
     },
-    value: {
-      type: String,
-      default: null,
-    },
+    // value: {
+    //   type: String,
+    //   default: null,
+    // },
   },
   data: () => ({
     items: [

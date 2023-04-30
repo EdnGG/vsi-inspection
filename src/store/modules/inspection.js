@@ -57,7 +57,7 @@ export default {
         showSnackbar.success(commit, 'Actuator deleted successfully');
       } catch (error) {
         showSnackbar.error(commit, err.message);
-        console.error('error: ', error);
+        console.error('error: ', error.message);
       }
     },
     async updatingInspection({ commit }, payload) {
@@ -68,8 +68,8 @@ export default {
         });
         showSnackbar.success(commit, 'inspection updated');
       } catch (error) {
-        showSnackbar.error(commit, err.message);
-        console.error('error: ', error);
+        showSnackbar.error(commit, error.message);
+        console.error('error: ', error.message);
       }
     },
     async addInspection({ commit }, payload) {
@@ -82,8 +82,8 @@ export default {
         // console.log('Document written with ID: ', doc);
         // commit('ADD_INSPECTION', payload);
       } catch (error) {
-        showSnackbar.error(commit, err.message);
-        console.error('Error adding document: ', error);
+        showSnackbar.error(commit, error.message);
+        console.error('Error adding document: ', error.message);
       }
     },
     async getInspections({ commit, state }, { limit, startAfter }) {
@@ -109,8 +109,8 @@ export default {
         //   currentPage,
         //   disabled: totalPages === currentPage,
         // });
-      } catch (err) {
-        console.log('Error: ', err.message);
+      } catch (error) {
+        console.log('Error: ', error.message);
       }
     },
 
