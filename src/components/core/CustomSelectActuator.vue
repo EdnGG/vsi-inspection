@@ -12,7 +12,6 @@
         :value="value"
         :items="items.map(item => item)"
         filled
-        
         rounded
         shaped
         label="Actuator"
@@ -28,6 +27,7 @@
 
 <script>
 export default {
+  name: 'CoreCustomSelectActuator',
   props: {
     title: {
       type: String,
@@ -40,6 +40,7 @@ export default {
   },
   data: () => ({
     items: [
+      'N/A',
       '1005-X',
       '1005-XL',
       '1005S-XLA-24VAC',

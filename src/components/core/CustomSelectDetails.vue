@@ -6,41 +6,42 @@
       </v-subheader>
     </v-col>
     <v-col cols="6">
-      <!-- capturar selec.state 
-        :value="value"
-      
-      -->
+      <!-- capturar selec.state -->
       <v-autocomplete
-        v-model="computedState" 
-        :items="items.map(item => item)"
+        v-model="computedState"
+        :items="items.map((item) => item)"
         filled
         multiple
         rounded
         shaped
-        label="Actuator Details"
-      ></v-autocomplete>
-      <!-- item-text="state"
-      persistent-hint
-      item-value="item"
-      single-line
-      :hint="computedState ? computedState.value : null" -->
+        label="Actuator Details"></v-autocomplete>
+      <!-- @input="$emit('input',$event)" -->
     </v-col>
   </v-row>
 </template>
 
 <script>
 export default {
+  name: 'CoreCustomSelectDetails',
+
   props: {
     title: {
       type: String,
       require: true,
     },
     // value: {
+    //   type: Array,
+    //   default: () => [],
+    // },
+    // value: {
     //   type: String,
-    //   default: null,
+    //   default: '',
     // },
   },
   data: () => ({
+    // isMounted: false,
+    // innerValue: [],
+    value: [],
     items: [
       'All Good',
       'Not enought lock tide',
@@ -59,8 +60,29 @@ export default {
       'Push button damaged',
     ],
   }),
+  // mounted() {
+  //   this.isMounted = true;
+  // },
   model: {
     event: 'change',
+  },
+  methods: {
+    // updateValue(newValue) {
+    //   if (this.isMounted) {
+    //     this.$emit('input', newValue);
+    //   }
+    // },
+  },
+  watch: {
+    // value: {
+    //   immediate: true,
+    //   handler(newVal) {
+    //     this.innerValue = newVal;
+    //   },
+    // },
+    // innerValue(newVal) {
+    //   this.$emit('input', newVal);
+    // },
   },
   computed: {
     computedState: {
@@ -68,12 +90,21 @@ export default {
         return this.value;
       },
       set(value) {
-        this.$emit('change', value);
+        this.$emit('input', value);
+        this.$emit('update-observaciones', value);
       },
     },
+    // computedState: {
+    //   },
+    // get() {
+    //   return this.value;
+    // },
+    // set(value) {
+    //   this.$emit('input', value);
+    // },
+    // },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

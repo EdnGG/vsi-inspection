@@ -11,11 +11,10 @@
       -->
       <v-select
         v-model="computedState"
-        :value="value"
         :items="items.map((item) => item.state)"
-        item-text="state"
-        persistent-hint
+        item-text="item"
         item-value="state"
+        persistent-hint
         return-object
         single-line
         :hint="computedState ? computedState.value : null"></v-select>
@@ -25,6 +24,7 @@
 
 <script>
 export default {
+  name: 'CoreCustomSelect',
   props: {
     title: {
       type: String,
@@ -32,17 +32,17 @@ export default {
     },
     value: {
       type: String,
-      default: 'Good',
+      default: null,
     },
   },
   data() {
     return {
       items: [
-        { state: 'Good', item: 'Looks good' },
+        { state: 'Good', item: 'Looks Good' },
         { state: 'Bad', item: 'Looks Bad' },
         { state: 'Not sure', item: 'Not sure condition' },
       ],
-      selected: 'good',
+      // selectedState: { state: this.value, item: '' },
     };
   },
   model: {
@@ -51,12 +51,19 @@ export default {
   computed: {
     computedState: {
       get() {
-        return { state: this.value };
+        return this.value;
       },
       set(value) {
-        this.$emit('change', value.state);
+        this.$emit('change', value);
       },
     },
+  },
+  watch: {
+    // selectedState(newVal, oldVal) {
+    //   if (newVal !== oldVal) {
+    //     this.$emit('change', newVal.state);
+    //   }
+    // },
   },
 };
 </script>

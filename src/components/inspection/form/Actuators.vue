@@ -131,7 +131,8 @@
           <core-custom-select
             v-model="tmpData.visual"
             value="Good"
-            title="Visual"></core-custom-select>
+            title="Visual"
+            ></core-custom-select>
           <core-custom-select
             v-model="tmpData.waterInspection"
             value="Good"
@@ -164,14 +165,18 @@
                 <core-custom-select-details
                 v-model="tmpData.observaciones"
                 title="Observations"
+                @update-observaciones="updateObservaciones"
                 >
                 </core-custom-select-details>
-                <!-- <v-textarea
+                <!-- 
+                @input="updateObservaciones" -- pertenece a custom-select
+                  <v-textarea
                   clearable
                   clear-icon="mdi-close-circle"
                   label="Notes:"
                   v-model.trim="tmpData.observaciones">
-                </v-textarea> -->
+                </v-textarea> 
+                -->
 
               </v-container>
             </v-col>
@@ -287,7 +292,7 @@ export default {
       technical: 'wewq',
       orderQuantity: 'wqeweq',
       testSampleSize: 'weqw',
-      observaciones: 'weqwe',
+      observaciones: '',
       data: [],
     },
     tmpData: {
@@ -299,7 +304,7 @@ export default {
       operationalTest: '',
       wireCompartiment: '',
       handwheelBoltPatern: '',
-      observaciones: '',
+      observaciones: '', // se cambio de string a array
     },
     inspectionRules: [(v) => !!v || 'Field is required'],
   }),
@@ -326,6 +331,10 @@ export default {
   },
   methods: {
     ...mapActions('inspection', ['addInspection']),
+
+    updateObservaciones(value) {
+      this.tmpData.observaciones = value;
+    },
     addActuator({ step }) {
       this.totalInspection.data.push({ ...this.tmpData });
       this.tmpData = {
@@ -345,7 +354,7 @@ export default {
     saveAndContinueLater() {
       console.log('saveAndContinueLater');
       // save the insepctions and continue later
-      this.addInspection(this.totalInspection);
+      // this.addInspection(this.totalInspection);
     },
     submit() {
       try {
