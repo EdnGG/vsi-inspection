@@ -130,25 +130,55 @@
         <v-stepper-content step="3">
           <core-custom-select
             v-model="tmpData.visual"
-            value="Good"
             title="Visual"
-            ></core-custom-select>
+            @input="updateValue('visual', $event)"
+          ></core-custom-select>
           <core-custom-select
             v-model="tmpData.waterInspection"
-            value="Good"
-            title="Water Inspection"></core-custom-select>
+            title="Water Inspection"
+            @input="updateValue('waterInspection', $event)"></core-custom-select>
           <core-custom-select
             v-model="tmpData.operationalTest"
-            value="Good"
-            title="Operational Test"></core-custom-select>
+            title="Operational Test"
+            @input="updateValue('operationalTest', $event)"></core-custom-select>
           <core-custom-select
             v-model="tmpData.wireCompartiment"
-            value="Good"
-            title="Wire Compartiment"></core-custom-select>
+            title="Wire Compartiment"
+            @input="updateValue('wireCompartiment', $event)"></core-custom-select>
           <core-custom-select
             v-model="tmpData.handwheelBoltPatern"
-            value="Good"
-            title="Handwheel Bolt Patern"></core-custom-select>
+            title="Handwheel Bolt Patern"
+            @input="updateValue('HandweelBoltPatern', $event)">
+          </core-custom-select>
+
+
+          <!-- <core-custom-select
+            v-model="tmpData.visual"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Visual"
+            @input="updateValue('waterInspection', $event)"
+          ></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.waterInspection"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Water Inspection"
+            @input="updateValue('waterInspection', $event)"></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.operationalTest"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Operational Test"
+            @input="updateValue('waterInspection', $event)"></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.wireCompartiment"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Wire Compartiment"
+            @input="updateValue('waterInspection', $event)"></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.handwheelBoltPatern"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Handwheel Bolt Patern"
+            @input="updateValue('waterInspection', $event)">
+          </core-custom-select> -->
           <div class="d-flex">
             <v-btn color="primary" @click="e1 = 4" class="mr-2">
               Continue
@@ -331,6 +361,11 @@ export default {
   },
   methods: {
     ...mapActions('inspection', ['addInspection']),
+
+    updateValue(field, value) {
+      this.tmpData[field] = value.state;
+      // console.log('from component padre: ', this.tmpData[field.state]);
+    },
 
     updateObservaciones(value) {
       this.tmpData.observaciones = value;
