@@ -58,13 +58,20 @@ export default {
   },
   created() {
     if (this.value === null || this.value === undefined) {
+      console.log('Entro al if: ', this.value);
       this.value = this.defaultValue;
+      console.log('Final del if: ', this.value);
+      this.emitDefaultValue();
     }
+    // return (this.value = { state: 'Good', item: 'Looks Good' });
   },
   methods: {
+    emitDefaultValue() {
+      this.$emit('input', this.defaultValue.state);
+    },
     updateValue(value) {
       console.log('value: ', value);
-      this.$emit('input', value.state);
+      this.$emit('input', value);
     },
   },
   computed: {

@@ -131,24 +131,29 @@
           <core-custom-select
             v-model="tmpData.visual"
             title="Visual"
-            @input="updateValue('visual', $event)"
+            @input="updateValue('visual', $event)">
           ></core-custom-select>
           <core-custom-select
             v-model="tmpData.waterInspection"
             title="Water Inspection"
-            @input="updateValue('waterInspection', $event)"></core-custom-select>
+            @input="updateValue('waterInspection', $event)">
+            </core-custom-select>
           <core-custom-select
             v-model="tmpData.operationalTest"
             title="Operational Test"
-            @input="updateValue('operationalTest', $event)"></core-custom-select>
+            @input="updateValue('operationalTest', $event)">
+           </core-custom-select> 
           <core-custom-select
             v-model="tmpData.wireCompartiment"
             title="Wire Compartiment"
-            @input="updateValue('wireCompartiment', $event)"></core-custom-select>
+            @input="updateValue('wireCompartiment', $event)">
+          </core-custom-select>
           <core-custom-select
             v-model="tmpData.handwheelBoltPatern"
             title="Handwheel Bolt Patern"
-            @input="updateValue('HandweelBoltPatern', $event)">
+            @input="updateValue('handwheelBoltPatern', $event)">
+            >
+            
           </core-custom-select>
 
 
@@ -359,6 +364,23 @@ export default {
       };
     },
   },
+  // watch: {
+  //   'tmpData.visual': function (newVal) {
+  //     this.updateValue('visual', newVal.state);
+  //   },
+  //   'tmpData.waterInspection': function (newVal) {
+  //     this.updateValue('waterInspection', newVal.state);
+  //   },
+  //   'tmpData.operationalTest': function (newVal) {
+  //     this.updateValue('operationalTest', newVal.state);
+  //   },
+  //   'tmpData.wireCompartiment': function (newVal) {
+  //     this.updateValue('wireCompartiment', newVal.state);
+  //   },
+  //   'tmpData.handwheelBoltPatern': function (newVal) {
+  //     this.updateValue('handwheelBoltPatern', newVal.state);
+  //   },
+  // },
   methods: {
     ...mapActions('inspection', ['addInspection']),
 
