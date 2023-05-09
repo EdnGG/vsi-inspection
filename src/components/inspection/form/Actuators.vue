@@ -157,33 +157,7 @@
           </core-custom-select>
 
 
-          <!-- <core-custom-select
-            v-model="tmpData.visual"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Visual"
-            @input="updateValue('waterInspection', $event)"
-          ></core-custom-select>
-          <core-custom-select
-            v-model="tmpData.waterInspection"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Water Inspection"
-            @input="updateValue('waterInspection', $event)"></core-custom-select>
-          <core-custom-select
-            v-model="tmpData.operationalTest"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Operational Test"
-            @input="updateValue('waterInspection', $event)"></core-custom-select>
-          <core-custom-select
-            v-model="tmpData.wireCompartiment"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Wire Compartiment"
-            @input="updateValue('waterInspection', $event)"></core-custom-select>
-          <core-custom-select
-            v-model="tmpData.handwheelBoltPatern"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Handwheel Bolt Patern"
-            @input="updateValue('waterInspection', $event)">
-          </core-custom-select> -->
+       
           <div class="d-flex">
             <v-btn color="primary" @click="e1 = 4" class="mr-2">
               Continue
@@ -203,16 +177,7 @@
                 @update-observaciones="updateObservaciones"
                 >
                 </core-custom-select-details>
-                <!-- 
-                @input="updateObservaciones" -- pertenece a custom-select
-                  <v-textarea
-                  clearable
-                  clear-icon="mdi-close-circle"
-                  label="Notes:"
-                  v-model.trim="tmpData.observaciones">
-                </v-textarea> 
-                -->
-
+               
               </v-container>
             </v-col>
           </v-row>
@@ -301,7 +266,6 @@ import CoreCustomSelectActuator from '@/components/core/CustomSelectActuator.vue
 import CoreCustomSelectDetails from '@/components/core/CustomSelectDetails.vue';
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
-// import pdfGenerator from "@/helpers/pdfGenerator.js";
 
 export default {
   components: {
@@ -331,9 +295,9 @@ export default {
       data: [],
     },
     tmpData: {
-      actuatorModel: '',
-      actuatorSerialNumber: '',
-      controlPack: '',
+      actuatorModel: 'N/A',
+      actuatorSerialNumber: '4234234',
+      controlPack: '423423',
       visual: '',
       waterInspection: '',
       operationalTest: '',
@@ -385,7 +349,7 @@ export default {
     ...mapActions('inspection', ['addInspection']),
 
     updateValue(field, value) {
-      this.tmpData[field] = value.state;
+      this.tmpData[field] = value;
       // console.log('from component padre: ', this.tmpData[field.state]);
     },
 
@@ -431,13 +395,6 @@ export default {
         this.e1 = 3;
       }
     },
-    // beforeWindowUnload(e) {
-    //   console.log('beforeWindowUnload', e);
-    //   if (this.completed) {
-    //     e.preventDefault();
-    //     e.returnValue = '';
-    //   }
-    // },
   },
 };
 </script>

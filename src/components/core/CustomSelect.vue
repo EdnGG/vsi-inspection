@@ -26,7 +26,7 @@
         return-object
         single-line
         :hint="computedSelectedState ? computedSelectedState.value : null"
-        @input="updateValue"
+        @input="computedSelectedState.value"
       >
       </v-select>
     </v-col>
@@ -69,10 +69,11 @@ export default {
     emitDefaultValue() {
       this.$emit('input', this.defaultValue.state);
     },
-    updateValue(value) {
-      console.log('value: ', value);
-      this.$emit('input', value);
-    },
+    // updateValue(value) {
+    //   console.log('value: ', value);
+
+    //   this.$emit('input', value.state);
+    // },
   },
   computed: {
     computedSelectedState: {
@@ -83,10 +84,10 @@ export default {
         const foundState = this.items.find(
           (item) => item.state === this.value.state,
         );
-        return foundState || this.defaultValue;
+        return foundState || this.defaultValue.state;
       },
       set(value) {
-        console.log('value: ', value);
+        console.log('value: ', value.state);
         // Checar el evento correcto para emitir
 
         this.$emit('input', value.state);
