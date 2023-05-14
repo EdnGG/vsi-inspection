@@ -95,13 +95,10 @@
           <v-form ref="step2" lazy-validation>
             <v-row justify="space-between" class="mb-4">
               <v-col cols="12" md="3">
-                
                 <core-custom-select-actuator
                   v-model="tmpData.actuatorModel"
-                  title="Actuator Model"
-                >
+                  title="Actuator Model">
                 </core-custom-select-actuator>
-
               </v-col>
               <v-col cols="12" md="3">
                 <v-text-field
@@ -132,17 +129,18 @@
             v-model="tmpData.visual"
             title="Visual"
             @input="updateValue('visual', $event)">
-          ></core-custom-select>
+            ></core-custom-select
+          >
           <core-custom-select
             v-model="tmpData.waterInspection"
             title="Water Inspection"
             @input="updateValue('waterInspection', $event)">
-            </core-custom-select>
+          </core-custom-select>
           <core-custom-select
             v-model="tmpData.operationalTest"
             title="Operational Test"
             @input="updateValue('operationalTest', $event)">
-           </core-custom-select> 
+          </core-custom-select>
           <core-custom-select
             v-model="tmpData.wireCompartiment"
             title="Wire Compartiment"
@@ -153,9 +151,7 @@
             title="Handwheel Bolt Patern"
             @input="updateValue('handwheelBoltPatern', $event)">
             >
-            
           </core-custom-select>
-
 
           <!-- <core-custom-select
             v-model="tmpData.visual"
@@ -196,12 +192,10 @@
           <v-row>
             <v-col cols="12">
               <v-container fluid>
-
                 <core-custom-select-details
-                v-model="tmpData.observaciones"
-                title="Observations"
-                @update-observaciones="updateObservaciones"
-                >
+                  v-model="tmpData.observaciones"
+                  title="Observations"
+                  @update-observaciones="updateObservaciones">
                 </core-custom-select-details>
                 <!-- 
                 @input="updateObservaciones" -- pertenece a custom-select
@@ -212,7 +206,6 @@
                   v-model.trim="tmpData.observaciones">
                 </v-textarea> 
                 -->
-
               </v-container>
             </v-col>
           </v-row>
@@ -230,17 +223,9 @@
               class="mr-2">
               Continue
             </v-btn>
-            <v-btn 
-              color="primary" 
-              @click="e1 = 3"
-              class="mr-2"> 
-              Back 
-            </v-btn>
-            <v-btn 
-              color="warning" 
-              @click="saveAndContinueLater"
-              class="mr-2"> 
-              Save and continue later 
+            <v-btn color="primary" @click="e1 = 3" class="mr-2"> Back </v-btn>
+            <v-btn color="warning" @click="saveAndContinueLater" class="mr-2">
+              Save and continue later
             </v-btn>
           </div>
         </v-stepper-content>
@@ -296,165 +281,168 @@
 </template>
 
 <script>
-import CoreCustomSelect from '@/components/core/CustomSelect.vue';
-import CoreCustomSelectActuator from '@/components/core/CustomSelectActuator.vue';
-import CoreCustomSelectDetails from '@/components/core/CustomSelectDetails.vue';
-import { mapState } from 'vuex';
-import { mapActions } from 'vuex';
-// import pdfGenerator from "@/helpers/pdfGenerator.js";
+  import CoreCustomSelect from '@/components/core/CustomSelect.vue';
+  import CoreCustomSelectActuator from '@/components/core/CustomSelectActuator.vue';
+  import CoreCustomSelectDetails from '@/components/core/CustomSelectDetails.vue';
+  import { mapState } from 'vuex';
+  import { mapActions } from 'vuex';
+  // import pdfGenerator from "@/helpers/pdfGenerator.js";
 
-export default {
-  components: {
-    CoreCustomSelect,
-    CoreCustomSelectActuator,
-    CoreCustomSelectDetails,
-  },
+  export default {
+    components: {
+      CoreCustomSelect,
+      CoreCustomSelectActuator,
+      CoreCustomSelectDetails,
+    },
 
-  data: () => ({
-    e1: 1,
-    step1: null,
-    step2: null,
-    modalSubmit: false,
-    firstVal: false,
-    menuDate: false,
-    prevButton: false,
-    nextButton: false,
-    select: { state: '', item: 'Select one' },
-    date: '',
-    totalInspection: {
-      id: 'wqeweq',
+    data: () => ({
+      e1: 1,
+      step1: null,
+      step2: null,
+      modalSubmit: false,
+      firstVal: false,
+      menuDate: false,
+      prevButton: false,
+      nextButton: false,
+      select: { state: '', item: 'Select one' },
       date: '',
-      technical: 'wewq',
-      orderQuantity: 'wqeweq',
-      testSampleSize: 'weqw',
-      observaciones: '',
-      data: [],
-    },
-    tmpData: {
-      actuatorModel: '',
-      actuatorSerialNumber: '',
-      controlPack: '',
-      visual: '',
-      waterInspection: '',
-      operationalTest: '',
-      wireCompartiment: '',
-      handwheelBoltPatern: '',
-      observaciones: '', // se cambio de string a array
-    },
-    inspectionRules: [(v) => !!v || 'Field is required'],
-  }),
-  computed: {
-    ...mapState(['inspections', 'allInspections']),
-    datosArray() {
-      return [
-        this.inspection.data.visual,
-        this.inspection.data.waterInspection,
-        this.inspection.data.operationalTest,
-        this.inspection.data.wireCompartiment,
-        this.inspection.data.handwheelBoltPatern,
-      ].filter((item) => {
-        if (item) {
-          return item;
-        }
-      });
-    },
-    hide() {
-      return {
-        display: this.firstVal ? 'none' : 'block',
-      };
-    },
-  },
-  // watch: {
-  //   'tmpData.visual': function (newVal) {
-  //     this.updateValue('visual', newVal.state);
-  //   },
-  //   'tmpData.waterInspection': function (newVal) {
-  //     this.updateValue('waterInspection', newVal.state);
-  //   },
-  //   'tmpData.operationalTest': function (newVal) {
-  //     this.updateValue('operationalTest', newVal.state);
-  //   },
-  //   'tmpData.wireCompartiment': function (newVal) {
-  //     this.updateValue('wireCompartiment', newVal.state);
-  //   },
-  //   'tmpData.handwheelBoltPatern': function (newVal) {
-  //     this.updateValue('handwheelBoltPatern', newVal.state);
-  //   },
-  // },
-  methods: {
-    ...mapActions('inspection', ['addInspection']),
-
-    updateValue(field, value) {
-      this.tmpData[field] = value.state;
-      // console.log('from component padre: ', this.tmpData[field.state]);
-    },
-
-    updateObservaciones(value) {
-      this.tmpData.observaciones = value;
-    },
-    addActuator({ step }) {
-      this.totalInspection.data.push({ ...this.tmpData });
-      this.tmpData = {
+      totalInspection: {
+        id: '',
+        date: '',
+        technical: '',
+        orderQuantity: '',
+        testSampleSize: '',
+        observaciones: '',
+        data: [],
+      },
+      tmpData: {
         actuatorModel: '',
         actuatorSerialNumber: '',
         controlPack: '',
-        visual: '',
-        waterInspection: '',
-        operationalTest: '',
-        wireCompartiment: '',
-        handwheelBoltPatern: '',
-        observaciones: '',
-      };
-      this.$refs.step2.reset();
-      this.e1 = step;
+        visual: 'Good',
+        waterInspection: 'Good',
+        operationalTest: 'Good',
+        wireCompartiment: 'Good',
+        handwheelBoltPatern: 'Good',
+        observaciones: '', // se cambio de string a array
+      },
+      inspectionRules: [(v) => !!v || 'Field is required'],
+    }),
+    computed: {
+      ...mapState(['inspections', 'allInspections']),
+      datosArray() {
+        return [
+          this.inspection.data.visual,
+          this.inspection.data.waterInspection,
+          this.inspection.data.operationalTest,
+          this.inspection.data.wireCompartiment,
+          this.inspection.data.handwheelBoltPatern,
+        ].filter((item) => {
+          if (item) {
+            return item;
+          }
+        });
+      },
+      hide() {
+        return {
+          display: this.firstVal ? 'none' : 'block',
+        };
+      },
     },
-    saveAndContinueLater() {
-      console.log('saveAndContinueLater');
-      // save the insepctions and continue later
-      // this.addInspection(this.totalInspection);
-    },
-    submit() {
-      try {
-        this.addInspection(this.totalInspection);
-        this.modalSubmit = false;
-      } catch (err) {
-        console.log(`Error: ${err}`);
-      }
-    },
-    nextStep1() {
-      if (this.$refs.step1.validate()) {
-        this.e1 = 2;
-      }
-    },
-    nextStep2() {
-      if (this.$refs.step2.validate()) {
-        this.e1 = 3;
-      }
-    },
-    // beforeWindowUnload(e) {
-    //   console.log('beforeWindowUnload', e);
-    //   if (this.completed) {
-    //     e.preventDefault();
-    //     e.returnValue = '';
-    //   }
+    // watch: {
+    //   'tmpData.visual': function (newVal) {
+    //     this.updateValue('visual', newVal.state);
+    //   },
+    //   'tmpData.waterInspection': function (newVal) {
+    //     this.updateValue('waterInspection', newVal.state);
+    //   },
+    //   'tmpData.operationalTest': function (newVal) {
+    //     this.updateValue('operationalTest', newVal.state);
+    //   },
+    //   'tmpData.wireCompartiment': function (newVal) {
+    //     this.updateValue('wireCompartiment', newVal.state);
+    //   },
+    //   'tmpData.handwheelBoltPatern': function (newVal) {
+    //     this.updateValue('handwheelBoltPatern', newVal.state);
+    //   },
     // },
-  },
-};
+    methods: {
+      ...mapActions('inspection', ['addInspection']),
+
+      updateValue(field, value) {
+        this.tmpData[field] = value.state;
+        // console.log('from component padre: ', this.tmpData[field.state]);
+      },
+
+      updateObservaciones(value) {
+        this.tmpData.observaciones = value;
+      },
+      addActuator({ step }) {
+        if (this.tmpData.actuatorModel) {
+          this.totalInspection.data.push({ ...this.tmpData });
+          this.tmpData = {
+            actuatorModel: '',
+            actuatorSerialNumber: '',
+            controlPack: '',
+            visual: 'Good',
+            waterInspection: 'Good',
+            operationalTest: 'Good',
+            wireCompartiment: 'Good',
+            handwheelBoltPatern: 'Good',
+            observaciones: '',
+          };
+        }
+
+        this.$refs.step2.reset();
+        this.e1 = step;
+      },
+      saveAndContinueLater() {
+        console.log('saveAndContinueLater');
+        // save the insepctions and continue later
+        // this.addInspection(this.totalInspection);
+      },
+      submit() {
+        try {
+          this.addInspection(this.totalInspection);
+          this.modalSubmit = false;
+        } catch (err) {
+          console.log(`Error: ${err}`);
+        }
+      },
+      nextStep1() {
+        if (this.$refs.step1.validate()) {
+          this.e1 = 2;
+        }
+      },
+      nextStep2() {
+        if (this.$refs.step2.validate()) {
+          this.e1 = 3;
+        }
+      },
+      // beforeWindowUnload(e) {
+      //   console.log('beforeWindowUnload', e);
+      //   if (this.completed) {
+      //     e.preventDefault();
+      //     e.returnValue = '';
+      //   }
+      // },
+    },
+  };
 </script>
 
 <style scoped>
-@media (max-width: 390px) {
-  .mobile-container {
-    display: flex;
-    /* flex-wrap: wrap; */
-    flex-direction: column;
-    justify-content: center;
+  @media (max-width: 390px) {
+    .mobile-container {
+      display: flex;
+      /* flex-wrap: wrap; */
+      flex-direction: column;
+      justify-content: center;
+    }
   }
-}
 
-.button-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
+  .button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
 </style>

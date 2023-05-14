@@ -6,98 +6,51 @@
       </v-subheader>
     </v-col>
     <v-col cols="6">
-      <!-- capturar selec.state 
-      v-model="computedState"  
-      -->
-        <!-- v-model="computedState"
-        :items="items.map((item) => item.state)"
-        item-text="item"
-        item-value="state"
-        persistent-hint
-        return-object
-        single-line
-        :hint="computedState ? computedState.value : null"> -->
+      <!-- capturar selec.state -->
       <v-select
-        v-model="computedSelectedState"
-        :items="items"
+        v-model="computedState"
+        :value="value"
+        :items="items.map((item) => item.state)"
         item-text="state"
-        item-value="item"
         persistent-hint
-        return-object
+        item-value="item"
         single-line
-        :hint="computedSelectedState ? computedSelectedState.value : null"
-        @input="updateValue"
-      >
-      </v-select>
+        :hint="computedState ? computedState.value : null"></v-select>
     </v-col>
   </v-row>
 </template>
 
 <script>
-export default {
-  name: 'CustomSelect',
-  props: {
-    title: {
-      type: String,
-      require: true,
+  export default {
+    props: {
+      title: {
+        type: String,
+        require: true,
+      },
+      value: {
+        type: String,
+        default: null,
+      },
     },
-  },
-  data() {
-    return {
-      defaultValue: { state: 'Good', item: 'Looks Good' },
-      value: null,
+    data: () => ({
       items: [
-        { state: 'Good', item: 'Looks Good' },
+        { state: 'Good', item: 'Looks good' },
         { state: 'Bad', item: 'Looks Bad' },
         { state: 'Not sure', item: 'Not sure condition' },
       ],
-    };
-  },
-  model: {
-    event: 'change',
-  },
-  created() {
-    if (this.value === null || this.value === undefined) {
-      console.log('Entro al if: ', this.value);
-      this.value = this.defaultValue;
-      console.log('Final del if: ', this.value);
-      this.emitDefaultValue();
-    }
-    // return (this.value = { state: 'Good', item: 'Looks Good' });
-  },
-  methods: {
-    emitDefaultValue() {
-      this.$emit('input', this.defaultValue.state);
+    }),
+    model: {
+      event: 'change',
     },
-    updateValue(value) {
-      console.log('value: ', value);
-      this.$emit('input', value);
-    },
-  },
-  computed: {
-    computedSelectedState: {
-      get() {
-        // if (!this.value) {
-        //   return this.defaultValue;
-        // }
-        const foundState = this.items.find(
-          (item) => item.state === this.value.state,
-        );
-        return foundState || this.defaultValue;
-      },
-      set(value) {
-        console.log('value: ', value);
-        // Checar el evento correcto para emitir
-
-        this.$emit('input', value.state);
+    computed: {
+      computedState: {
+        get() {
+          return this.value;
+        },
+        set(value) {
+          this.$emit('change', value);
+        },
       },
     },
-
-    // watch: {
-    //   value: function (newVal) {
-    //     this.selectedState = this.items.find((item) => item.state === newVal);
-    //   },
-    // },
-  },
-};
+  };
 </script>
