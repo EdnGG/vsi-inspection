@@ -132,7 +132,7 @@
             v-model="tmpData.visual"
             title="Visual"
             @input="updateValue('visual', $event)">
-          ></core-custom-select>
+          </core-custom-select>
           <core-custom-select
             v-model="tmpData.waterInspection"
             title="Water Inspection"
@@ -152,8 +152,6 @@
             v-model="tmpData.handwheelBoltPatern"
             title="Handwheel Bolt Patern"
             @input="updateValue('handwheelBoltPatern', $event)">
-            >
-            
           </core-custom-select>
 
 

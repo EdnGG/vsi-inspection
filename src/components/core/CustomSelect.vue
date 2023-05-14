@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { createLogger } from 'vuex';
 export default {
   name: 'CustomSelect',
   props: {
@@ -56,11 +57,38 @@ export default {
   model: {
     event: 'change',
   },
+  beforeCreated() {
+    console.log('beforeCreated');
+  },
+  mounted() {
+    console.log('Mounted');
+  },
+  updated() {
+    // maybe is here
+    console.log('entre al updated');
+    this.value = this.defaultValue;
+    this.$emit('input', this.defaultValue);
+    // this.emitDefaultValue();
+    console.log('Updated: ', this.value);
+  },
+  beforeUpdate() {
+    console.log('Before Update');
+  },
+  beforeMount() {
+    console.log('Before Mounted');
+  },
+  beforeUnmount() {
+    console.log('Before Unmounted');
+  },
+  unmounted() {
+    console.log('Unmounted');
+  },
   created() {
+    console.log('created');
     if (this.value === null || this.value === undefined) {
-      console.log('Entro al if: ', this.value);
+      // console.log('Entro al if: ', this.value);
       this.value = this.defaultValue;
-      console.log('Final del if: ', this.value);
+      // console.log('Final del if: ', this.value);
       this.emitDefaultValue();
     }
     // return (this.value = { state: 'Good', item: 'Looks Good' });
@@ -91,6 +119,7 @@ export default {
         // Checar el evento correcto para emitir
 
         this.$emit('input', value.state);
+        console.log('value despues del emit: ', value.state);
       },
     },
 
