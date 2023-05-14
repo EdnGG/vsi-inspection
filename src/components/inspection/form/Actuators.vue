@@ -95,13 +95,10 @@
           <v-form ref="step2" lazy-validation>
             <v-row justify="space-between" class="mb-4">
               <v-col cols="12" md="3">
-                
                 <core-custom-select-actuator
                   v-model="tmpData.actuatorModel"
-                  title="Actuator Model"
-                >
+                  title="Actuator Model">
                 </core-custom-select-actuator>
-
               </v-col>
               <v-col cols="12" md="3">
                 <v-text-field
@@ -132,17 +129,18 @@
             v-model="tmpData.visual"
             title="Visual"
             @input="updateValue('visual', $event)">
-          </core-custom-select>
+            ></core-custom-select
+          >
           <core-custom-select
             v-model="tmpData.waterInspection"
             title="Water Inspection"
             @input="updateValue('waterInspection', $event)">
-            </core-custom-select>
+          </core-custom-select>
           <core-custom-select
             v-model="tmpData.operationalTest"
             title="Operational Test"
             @input="updateValue('operationalTest', $event)">
-           </core-custom-select> 
+          </core-custom-select>
           <core-custom-select
             v-model="tmpData.wireCompartiment"
             title="Wire Compartiment"
@@ -152,10 +150,36 @@
             v-model="tmpData.handwheelBoltPatern"
             title="Handwheel Bolt Patern"
             @input="updateValue('handwheelBoltPatern', $event)">
+            >
           </core-custom-select>
 
-
-       
+          <!-- <core-custom-select
+            v-model="tmpData.visual"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Visual"
+            @input="updateValue('waterInspection', $event)"
+          ></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.waterInspection"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Water Inspection"
+            @input="updateValue('waterInspection', $event)"></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.operationalTest"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Operational Test"
+            @input="updateValue('waterInspection', $event)"></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.wireCompartiment"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Wire Compartiment"
+            @input="updateValue('waterInspection', $event)"></core-custom-select>
+          <core-custom-select
+            v-model="tmpData.handwheelBoltPatern"
+            :default-value="{ state: 'Good', item: 'Looks Good' }"
+            title="Handwheel Bolt Patern"
+            @input="updateValue('waterInspection', $event)">
+          </core-custom-select> -->
           <div class="d-flex">
             <v-btn color="primary" @click="e1 = 4" class="mr-2">
               Continue
@@ -168,14 +192,20 @@
           <v-row>
             <v-col cols="12">
               <v-container fluid>
-
                 <core-custom-select-details
-                v-model="tmpData.observaciones"
-                title="Observations"
-                @update-observaciones="updateObservaciones"
-                >
+                  v-model="tmpData.observaciones"
+                  title="Observations"
+                  @update-observaciones="updateObservaciones">
                 </core-custom-select-details>
-               
+                <!-- 
+                @input="updateObservaciones" -- pertenece a custom-select
+                  <v-textarea
+                  clearable
+                  clear-icon="mdi-close-circle"
+                  label="Notes:"
+                  v-model.trim="tmpData.observaciones">
+                </v-textarea> 
+                -->
               </v-container>
             </v-col>
           </v-row>
@@ -193,17 +223,9 @@
               class="mr-2">
               Continue
             </v-btn>
-            <v-btn 
-              color="primary" 
-              @click="e1 = 3"
-              class="mr-2"> 
-              Back 
-            </v-btn>
-            <v-btn 
-              color="warning" 
-              @click="saveAndContinueLater"
-              class="mr-2"> 
-              Save and continue later 
+            <v-btn color="primary" @click="e1 = 3" class="mr-2"> Back </v-btn>
+            <v-btn color="warning" @click="saveAndContinueLater" class="mr-2">
+              Save and continue later
             </v-btn>
           </div>
         </v-stepper-content>
@@ -264,6 +286,7 @@ import CoreCustomSelectActuator from '@/components/core/CustomSelectActuator.vue
 import CoreCustomSelectDetails from '@/components/core/CustomSelectDetails.vue';
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
+// import pdfGenerator from "@/helpers/pdfGenerator.js";
 
 export default {
   components: {
@@ -284,23 +307,23 @@ export default {
     select: { state: '', item: 'Select one' },
     date: '',
     totalInspection: {
-      id: 'wqeweq',
+      id: '',
       date: '',
-      technical: 'wewq',
-      orderQuantity: 'wqeweq',
-      testSampleSize: 'weqw',
+      technical: '',
+      orderQuantity: '',
+      testSampleSize: '',
       observaciones: '',
       data: [],
     },
     tmpData: {
-      actuatorModel: 'N/A',
-      actuatorSerialNumber: '4234234',
-      controlPack: '423423',
-      visual: '',
-      waterInspection: '',
-      operationalTest: '',
-      wireCompartiment: '',
-      handwheelBoltPatern: '',
+      actuatorModel: '',
+      actuatorSerialNumber: '',
+      controlPack: '',
+      visual: 'Good',
+      waterInspection: 'Good',
+      operationalTest: 'Good',
+      wireCompartiment: 'Good',
+      handwheelBoltPatern: 'Good',
       observaciones: '', // se cambio de string a array
     },
     inspectionRules: [(v) => !!v || 'Field is required'],
@@ -347,7 +370,7 @@ export default {
     ...mapActions('inspection', ['addInspection']),
 
     updateValue(field, value) {
-      this.tmpData[field] = value;
+      this.tmpData[field] = value.state;
       // console.log('from component padre: ', this.tmpData[field.state]);
     },
 
@@ -355,18 +378,21 @@ export default {
       this.tmpData.observaciones = value;
     },
     addActuator({ step }) {
-      this.totalInspection.data.push({ ...this.tmpData });
-      this.tmpData = {
-        actuatorModel: '',
-        actuatorSerialNumber: '',
-        controlPack: '',
-        visual: '',
-        waterInspection: '',
-        operationalTest: '',
-        wireCompartiment: '',
-        handwheelBoltPatern: '',
-        observaciones: '',
-      };
+      if (this.tmpData.actuatorModel) {
+        this.totalInspection.data.push({ ...this.tmpData });
+        this.tmpData = {
+          actuatorModel: '',
+          actuatorSerialNumber: '',
+          controlPack: '',
+          visual: 'Good',
+          waterInspection: 'Good',
+          operationalTest: 'Good',
+          wireCompartiment: 'Good',
+          handwheelBoltPatern: 'Good',
+          observaciones: '',
+        };
+      }
+
       this.$refs.step2.reset();
       this.e1 = step;
     },
@@ -393,6 +419,13 @@ export default {
         this.e1 = 3;
       }
     },
+    // beforeWindowUnload(e) {
+    //   console.log('beforeWindowUnload', e);
+    //   if (this.completed) {
+    //     e.preventDefault();
+    //     e.returnValue = '';
+    //   }
+    // },
   },
 };
 </script>
