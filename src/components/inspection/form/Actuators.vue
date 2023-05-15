@@ -153,33 +153,6 @@
             >
           </core-custom-select>
 
-          <!-- <core-custom-select
-            v-model="tmpData.visual"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Visual"
-            @input="updateValue('waterInspection', $event)"
-          ></core-custom-select>
-          <core-custom-select
-            v-model="tmpData.waterInspection"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Water Inspection"
-            @input="updateValue('waterInspection', $event)"></core-custom-select>
-          <core-custom-select
-            v-model="tmpData.operationalTest"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Operational Test"
-            @input="updateValue('waterInspection', $event)"></core-custom-select>
-          <core-custom-select
-            v-model="tmpData.wireCompartiment"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Wire Compartiment"
-            @input="updateValue('waterInspection', $event)"></core-custom-select>
-          <core-custom-select
-            v-model="tmpData.handwheelBoltPatern"
-            :default-value="{ state: 'Good', item: 'Looks Good' }"
-            title="Handwheel Bolt Patern"
-            @input="updateValue('waterInspection', $event)">
-          </core-custom-select> -->
           <div class="d-flex">
             <v-btn color="primary" @click="e1 = 4" class="mr-2">
               Continue
@@ -197,20 +170,18 @@
                   title="Observations"
                   @update-observaciones="updateObservaciones">
                 </core-custom-select-details>
-                <!-- 
-                @input="updateObservaciones" -- pertenece a custom-select
-                  <v-textarea
-                  clearable
-                  clear-icon="mdi-close-circle"
-                  label="Notes:"
-                  v-model.trim="tmpData.observaciones">
-                </v-textarea> 
-                -->
+               
               </v-container>
             </v-col>
           </v-row>
 
           <div class="d-flex">
+            <v-btn color="primary" 
+              @click="e1 = 3" 
+              class="mr-2"
+            > 
+              Back 
+            </v-btn>
             <v-btn
               class="mr-2"
               color="success"
@@ -220,11 +191,16 @@
             <v-btn
               color="primary"
               @click="addActuator({ step: 5 })"
-              class="mr-2">
-              Continue
+              class="mr-2"
+            >
+              Finish Inspection
             </v-btn>
-            <v-btn color="primary" @click="e1 = 3" class="mr-2"> Back </v-btn>
-            <v-btn color="warning" @click="saveAndContinueLater" class="mr-2">
+            
+            <v-btn 
+              color="warning"   
+              @click="saveAndContinueLater" 
+              class="mr-2"
+            >
               Save and continue later
             </v-btn>
           </div>
@@ -349,29 +325,11 @@ export default {
       };
     },
   },
-  // watch: {
-  //   'tmpData.visual': function (newVal) {
-  //     this.updateValue('visual', newVal.state);
-  //   },
-  //   'tmpData.waterInspection': function (newVal) {
-  //     this.updateValue('waterInspection', newVal.state);
-  //   },
-  //   'tmpData.operationalTest': function (newVal) {
-  //     this.updateValue('operationalTest', newVal.state);
-  //   },
-  //   'tmpData.wireCompartiment': function (newVal) {
-  //     this.updateValue('wireCompartiment', newVal.state);
-  //   },
-  //   'tmpData.handwheelBoltPatern': function (newVal) {
-  //     this.updateValue('handwheelBoltPatern', newVal.state);
-  //   },
-  // },
   methods: {
     ...mapActions('inspection', ['addInspection']),
 
     updateValue(field, value) {
       this.tmpData[field] = value.state;
-      // console.log('from component padre: ', this.tmpData[field.state]);
     },
 
     updateObservaciones(value) {
@@ -399,7 +357,6 @@ export default {
     saveAndContinueLater() {
       console.log('saveAndContinueLater');
       // save the insepctions and continue later
-      // this.addInspection(this.totalInspection);
     },
     submit() {
       try {
@@ -419,13 +376,6 @@ export default {
         this.e1 = 3;
       }
     },
-    // beforeWindowUnload(e) {
-    //   console.log('beforeWindowUnload', e);
-    //   if (this.completed) {
-    //     e.preventDefault();
-    //     e.returnValue = '';
-    //   }
-    // },
   },
 };
 </script>
