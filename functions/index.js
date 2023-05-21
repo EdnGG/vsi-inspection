@@ -42,7 +42,7 @@ exports.sendEmail = functions.firestore
 
     // Espera a que el documento PDF se termine de escribir en el archivo
     await new Promise((resolve) => writeStream.on('finish', resolve));
-    const pdfBuffer = fs.readFileSync(pdfPath, { encoding: 'base64' });
+    const pdfBuffer = fs.readFileSync(pdfPath);
 
     //  USANDO LA TABLA DE PDFMAKE
 
@@ -123,6 +123,7 @@ exports.sendEmail = functions.firestore
     const data = {
       from: `noreply@inspection-6c319.web.app/`,
       // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
+      // Agrega tu email para qu ete lleguen las notificaciones
       to: `${process.env.EMAIL_ADMIN}`,
       subject: 'Inspection Report',
       attachment: pdfBuffer,
