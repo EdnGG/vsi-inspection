@@ -257,18 +257,27 @@
 </template>
 
 <script>
-import CoreCustomSelect from '@/components/core/CustomSelect.vue';
-import CoreCustomSelectActuator from '@/components/core/CustomSelectActuator.vue';
-import CoreCustomSelectDetails from '@/components/core/CustomSelectDetails.vue';
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
 // import pdfGenerator from "@/helpers/pdfGenerator.js";
+import { defineAsyncComponent } from 'vue';
+
+// import CoreCustomSelect from '@/components/core/CustomSelect.vue';
+// import CoreCustomSelectActuator from '@/components/core/CustomSelectActuator.vue';
+// import CoreCustomSelectDetails from '@/components/core/CustomSelectDetails.vue';
 
 export default {
+  name: 'InspectionFormActuators',
   components: {
-    CoreCustomSelect,
-    CoreCustomSelectActuator,
-    CoreCustomSelectDetails,
+    CoreCustomSelect: defineAsyncComponent(() =>
+      import('@/components/core/CustomSelect.vue'),
+    ),
+    CoreCustomSelectActuator: defineAsyncComponent(() =>
+      import('@/components/core/CustomSelectActuator.vue'),
+    ),
+    CoreCustomSelectDetails: defineAsyncComponent(() =>
+      import('@/components/core/CustomSelectDetails.vue'),
+    ),
   },
 
   data: () => ({

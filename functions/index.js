@@ -1,11 +1,17 @@
 require('dotenv').config();
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+
 const PDFDocument = require('pdfkit');
 
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+
+// temporal
+// const pdfmake = require('pdfmake/build/pdfmake.js');
+// const vfs_fonts = require('pdfmake/build/vfs_fonts.js');
+// pdfmake.vfs = vfs_fonts.pdfMake.vfs;
 
 // const sgMail = require('@sendgrid/mail');
 const mailgun = require('mailgun-js');
@@ -20,27 +26,105 @@ exports.sendEmail = functions.firestore
   .document('inspections/{inspectionsId}')
   .onCreate(async (snap, context) => {
     const doc = snap.data();
+    console.log('doc: ', doc);
 
-    const pdfPath = path.join(os.tmpdir(), 'report.pdf');
+    const pdfPath = path.join(os.tmpdir(), `report.pdf`);
+
     const pdfDoc = new PDFDocument();
     const writeStream = fs.createWriteStream(pdfPath);
 
     pdfDoc.pipe(writeStream);
+
     pdfDoc.text('Inspection Report', { align: 'center', size: 18 });
     pdfDoc.text(JSON.stringify(doc, null, 2));
+
     pdfDoc.end();
 
     // Espera a que el documento PDF se termine de escribir en el archivo
     await new Promise((resolve) => writeStream.on('finish', resolve));
+    const pdfBuffer = fs.readFileSync(pdfPath, { encoding: 'base64' });
 
-    const pdfBuffer = fs.readFileSync(pdfPath);
+    //  USANDO LA TABLA DE PDFMAKE
+
+    // const docDefinition = {
+    //   content: [
+    //     {
+    //       text: 'Inspection Report',
+    //       fontSize: 18,
+    //       alignment: 'center',
+    //       margin: [0, 0, 0, 20],
+    //     },
+    //     {
+    //       text: `Date: ${snap.data().inspection.date}`,
+    //       fontSize: 14,
+    //       margin: [0, 0, 0, 10],
+    //     },
+    //     {
+    //       text: `Technical: ${snap.data().inspection.technical}`,
+    //       fontSize: 14,
+    //       margin: [0, 0, 0, 10],
+    //     },
+    //     {
+    //       text: `Order Quantity: ${snap.data().inspection.orderQuantity}`,
+    //       fontSize: 14,
+    //       margin: [0, 0, 0, 10],
+    //     },
+    //     {
+    //       text: `Test Sample Size: ${snap.data().inspection.testSampleSize}`,
+    //       fontSize: 14,
+    //       margin: [0, 0, 0, 20],
+    //     },
+    //     {
+    //       table: {
+    //         headerRows: 1,
+    //         widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
+    //         body: [
+    //           [
+    //             'Actuator Model',
+    //             'Actuator Serial Number',
+    //             'Control Pack',
+    //             'Visual',
+    //             'Water Inspection',
+    //             'Operational Test',
+    //             'Wire Compartment',
+    //             'Handwheel Bolt Pattern',
+    //             'Observations',
+    //           ],
+    //           ...snap
+    //             .data()
+    //             .inspection.data.map((item) => [
+    //               item.actuatorModel,
+    //               item.actuatorSerialNumber,
+    //               item.controlPack,
+    //               item.visual,
+    //               item.waterInspection,
+    //               item.operationalTest,
+    //               item.wireCompartiment,
+    //               item.handwheelBoltPatern,
+    //               item.observaciones,
+    //             ]),
+    //         ],
+    //       },
+    //       margin: [0, 0, 0, 20],
+    //     },
+    //     { text: `Observaciones: ${snap.data().observaciones}`, fontSize: 14 },
+    //   ],
+    // };
+
+    // const pdfDoc = pdfmake.createPdf(docDefinition);
+
+    // await new Promise((resolve, reject) => {
+    //   const writeStream = fs.createWriteStream(pdfPath);
+    //   pdfDoc.getStream().pipe(writeStream);
+    //   writeStream.on('finish', resolve);
+    //   writeStream.on('error', reject);
+    // });
 
     const data = {
       from: `noreply@inspection-6c319.web.app/`,
-      to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
-      // to: `${process.env.EMAIL_ADMIN}`,
+      // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
+      to: `${process.env.EMAIL_ADMIN}`,
       subject: 'Inspection Report',
-      // text: 'Here is your inspection report attached as a PDF.', // Añade un cuerpo al correo
       attachment: pdfBuffer,
 
       html: `
@@ -471,6 +555,20 @@ exports.sendEmail = functions.firestore
                                                     .observaciones
                                                 }
                                               </li>
+                                              <li style="padding-bottom: 20px">
+                                                <strong>Order Quantity:</strong>
+                                                ${
+                                                  snap.data().inspection
+                                                    .orderQuantity
+                                                }
+                                              </li>
+                                              <li style="padding-bottom: 20px">
+                                                <strong>Test Sample Size:</strong>
+                                                ${
+                                                  snap.data().inspection
+                                                    .testSampleSize
+                                                }
+                                              </li>
                                               <li>
                                                 <strong>Technical Name:</strong>
                                                 ${
@@ -703,21 +801,130 @@ exports.sendEmail = functions.firestore
 
     // No olvides eliminar el archivo PDF temporal
     fs.unlinkSync(pdfPath);
-
-    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    // const msg = {
-    //   to: process.env.EMAIL_ADMIN, process.env.EMAIL_RECEIPE_1, process.env.EMAIL_RECEIPE_1  // Change to your recipient
-    //   from: process.env.EMAIL_ADMIN, // Change to your verified sender
-    //   subject: "Sending with SendGrid is Fun",
-    //   text: "and easy to do anywhere, even with Node.js",
-    //   html: "<strong>and easy to do anywhere, even with Node.js</strong>",
-    // };
-    // sgMail
-    //   .send(msg)
-    //   .then(() => {
-    //     console.log("Email sent");
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
   });
+
+// CHAT GPT - 4
+
+// require('dotenv').config();
+// const functions = require('firebase-functions');
+// const admin = require('firebase-admin');
+// const fs = require('fs');
+// const path = require('path');
+// const os = require('os');
+
+// const pdfmake = require('pdfmake/build/pdfmake.js');
+// const vfs_fonts = require('pdfmake/build/vfs_fonts.js');
+// pdfmake.vfs = vfs_fonts.pdfMake.vfs;
+
+// const mailgun = require('mailgun-js');
+
+// const mg = mailgun({
+//   apiKey: process.env.MAILGUN_API_KEY,
+//   domain: process.env.MAILGUN_DOMAIN_CLOUD,
+// });
+// admin.initializeApp(functions.config().firebase);
+
+// exports.sendEmail = functions.firestore
+//   .document('inspections/{inspectionsId}')
+//   .onCreate(async (snap, context) => {
+//     const doc = snap.data();
+//     console.log('contenido de snap.data(): ', doc);
+
+//     const pdfPath = path.join(os.tmpdir(), `${doc.inspection.date}.pdf`);
+
+//     const docDefinition = {
+//       content: [
+//         {
+//           text: 'Inspection Report',
+//           fontSize: 18,
+//           alignment: 'center',
+//           margin: [0, 0, 0, 20],
+//         },
+//         {
+//           text: `Date: ${doc.inspection.date}`,
+//           fontSize: 14,
+//           margin: [0, 0, 0, 10],
+//         },
+//         {
+//           text: `Technical: ${doc.inspection.technical}`,
+//           fontSize: 14,
+//           margin: [0, 0, 0, 10],
+//         },
+//         {
+//           text: `Order Quantity: ${doc.inspection.orderQuantity}`,
+//           fontSize: 14,
+//           margin: [0, 0, 0, 10],
+//         },
+//         {
+//           text: `Test Sample Size: ${doc.inspection.testSampleSize}`,
+//           fontSize: 14,
+//           margin: [0, 0, 0, 20],
+//         },
+//         {
+//           table: {
+//             headerRows: 1,
+//             widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
+//             body: [
+//               [
+//                 'Actuator Model',
+//                 'Actuator Serial Number',
+//                 'Control Pack',
+//                 'Visual',
+//                 'Water Inspection',
+//                 'Operational Test',
+//                 'Wire Compartment',
+//                 'Handwheel Bolt Pattern',
+//                 'Observations',
+//               ],
+//               ...doc.inspection.data.map((item) => [
+//                 item.actuatorModel,
+//                 item.actuatorSerialNumber,
+//                 item.controlPack,
+//                 item.visual,
+//                 item.waterInspection,
+//                 item.operationalTest,
+//                 item.wireCompartiment,
+//                 item.handwheelBoltPatern,
+//                 item.observaciones,
+//               ]),
+//             ],
+//           },
+//           margin: [0, 0, 0, 20],
+//         },
+//         {
+//           text: `Observaciones: ${doc.inspection.observaciones}`,
+//           fontSize: 14,
+//         },
+//       ],
+//     };
+
+//     const pdfDoc = pdfmake.createPdf(docDefinition);
+
+//     await new Promise((resolve, reject) => {
+//       const writeStream = fs.createWriteStream(pdfPath);
+//       pdfDoc.getStream().pipe(writeStream);
+//       writeStream.on('finish', resolve);
+//       writeStream.on('error', reject);
+//     });
+
+//     const pdfBuffer = fs.readFileSync(pdfPath);
+
+//     const data = {
+//       from: `noreply@inspection-6c319.web.app/`,
+//       to: `${process.env.EMAIL_ADMIN}`,
+//       subject: 'Inspection Report',
+//       attachment: pdfBuffer,
+//     };
+
+//     await mg.messages().send(data, (error, body) => {
+//       console.log('data: ', data);
+//       console.log('body: ', body);
+//       if (error) {
+//         console.log(`error: `, error.message);
+//       } else {
+//         console.log(`email send it `, body);
+//       }
+//     });
+
+//     fs.unlinkSync(pdfPath);
+//   });

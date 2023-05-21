@@ -44,17 +44,21 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue';
 import { mapState } from 'vuex';
-import { bus } from '../../main';
-import LiveDateTime from '@/components/Tools/LiveDateTime.vue';
-import LocalWeather from '@/components/Tools/LocalWeather.vue';
-import MenuRigthSide from '@/components/MenuRigthSide.vue';
 
 export default {
+  name: 'NavBar',
   components: {
-    LiveDateTime,
-    LocalWeather,
-    MenuRigthSide,
+    LiveDateTime: defineAsyncComponent(() =>
+      import('@/components/Tools/LiveDateTime.vue'),
+    ),
+    LocalWeather: defineAsyncComponent(() =>
+      import('@/components/Tools/LocalWeather.vue'),
+    ),
+    MenuRigthSide: defineAsyncComponent(() =>
+      import('@/components/MenuRigthSide.vue'),
+    ),
   },
   data: () => ({
     title: 'Inspections',

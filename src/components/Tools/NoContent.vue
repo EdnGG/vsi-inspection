@@ -9,8 +9,8 @@
 
 <script>
 export default {
-  props: ["message"],
-  name: "NoPallets",
+  props: ['message'],
+  name: 'NoContent',
   data() {
     return {};
   },

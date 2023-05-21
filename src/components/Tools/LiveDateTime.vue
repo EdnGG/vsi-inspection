@@ -5,25 +5,25 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
+import { format } from 'date-fns';
 export default {
-    data(){
-        return {
-            date: '',
-        }
+  name: 'LiveDateTime',
+  data() {
+    return {
+      date: '',
+    };
+  },
+  methods: {
+    getDate() {
+      this.date = format(new Date(), 'MMMM d, H:mm:ss');
+      setTimeout(this.getDate, 1000);
     },
-    methods: {
-        getDate() {
-            this.date = format(new Date(), 'MMMM d, H:mm:ss')
-            setTimeout(this.getDate, 1000)
-        }
-    },
-    mounted() {
-        this.getDate()
-    }
-}
+  },
+  mounted() {
+    this.getDate();
+  },
+};
 </script>
 
 <style>
-
 </style>

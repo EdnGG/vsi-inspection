@@ -27,6 +27,7 @@
 
 <script>
 export default {
+  name: 'SnackBar',
   data: () => ({
     snackbar: false,
     text: `Hello, I'm a snackbar`,

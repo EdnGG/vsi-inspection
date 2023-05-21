@@ -11,6 +11,7 @@
 
 <script>
 export default {
+  name: 'CustomSnackbar',
   computed: {
     showSnackbar: {
       get() {
@@ -18,9 +19,9 @@ export default {
       },
       set(value) {
         this.$store.commit(
-          "utils/SHOW_MESSAGE",
+          'utils/SHOW_MESSAGE',
           { show: value },
-          { root: true }
+          { root: true },
         );
       },
     },

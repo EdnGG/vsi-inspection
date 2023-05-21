@@ -43,8 +43,9 @@
 <script>
 // changeDrawer
 import { mapState } from 'vuex';
-import { bus } from '../../main';
+// import { bus } from '../../main';
 export default {
+  name: 'SideBar',
   data: () => ({
     // drawer: null,
     items: [

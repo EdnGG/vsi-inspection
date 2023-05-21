@@ -22,6 +22,7 @@
 
 <script>
 export default {
+  name: 'CustomSelect',
   props: {
     title: {
       type: String,

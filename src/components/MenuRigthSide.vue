@@ -38,17 +38,17 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 export default {
-  name: "MenuRigthSide",
+  name: 'MenuRigthSide',
   data() {
     return {};
   },
   computed: {
-    ...mapGetters("authentication", ["isUserExist"]),
+    ...mapGetters('authentication', ['isUserExist']),
   },
   methods: {
-    ...mapActions("authentication", ["signOut"]),
+    ...mapActions('authentication', ['signOut']),
   },
 };
 </script>

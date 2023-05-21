@@ -9,13 +9,16 @@
 </template>
 
 <script>
-import CustomSnackbar from "@/components/core/CustomSnackbar.vue";
-import NavBar from "@/components/core/NavBar.vue";
+import { defineAsyncComponent } from 'vue';
+// import CustomSnackbar from '@/components/core/CustomSnackbar.vue';
+// import NavBar from '@/components/core/NavBar.vue';
 
 export default {
   components: {
-    CustomSnackbar,
-    NavBar,
+    CustomSnackbar: defineAsyncComponent(() =>
+      import('@/components/core/CustomSnackbar.vue'),
+    ),
+    NavBar: defineAsyncComponent(() => import('@/components/core/NavBar.vue')),
   },
 };
 </script>

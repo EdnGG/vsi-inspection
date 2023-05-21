@@ -19,8 +19,8 @@
 
 <script>
 export default {
-  name: "Index",
-  props: ["totalInspections", "itemsPerPage"],
+  name: 'InspectionPaginationIndex',
+  props: ['totalInspections', 'itemsPerPage'],
   data() {
     return {
       // page: itemsPerPage,

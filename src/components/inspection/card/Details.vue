@@ -41,17 +41,18 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 export default {
-  props: ["id", "technicalName", "date", "inspection"],
+  name: 'Details',
+  props: ['id', 'technicalName', 'date', 'inspection'],
   data() {
     return {
-      defaultImage: "https://lenguajejs.com/javascript/logo.svg",
-      title: "Inspection",
+      defaultImage: 'https://lenguajejs.com/javascript/logo.svg',
+      title: 'Inspection',
     };
   },
   methods: {
-    ...mapActions("inspection", ["getInspection"]),
+    ...mapActions('inspection', ['getInspection']),
   },
 };
 </script>
