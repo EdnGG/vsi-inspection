@@ -14,6 +14,6 @@ export const getLocalWeather = async ({ lat, lng }) => {
       country: data.sys.country,
     };
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 };

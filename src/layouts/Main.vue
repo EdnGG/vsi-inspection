@@ -11,9 +11,6 @@
 
 <script>
 import { defineAsyncComponent } from 'vue';
-// import CustomSnackbar from '@/components/core/CustomSnackbar.vue';
-// import SideBar from '@/components/core/SideBar.vue';
-// import NavBar from '@/components/core/NavBar.vue';
 
 export default {
   components: {

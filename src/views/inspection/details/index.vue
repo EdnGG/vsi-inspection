@@ -181,17 +181,22 @@
 </template>
 
 <script>
-import NoContent from '@/components/Tools/NoContent.vue';
-import InspectionCardDetails from '@/components/inspection/card/Details.vue';
-import inspectionPaginationIndex from '@/components/inspection/pagination/Index.vue';
+import { defineAsyncComponent } from 'vue';
+
 import { mapState, mapActions } from 'vuex';
 import pdfGenerator from '@/helpers/pdfGenerator.js';
 
 export default {
   components: {
-    NoContent,
-    InspectionCardDetails,
-    inspectionPaginationIndex,
+    NoContent: defineAsyncComponent(() =>
+      import('@/components/Tools/NoContent.vue'),
+    ),
+    InspectionCardDetails: defineAsyncComponent(() =>
+      import('@/components/inspection/card/Details.vue'),
+    ),
+    inspectionPaginationIndex: defineAsyncComponent(() =>
+      import('@/components/inspection/pagination/Index.vue'),
+    ),
   },
   data() {
     return {
@@ -207,10 +212,9 @@ export default {
     };
   },
   updated() {
-    console.log('actualizado', this.lastDocument)
-    this.lastDocument = this.InspectionsFromFirestore[
-      this.InspectionsFromFirestore.length - 1
-    ];
+    console.log('actualizado', this.lastDocument);
+    this.lastDocument =
+      this.InspectionsFromFirestore[this.InspectionsFromFirestore.length - 1];
   },
   mounted() {
     if (this.isInspectionCreated) {

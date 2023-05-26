@@ -167,8 +167,7 @@
               <v-container fluid>
                 <core-custom-select-details
                   v-model="tmpData.observaciones"
-                  title="Observations"
-                  @update-observaciones="updateObservaciones">
+                  title="Observations">
                 </core-custom-select-details>
                
               </v-container>
@@ -262,10 +261,6 @@ import { mapActions } from 'vuex';
 // import pdfGenerator from "@/helpers/pdfGenerator.js";
 import { defineAsyncComponent } from 'vue';
 
-// import CoreCustomSelect from '@/components/core/CustomSelect.vue';
-// import CoreCustomSelectActuator from '@/components/core/CustomSelectActuator.vue';
-// import CoreCustomSelectDetails from '@/components/core/CustomSelectDetails.vue';
-
 export default {
   name: 'InspectionFormActuators',
   components: {
@@ -309,7 +304,7 @@ export default {
       operationalTest: 'Good',
       wireCompartiment: 'Good',
       handwheelBoltPatern: 'Good',
-      observaciones: '', // se cambio de string a array
+      observaciones: '', // se queda en string
     },
     inspectionRules: [(v) => !!v || 'Field is required'],
   }),
@@ -335,7 +330,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('inspection', ['addInspection']),
+    ...mapActions('inspection', ['addInspection', 'continueLaterInspection']),
 
     updateValue(field, value) {
       this.tmpData[field] = value.state;
@@ -366,6 +361,7 @@ export default {
     saveAndContinueLater() {
       console.log('saveAndContinueLater');
       // save the insepctions and continue later
+      this.continueLaterInspection(this.totalInspection);
     },
     submit() {
       try {

@@ -41,9 +41,7 @@
 </template>
 
 <script>
-// changeDrawer
 import { mapState } from 'vuex';
-// import { bus } from '../../main';
 export default {
   name: 'SideBar',
   data: () => ({
@@ -55,8 +53,13 @@ export default {
         to: '/inspection',
       },
       {
-        title: 'view Inspection',
+        title: 'View Inspection',
         icon: 'mdi-emoticon-cool-outline',
+        to: '/inspection/details',
+      },
+      {
+        title: 'Pending Inspections',
+        icon: 'mdi-format-list-checks',
         to: '/inspection/details',
       },
       // {

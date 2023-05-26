@@ -16,6 +16,7 @@ export default {
     InspectionsFromFirestore: [],
     paginationLength: 0,
     lastDocument: null,
+    continueLaterInspection: null,
     pagination: {
       totalPages: 0,
       currentPage: 0,
@@ -46,6 +47,10 @@ export default {
     GET_INSPECTIONS(state, payload) {
       state.InspectionsFromFirestore =
         state.InspectionsFromFirestore.concat(payload);
+    },
+    CONTINUE_LATER_INSPECTION(state, payload) {
+      state.continueLaterInspection = payload;
+      localStorage.getItem('continueLaterInspection');
     },
   },
   actions: {
@@ -100,15 +105,6 @@ export default {
         // debugger;
         commit('SET_LAST_DOCUMENT', lastVisible);
         commit('GET_INSPECTIONS', data);
-
-        // const totalPages = Math.ceil(total / limit);
-        // const currentPage = state.pagination.currentPage + 1;
-
-        // commit('SET_PAGINATION', {
-        //   totalPages,
-        //   currentPage,
-        //   disabled: totalPages === currentPage,
-        // });
       } catch (error) {
         console.log('Error: ', error.message);
       }
@@ -125,6 +121,14 @@ export default {
           showSnackbar.success(commit, 'Actuator added');
         }
       });
+    },
+
+    continueLaterInspection({ commit }, payload) {
+      console.log('continue later inspection: ', payload);
+      localStorage.setItem('continueLaterInspection', JSON.stringify(payload));
+      commit('CONTINUE_LATER_INSPECTION', payload);
+      router.push('/inspection/details');
+      showSnackbar.success(commit, 'inspection saved for later');
     },
   },
 

@@ -41,7 +41,7 @@ export default {
   data: () => ({
     // isMounted: false,
     // innerValue: [],
-    value: [],
+    value: ['All Good'],
     items: [
       'All Good',
       'Not enought lock tide',
@@ -57,12 +57,10 @@ export default {
       'Control pack missing',
       'Control needs to recalibrate',
       'Push button damaged',
-      'Push button damaged',
+      'Wrong serial number',
+      'No grease on gears',
     ],
   }),
-  // mounted() {
-  //   this.isMounted = true;
-  // },
   model: {
     event: 'change',
   },
@@ -73,36 +71,16 @@ export default {
     //   }
     // },
   },
-  watch: {
-    // value: {
-    //   immediate: true,
-    //   handler(newVal) {
-    //     this.innerValue = newVal;
-    //   },
-    // },
-    // innerValue(newVal) {
-    //   this.$emit('input', newVal);
-    // },
-  },
+  watch: {},
   computed: {
     computedState: {
       get() {
         return this.value;
       },
       set(value) {
-        this.$emit('input', value);
-        this.$emit('update-observaciones', value);
+        this.$emit('change', value);
       },
     },
-    // computedState: {
-    //   },
-    // get() {
-    //   return this.value;
-    // },
-    // set(value) {
-    //   this.$emit('input', value);
-    // },
-    // },
   },
 };
 </script>
