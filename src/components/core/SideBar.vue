@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- <v-navigation-drawer 
-    v-model="drawer" 
-    :mobile-breakpoint="768" 
-    app> -->
 
     <v-navigation-drawer 
     v-model="computedDrawer" 
@@ -53,15 +49,16 @@ export default {
         to: '/inspection',
       },
       {
+        title: 'Pending Inspections',
+        icon: 'mdi-format-list-checks',
+        to: '/inspection/pending-inspections',
+      },
+      {
         title: 'View Inspection',
         icon: 'mdi-emoticon-cool-outline',
         to: '/inspection/details',
       },
-      {
-        title: 'Pending Inspections',
-        icon: 'mdi-format-list-checks',
-        to: '/inspection/details',
-      },
+
       // {
       //   title: "About",
       //   icon: "mdi-help-box",
@@ -69,14 +66,7 @@ export default {
       // },
     ],
   }),
-  created() {
-    // console.log('THE DRAWER: ', this.drawerMenu);
-    // bus.$on('changeDrawer', (value) => {
-    //   console.log('changeDrawer', value);
-    //   this.drawer = value;
-    // });
-    // this.drawer = this.$route.path === '/inspection' ? true : false;
-  },
+  created() {},
   computed: {
     ...mapState('authentication', ['user']),
     ...mapState(['drawerMenu']),
@@ -91,16 +81,9 @@ export default {
     },
   },
   methods: {
-    changeDrawer() {
-      this.drawer = !this.drawer;
-    },
+    // changeDrawer() {
+    //   this.drawer = !this.drawer;
+    // },
   },
-  // watchers: {
-  //   drawer() {
-  //     this.drawer = !this.drawer;
-  //     console.log('clicked: ', this.drawer);
-  //     this.$emit('drawerMenu', this.drawer);
-  //   },
-  // },
 };
 </script>

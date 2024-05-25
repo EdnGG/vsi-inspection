@@ -11,7 +11,7 @@
         <v-stepper-step :complete="e1 > 4" step="4"> </v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="e1 > 5" step="5"> </v-stepper-step>
-      </v-stepper-header>
+      </v-stepper-header> 
 
       <v-stepper-items>
         <v-stepper-content step="1">
@@ -165,9 +165,15 @@
           <v-row>
             <v-col cols="12">
               <v-container fluid>
+              <!-- <h1>hey</h1> -->
                 <core-custom-select-details
-                  v-model="tmpData.observaciones"
-                  title="Observations">
+                  v-model="tmpData.observaciones" 
+                  title="Observations"
+                  :value="['All Good']"
+                  >
+                  <!-- @input="updateObservaciones($event)" -->
+                  <!-- :defaultValue="'All Good'" -->
+                >
                 </core-custom-select-details>
                
               </v-container>
@@ -225,10 +231,10 @@
             max-width="500">
             <v-card>
               <v-card-title class="text-h5">
-                Are you sure sending inspection?
+                Are you sure sending inspection report?
               </v-card-title>
               <v-card-text>
-                Sending the inspection will be post on the DB and no change can
+                Sending the inspection report will be post on the DB and no change can
                 be done.
               </v-card-text>
               <v-card-actions>
@@ -304,7 +310,7 @@ export default {
       operationalTest: 'Good',
       wireCompartiment: 'Good',
       handwheelBoltPatern: 'Good',
-      observaciones: '', // se queda en string
+      observaciones: [],
     },
     inspectionRules: [(v) => !!v || 'Field is required'],
   }),
@@ -335,9 +341,10 @@ export default {
     updateValue(field, value) {
       this.tmpData[field] = value.state;
     },
-
-    updateObservaciones(value) {
-      this.tmpData.observaciones = value;
+    updateObservaciones(event, value) {
+      console.log('Observaciones actualizadas a:', value);
+      console.log('Event: ', event);
+      this.tmpData.observaciones = event;
     },
     addActuator({ step }) {
       if (this.tmpData.actuatorModel) {
@@ -351,7 +358,7 @@ export default {
           operationalTest: 'Good',
           wireCompartiment: 'Good',
           handwheelBoltPatern: 'Good',
-          observaciones: '',
+          observaciones: ['All Good'],
         };
       }
 

@@ -212,9 +212,13 @@ export default {
     };
   },
   updated() {
-    console.log('actualizado', this.lastDocument);
+    console.log(
+      'this.InspectionsFromFirestore.length: ',
+      this.InspectionsFromFirestore.length,
+    );
     this.lastDocument =
       this.InspectionsFromFirestore[this.InspectionsFromFirestore.length - 1];
+    console.log('last document:', this.lastDocument);
   },
   mounted() {
     if (this.isInspectionCreated) {
@@ -231,6 +235,11 @@ export default {
     }),
 
     isInspectionCreated() {
+      console.log('isInspectionCreated', this.InspectionsFromFirestore);
+      console.log(
+        'isInspectionCreated lenght',
+        this.InspectionsFromFirestore.length,
+      );
       return this.InspectionsFromFirestore.length;
     },
     currentDataActuators() {

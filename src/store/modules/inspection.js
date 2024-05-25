@@ -16,7 +16,7 @@ export default {
     InspectionsFromFirestore: [],
     paginationLength: 0,
     lastDocument: null,
-    continueLaterInspection: null,
+    pendingInspection: null,
     pagination: {
       totalPages: 0,
       currentPage: 0,
@@ -49,8 +49,8 @@ export default {
         state.InspectionsFromFirestore.concat(payload);
     },
     CONTINUE_LATER_INSPECTION(state, payload) {
-      state.continueLaterInspection = payload;
-      localStorage.getItem('continueLaterInspection');
+      state.pendingInspection = payload;
+      // state.continueLaterInspection = localStorage.getItem('continueLaterInspection');
     },
   },
   actions: {
@@ -127,8 +127,8 @@ export default {
       console.log('continue later inspection: ', payload);
       localStorage.setItem('continueLaterInspection', JSON.stringify(payload));
       commit('CONTINUE_LATER_INSPECTION', payload);
-      router.push('/inspection/details');
-      showSnackbar.success(commit, 'inspection saved for later');
+      router.push('/inspection/pending-inspection');
+      // showSnackbar.success(commit, 'inspection saved for later');
     },
   },
 

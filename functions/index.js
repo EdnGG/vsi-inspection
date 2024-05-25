@@ -2,11 +2,11 @@ require('dotenv').config();
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
-const PDFDocument = require('pdfkit');
+// const PDFDocument = require('pdfkit');
 
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
+// const fs = require('fs');
+// const path = require('path');
+// const os = require('os');
 
 // temporal
 // const pdfmake = require('pdfmake/build/pdfmake.js');
@@ -28,21 +28,25 @@ exports.sendEmail = functions.firestore
     const doc = snap.data();
     console.log('doc: ', doc);
 
-    const pdfPath = path.join(os.tmpdir(), `report.pdf`);
+    // +================================================================================================
 
-    const pdfDoc = new PDFDocument();
-    const writeStream = fs.createWriteStream(pdfPath);
+    // const pdfPath = path.join(os.tmpdir(), `report.pdf`);
 
-    pdfDoc.pipe(writeStream);
+    // const pdfDoc = new PDFDocument();
+    // const writeStream = fs.createWriteStream(pdfPath);
 
-    pdfDoc.text('Inspection Report', { align: 'center', size: 18 });
-    pdfDoc.text(JSON.stringify(doc, null, 2));
+    // pdfDoc.pipe(writeStream);
 
-    pdfDoc.end();
+    // pdfDoc.text('Inspection Report', { align: 'center', size: 18 });
+    // pdfDoc.text(JSON.stringify(doc, null, 2));
 
-    // Espera a que el documento PDF se termine de escribir en el archivo
-    await new Promise((resolve) => writeStream.on('finish', resolve));
-    const pdfBuffer = fs.readFileSync(pdfPath);
+    // pdfDoc.end();
+
+    // // Espera a que el documento PDF se termine de escribir en el archivo
+    // await new Promise((resolve) => writeStream.on('finish', resolve));
+    // const pdfBuffer = fs.readFileSync(pdfPath);
+
+    //================================================================================================
 
     //  USANDO LA TABLA DE PDFMAKE
 
@@ -121,12 +125,28 @@ exports.sendEmail = functions.firestore
     // });
 
     const data = {
-      from: `noreply@inspection-6c319.web.app/`,
-      // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_2}, ${process.env.EMAIL_RECEIPE_3}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}`,
+      from: `noreply@vuetify-todo.com`,
+      // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}, ${process.env.EMAIL_RECEIPE_6}, ${process.env.EMAIL_RECEIPE_7}, ${process.env.EMAIL_RECEIPE_8}`,
+      // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_7}, ${process.env.EMAIL_RECEIPE_1}`,
+      to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_6}`,
       // Agrega tu email para qu ete lleguen las notificaciones
-      to: `${process.env.EMAIL_ADMIN}`,
-      subject: 'Inspection Report',
-      attachment: pdfBuffer,
+      // to: `${process.env.EMAIL_ADMIN}`,
+      subject: 'Incomming Inspection Report',
+      text: `Electric Actuators Inspection Report
+
+      An Electric Actuators Inspection has been carried out with the following PO:
+
+      PO ID: ${snap.data().inspection.id}
+
+      Inspection Details:
+      - Date: ${snap.data().inspection.date}
+      - Observations: ${snap.data().inspection.observaciones}
+      - Order Quantity: ${snap.data().inspection.orderQuantity}
+      - Test Sample Size: ${snap.data().inspection.testSampleSize}
+      - Technical Name: ${snap.data().inspection.technical}
+
+      Visit our website for more information.`,
+      // attachment: pdfBuffer,
 
       html: `
             <!DOCTYPE html>
@@ -214,20 +234,7 @@ exports.sendEmail = functions.firestore
           </style>
         </head>
         <body style="word-spacing: normal; background-color: #e7e7e7">
-          <div
-            style="
-              display: none;
-              font-size: 1px;
-              color: #ffffff;
-              line-height: 1px;
-              max-height: 0px;
-              max-width: 0px;
-              opacity: 0;
-              overflow: hidden;
-            "
-          >
-            Electric Actuators Inspection
-          </div>
+  
           <div style="background-color: #e7e7e7">
             <table
               align="center"
@@ -304,21 +311,7 @@ exports.sendEmail = functions.firestore
                                           <tbody>
                                             <tr>
                                               <td style="width: 150px">
-                                                <img
-                                                  alt
-                                                  height="auto"
-                                                  src="https://valvesolutions.com/wp-content/uploads/2020/12/Valve-Solutions-Logo-1-150x72-1.png"
-                                                  style="
-                                                    border: 0;
-                                                    display: block;
-                                                    outline: none;
-                                                    text-decoration: none;
-                                                    height: auto;
-                                                    width: 100%;
-                                                    font-size: 13px;
-                                                  "
-                                                  width="150"
-                                                />
+                                                
                                               </td>
                                             </tr>
                                           </tbody>
@@ -581,70 +574,7 @@ exports.sendEmail = functions.firestore
                                           </div>
                                         </td>
                                       </tr>
-                                      <tr>
-                                        <td
-                                          align="center"
-                                          vertical-align="middle"
-                                          style="
-                                            font-size: 0px;
-                                            padding: 10px 25px;
-                                            word-break: break-word;
-                                          "
-                                        >
-                                          <table
-                                            border="0"
-                                            cellpadding="0"
-                                            cellspacing="0"
-                                            role="presentation"
-                                            style="
-                                              border-collapse: separate;
-                                              width: 300px;
-                                              line-height: 100%;
-                                            "
-                                          >
-                                            <tbody>
-                                              <tr>
-                                                <td
-                                                  align="center"
-                                                  bgcolor="#008000"
-                                                  role="presentation"
-                                                  style="
-                                                    border: none;
-                                                    border-radius: 3px;
-                                                    cursor: auto;
-                                                    mso-padding-alt: 10px 25px;
-                                                    background: #008000;
-                                                  "
-                                                  valign="middle"
-                                                >
-                                                  <a
-                                                    href="https://inspection-6c319.web.app/"
-                                                    style="
-                                                      display: inline-block;
-                                                      width: 250px;
-                                                      background: #008000;
-                                                      color: #ffffff;
-                                                      font-family: 'Helvetica Neue',
-                                                        Helvetica, Arial, sans-serif;
-                                                      font-size: 17px;
-                                                      font-weight: bold;
-                                                      line-height: 120%;
-                                                      margin: 0;
-                                                      text-decoration: none;
-                                                      text-transform: none;
-                                                      padding: 10px 25px;
-                                                      mso-padding-alt: 0px;
-                                                      border-radius: 3px;
-                                                    "
-                                                    target="_blank"
-                                                    >GO TO WEBSITE</a
-                                                  >
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        </td>
-                                      </tr>
+                                      
                                     </tbody>
                                   </table>
                                 </div>
@@ -784,6 +714,21 @@ exports.sendEmail = functions.firestore
                   </td>
                 </tr>
               </tbody>
+
+              <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+                <tr>
+                  <td style="direction:ltr; font-size:0px; padding:20px 0; text-align:center;">
+                    <div style="font-family: Helvetica, Arial, sans-serif; font-size:12px; line-height:1.5; text-align:center; color:#000000;">
+                      Si ya no deseas recibir estos correos, puedes 
+                      <br/><br/>
+                      Tu Compañía, Dirección de la Compañía, Otra Información de Contacto
+                      <br/>
+                      © 2023 Tu Compañía
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
             </table>
           </div>
         </body>
@@ -801,8 +746,91 @@ exports.sendEmail = functions.firestore
     });
 
     // No olvides eliminar el archivo PDF temporal
-    fs.unlinkSync(pdfPath);
+    // fs.unlinkSync(pdfPath);
   });
+
+{
+  /* <img
+  alt="valve solutions logo"
+  height="auto"
+  src="https://valvesolutions.com/wp-content/uploads/2020/12/Valve-Solutions-Logo-1-150x72-1.png"
+  style="
+                                                    border: 0;
+                                                    display: block;
+                                                    outline: none;
+                                                    text-decoration: none;
+                                                    height: auto;
+                                                    width: 100%;
+                                                    font-size: 13px;
+                                                  "
+  width="150"
+/>; */
+}
+
+// <tr>
+//                                       <td
+//                                         align="center"
+//                                         vertical-align="middle"
+//                                         style="
+//                                           font-size: 0px;
+//                                           padding: 10px 25px;
+//                                           word-break: break-word;
+//                                         "
+//                                       >
+//                                         <table
+//                                           border="0"
+//                                           cellpadding="0"
+//                                           cellspacing="0"
+//                                           role="presentation"
+//                                           style="
+//                                             border-collapse: separate;
+//                                             width: 300px;
+//                                             line-height: 100%;
+//                                           "
+//                                         >
+//                                           <tbody>
+//                                             <tr>
+//                                               <td
+//                                                 align="center"
+//                                                 bgcolor="#008000"
+//                                                 role="presentation"
+//                                                 style="
+//                                                   border: none;
+//                                                   border-radius: 3px;
+//                                                   cursor: auto;
+//                                                   mso-padding-alt: 10px 25px;
+//                                                   background: #008000;
+//                                                 "
+//                                                 valign="middle"
+//                                               >
+//                                                 <a
+//                                                   href="https://inspection-6c319.web.app"
+//                                                   style="
+//                                                     display: inline-block;
+//                                                     width: 250px;
+//                                                     background: #008000;
+//                                                     color: #ffffff;
+//                                                     font-family: 'Helvetica Neue',
+//                                                       Helvetica, Arial, sans-serif;
+//                                                     font-size: 17px;
+//                                                     font-weight: bold;
+//                                                     line-height: 120%;
+//                                                     margin: 0;
+//                                                     text-decoration: none;
+//                                                     text-transform: none;
+//                                                     padding: 10px 25px;
+//                                                     mso-padding-alt: 0px;
+//                                                     border-radius: 3px;
+//                                                   "
+//                                                   target="_blank"
+//                                                   >GO TO WEBSITE</a
+//                                                 >
+//                                               </td>
+//                                             </tr>
+//                                           </tbody>
+//                                         </table>
+//                                       </td>
+//                                     </tr>
 
 // CHAT GPT - 4
 

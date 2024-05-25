@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Login from '../views/Login.vue';
+// import Login from '../views/Login.vue';
 import AuthLayout from '../layouts/Auth.vue';
 import MainLayout from '../layouts/Main.vue';
 import store from '@/store';
@@ -12,7 +12,11 @@ const routes = [
     path: '/',
     component: AuthLayout,
     children: [
-      { path: '', name: 'Login', component: Login }
+      {
+        path: '',
+        name: 'Login',
+        component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
+      }
     ],
   },
   {
@@ -23,7 +27,7 @@ const routes = [
         path: '',
         name: 'SignUp',
         component: () =>
-          import(/* webpackChunkName: "about" */ '../views/SignUp.vue'),
+          import(/* webpackChunkName: "signup" */ '../views/SignUp.vue'),
       },
     ],
   },
@@ -35,7 +39,7 @@ const routes = [
         path: '',
         name: 'ForgotPassword',
         component: () =>
-          import(/* webpackChunkName: "about" */ '../views/ForgotPassword.vue'),
+          import(/* webpackChunkName: "forgot-password" */ '../views/ForgotPassword.vue'),
       },
     ],
   },
@@ -48,12 +52,13 @@ const routes = [
         name: 'Inspection',
         component: () =>
           import(
-            /* webpackChunkName: "about" */ '../views/inspection/index.vue'
+            /* webpackChunkName: "inspections" */ '../views/inspection/index.vue'
           ),
         meta: { requiresAuth: true },
       },
       {
         path: 'details',
+        name: 'details',
         component: () =>
           import(
             /* webpackChunkName: "details" */ '../views/inspection/details/index.vue'
@@ -65,7 +70,16 @@ const routes = [
         name: 'inspection_details_uid',
         component: () =>
           import(
-            /* webpackChunkName: "details" */ '../views/inspection/details/[uid].vue'
+            /* webpackChunkName: "details/:uid" */ '../views/inspection/details/[uid].vue'
+          ),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'pending-inspections',
+        name: 'pending-inspections',
+        component: () =>
+          import(
+            /* webpackChunkName: "pending-inspection" */ '../views/inspection/pending-inspection/index.vue' 
           ),
         meta: { requiresAuth: true },
       },
