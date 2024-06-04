@@ -165,13 +165,12 @@
           <v-row>
             <v-col cols="12">
               <v-container fluid>
-              <!-- <h1>hey</h1> -->
                 <core-custom-select-details
                   v-model="tmpData.observaciones" 
-                  title="Observations"
-                  :value="['All Good']"
+                  title="Observations" 
+                  :value="tmpData.observaciones"
+                  @input="updateObservaciones($event)"
                   >
-                  <!-- @input="updateObservaciones($event)" -->
                   <!-- :defaultValue="'All Good'" -->
                 >
                 </core-custom-select-details>
@@ -291,6 +290,7 @@ export default {
     prevButton: false,
     nextButton: false,
     select: { state: '', item: 'Select one' },
+    observacionesIniciales: ['All Good'],
     date: '',
     totalInspection: {
       id: '',
@@ -310,7 +310,7 @@ export default {
       operationalTest: 'Good',
       wireCompartiment: 'Good',
       handwheelBoltPatern: 'Good',
-      observaciones: [],
+      observaciones: ['All Good'],
     },
     inspectionRules: [(v) => !!v || 'Field is required'],
   }),
@@ -334,6 +334,20 @@ export default {
         display: this.firstVal ? 'none' : 'block',
       };
     },
+  },
+  watch: {
+    'tmpData.observaciones': function (newVal) {
+      if (newVal.length === 0) {
+        this.tmpData.observaciones = [...this.observacionesIniciales];
+      }
+      // console.log('Observaciones actualizadas a:', newVal);
+    },
+  },
+  created() {
+    // if(){
+    // this.tmpData.observaciones = [...this.observacionesIniciales];
+    // }
+    // console.log('Observaciones iniciales: ', this.observacionesIniciales);
   },
   methods: {
     ...mapActions('inspection', ['addInspection', 'continueLaterInspection']),
