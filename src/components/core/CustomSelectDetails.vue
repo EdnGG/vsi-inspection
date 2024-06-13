@@ -37,7 +37,7 @@ export default {
     },
     value: {
       type: Array,
-      default: () => ['All Good'],
+      // default: () => ['All Good'],
     },
   },
   data() {
@@ -70,19 +70,23 @@ export default {
       ],
     };
   },
+  beforeDestroy() {
+    // Guardar el valor actual antes de destruir el componente
+    this.$emit('input', this.selectedValue);
+  },
   created() {
     // console.log('value from created: ', this.value);
-    // this.selectedValue = [...this.defaultValue];
     if (this.selectedValue.length === 0 && this.value.length) {
-      this.selectedValue = this.value.length ? [...this.value] : ['All Good'];
+      this.selectedValue = [...this.value];
+      // this.selectedValue = this.value.length ? [...this.value] : ['All Good'];
       console.log('this.selectedValue: ', this.selectedValue);
     }
   },
   methods: {
     updateValue(value) {
-      console.log('value from details', value);
+      // console.log('Valor que recibe el metodo updateValue(value)', value);
       this.selectedValue = value;
-      console.log('hey: ', this.selectedValue);
+      // console.log('SelectedValue actualizado: ', this.selectedValue);
       this.$emit('input', value);
     },
   },
@@ -92,6 +96,7 @@ export default {
       if (JSON.stringify(newVal) !== JSON.stringify(this.selectedValue)) {
         this.selectedValue = [...newVal];
       }
+      console.log('this.selectedValue: ', this.selectedValue);
       // if (newVal !== this.selectedValue) {
       //   this.selectedValue = [...newVal];
       // }

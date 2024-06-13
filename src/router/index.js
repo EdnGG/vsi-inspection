@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import Login from '../views/Login.vue';
 import AuthLayout from '../layouts/Auth.vue';
 import MainLayout from '../layouts/Main.vue';
 import store from '@/store';
@@ -15,8 +14,9 @@ const routes = [
       {
         path: '',
         name: 'Login',
-        component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
-      }
+        component: () =>
+          import(/* webpackChunkName: "login" */ '../views/Login.vue'),
+      },
     ],
   },
   {
@@ -39,7 +39,9 @@ const routes = [
         path: '',
         name: 'ForgotPassword',
         component: () =>
-          import(/* webpackChunkName: "forgot-password" */ '../views/ForgotPassword.vue'),
+          import(
+            /* webpackChunkName: "forgot-password" */ '../views/ForgotPassword.vue'
+          ),
       },
     ],
   },
@@ -79,26 +81,35 @@ const routes = [
         name: 'pending-inspections',
         component: () =>
           import(
-            /* webpackChunkName: "pending-inspection" */ '../views/inspection/pending-inspection/index.vue' 
+            /* webpackChunkName: "pending-inspection" */ '../views/inspection/pending-inspection/index.vue'
+          ),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'notFound',
+        component: () =>
+          import(
+            /* webpackChunkName: "details" */ '../views/notFound/index.vue'
           ),
         meta: { requiresAuth: true },
       },
     ],
   },
-  {
-    path: '/desmet/packing',
-    name: 'DesmetPacking',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/desmet/packing.vue'),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/desmet/pallets',
-    name: 'DesmetPallets',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/desmet/pallets.vue'),
-    meta: { requiresAuth: true },
-  },
+  // {
+  //   path: '/desmet/packing',
+  //   name: 'DesmetPacking',
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ '../views/desmet/packing.vue'),
+  //   meta: { requiresAuth: true },
+  // },
+  // {
+  //   path: '/desmet/pallets',
+  //   name: 'DesmetPallets',
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ '../views/desmet/pallets.vue'),
+  //   meta: { requiresAuth: true },
+  // },
   {
     path: '/about',
     name: 'About',
@@ -120,6 +131,7 @@ router.beforeEach((to, from, next) => {
     if (isUserExist) {
       next();
     } else {
+      console.log('else');
       next({
         path: '/',
         query: { redirect: to.fullPath },

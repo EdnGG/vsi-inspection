@@ -149,7 +149,7 @@ exports.sendEmail = functions.firestore
       // attachment: pdfBuffer,
 
       html: `
-            <!DOCTYPE html>
+      <!DOCTYPE html>
       <html
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:v="urn:schemas-microsoft-com:vml"
@@ -311,6 +311,10 @@ exports.sendEmail = functions.firestore
                                           <tbody>
                                             <tr>
                                               <td style="width: 150px">
+                                              <img alt height="auto"
+                                              src="https://valvesolutions.com/wp-content/uploads/2020/12/Valve-Solutions-Logo-1-150x72-1.png"
+                                              style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
+                                              width="150">
                                                 
                                               </td>
                                             </tr>
@@ -719,11 +723,12 @@ exports.sendEmail = functions.firestore
                 <tr>
                   <td style="direction:ltr; font-size:0px; padding:20px 0; text-align:center;">
                     <div style="font-family: Helvetica, Arial, sans-serif; font-size:12px; line-height:1.5; text-align:center; color:#000000;">
-                      Si ya no deseas recibir estos correos, puedes 
+                      
                       <br/><br/>
-                      Tu Compañía, Dirección de la Compañía, Otra Información de Contacto
-                      <br/>
-                      © 2023 Tu Compañía
+                      <a href="https://inspection-6c319.web.app" style="color: #008000; text-decoration: none;">GO TO WEBSITE</a>
+                      <br/><br/>
+                     
+                      Copyright © 2024 Valve Solutions
                     </div>
                   </td>
                 </tr>

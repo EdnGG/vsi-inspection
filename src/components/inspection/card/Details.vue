@@ -20,9 +20,10 @@
       <div>{{technicalName}} </div>
 
       <div>{{inspection}}</div>
+      
     </v-card-text>
 
-    <v-card-actions>
+    <!-- <v-card-actions>
       <v-btn
         color="orange"
         text
@@ -36,7 +37,7 @@
       >
         Download PDF
       </v-btn>
-    </v-card-actions>
+    </v-card-actions> -->
   </v-card>
 </template>
 

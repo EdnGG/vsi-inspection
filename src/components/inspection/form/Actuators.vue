@@ -200,13 +200,13 @@
               Finish Inspection
             </v-btn>
             
-            <v-btn 
+            <!-- <v-btn 
               color="warning"   
               @click="saveAndContinueLater" 
               class="mr-2"
             >
               Save and continue later
-            </v-btn>
+            </v-btn> -->
           </div>
         </v-stepper-content>
 
@@ -355,10 +355,20 @@ export default {
     updateValue(field, value) {
       this.tmpData[field] = value.state;
     },
-    updateObservaciones(event, value) {
-      console.log('Observaciones actualizadas a:', value);
-      console.log('Event: ', event);
-      this.tmpData.observaciones = event;
+    updateObservaciones(event) {
+      console.log(
+        'Antes de actualizar el valor observaciones: ',
+        this.tmpData.observaciones,
+      );
+      console.log(
+        'Valor que recibe el padre del hijo updateObservaciones(event) : ',
+        event,
+      );
+      this.tmpData.observaciones = [...event];
+      console.log(
+        'Despues de actualizar el valor observaciones: ',
+        this.tmpData.observaciones,
+      );
     },
     addActuator({ step }) {
       if (this.tmpData.actuatorModel) {
