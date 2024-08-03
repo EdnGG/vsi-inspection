@@ -48,11 +48,11 @@ export default {
         icon: 'mdi-format-list-checks',
         to: '/inspection',
       },
-      // {
-      //   title: 'Pending Inspections',
-      //   icon: 'mdi-format-list-checks',
-      //   to: '/inspection/pending-inspections',
-      // },
+      {
+        title: 'Pending Inspections',
+        icon: 'mdi-format-list-checks',
+        to: '/inspection/pending-inspections',
+      },
       {
         title: 'View Inspection',
         icon: 'mdi-emoticon-cool-outline',

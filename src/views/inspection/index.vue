@@ -10,7 +10,7 @@
   </div>
     <v-row class="text-center">
       <v-col justify-center align-center cols="12" sm="12" class="text-center">
-        <inspection-form-actuators></inspection-form-actuators>
+        <inspection-form-actuators></inspection-form-actuators> 
       </v-col>
     </v-row>
   </v-container>

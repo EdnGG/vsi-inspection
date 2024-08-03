@@ -200,13 +200,13 @@
               Finish Inspection
             </v-btn>
             
-            <!-- <v-btn 
+            <v-btn 
               color="warning"   
               @click="saveAndContinueLater" 
               class="mr-2"
             >
               Save and continue later
-            </v-btn> -->
+            </v-btn>
           </div>
         </v-stepper-content>
 
@@ -263,6 +263,7 @@
 <script>
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
+// import { router } from 'vue-router';
 // import pdfGenerator from "@/helpers/pdfGenerator.js";
 import { defineAsyncComponent } from 'vue';
 
@@ -275,12 +276,13 @@ export default {
     CoreCustomSelectActuator: defineAsyncComponent(() =>
       import('@/components/core/CustomSelectActuator.vue'),
     ),
-    CoreCustomSelectDetails: defineAsyncComponent(() =>
+    CoreCustomSelectDetails: defineAsyncComponent(() => 
       import('@/components/core/CustomSelectDetails.vue'),
     ),
   },
 
   data: () => ({
+    continueInspectionLater: [],
     e1: 1,
     step1: null,
     step2: null,
@@ -293,18 +295,18 @@ export default {
     observacionesIniciales: ['All Good'],
     date: '',
     totalInspection: {
-      id: '',
+      id: 'PO-123123',
       date: '',
-      technical: '',
-      orderQuantity: '',
-      testSampleSize: '',
-      observaciones: '',
+      technical: 'Eden',
+      orderQuantity: '1000',
+      testSampleSize: '100',
+      observaciones: 'All Good',
       data: [],
     },
     tmpData: {
-      actuatorModel: '',
-      actuatorSerialNumber: '',
-      controlPack: '',
+      actuatorModel: '1005-X',
+      actuatorSerialNumber: '123123123',
+      controlPack: '21312312321',
       visual: 'Good',
       waterInspection: 'Good',
       operationalTest: 'Good',
@@ -390,9 +392,14 @@ export default {
       this.e1 = step;
     },
     saveAndContinueLater() {
+      // save the inspections and continue later
       console.log('saveAndContinueLater');
-      // save the insepctions and continue later
-      this.continueLaterInspection(this.totalInspection);
+      this.addActuator({ step: 4 })
+      this.continueInspectionLater.push(this.totalInspection)
+      localStorage.setItem('continueInspectionLater', JSON.stringify(this.continueInspectionLater))
+      this.$router.push({name :'details'})
+      console.log(this.continueInspectionLater);
+
     },
     submit() {
       try {
