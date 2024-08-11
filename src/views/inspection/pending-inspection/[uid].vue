@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="currentInspection.data"
+      :items="currentInspection.data" 
       sort-by="calories"
       class="elevation-1">
       <template v-slot:top>

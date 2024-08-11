@@ -282,7 +282,7 @@ export default {
   },
 
   data: () => ({
-    continueInspectionLater: [],
+    continueInspectionLater: JSON.parse(localStorage.getItem('continueInspectionLater')) || [],
     e1: 1,
     step1: null,
     step2: null,
@@ -395,10 +395,13 @@ export default {
       // save the inspections and continue later
       console.log('saveAndContinueLater');
       this.addActuator({ step: 4 })
+      
       this.continueInspectionLater.push(this.totalInspection)
+      
       localStorage.setItem('continueInspectionLater', JSON.stringify(this.continueInspectionLater))
+
       this.$router.push({name :'details'})
-      console.log(this.continueInspectionLater);
+      console.log('continue Inspection Later: ', this.continueInspectionLater);
 
     },
     submit() {

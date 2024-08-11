@@ -94,7 +94,7 @@ export default {
     async getInspections({ commit, state }, { limit, startAfter }) {
       try {
         // if (state.pagination.disabled) return;
-        console.log('startAfter: ', startAfter);
+        // console.log('startAfter: ', startAfter);
         const { data, lastVisible, total } = await getAllDocuments(
           'inspections',
           {
