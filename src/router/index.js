@@ -86,6 +86,15 @@ const routes = [
         meta: { requiresAuth: true },
       },
       {
+        path: 'pending-inspections/:id',
+        name: 'pending-inspections-id',
+        component: () =>
+          import(
+            /* webpackChunkName: "pending-inspections/:id" */ '../views/inspection/pending-inspection/[uid].vue'
+          ),
+        meta: { requiresAuth: true },
+      },
+      {
         path: '/:pathMatch(.*)*',
         name: 'notFound',
         component: () =>

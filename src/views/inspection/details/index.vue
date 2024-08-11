@@ -259,7 +259,7 @@ export default {
     showDataReports({ uid }) {
       this.$router.push({
         name: 'inspection_details_uid',
-        params: { uid },
+        params: { uid }, 
       });
     },
     downloadPDF(data) {

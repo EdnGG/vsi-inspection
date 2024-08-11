@@ -121,8 +121,12 @@ export default {
     },
     showPendingInspection(item) {
       console.log('Pending Inspection', item);
-      this.currentData = item;
-      this.modalShowData = true;
+      this.$router.push({
+        name: 'pending-inspections-id',
+        params: { id: item.id },
+      })
+      // this.currentData = item;
+      // this.modalShowData = true;
     },
   },
 };

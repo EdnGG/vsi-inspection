@@ -20,7 +20,7 @@
 import InspectionFormActuators from '@/components/inspection/form/Actuators.vue';
 export default {
   components: {
-    InspectionFormActuators,
+    InspectionFormActuators, 
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm(
