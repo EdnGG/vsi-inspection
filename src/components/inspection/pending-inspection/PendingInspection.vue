@@ -2,8 +2,8 @@
     <v-container>
       <v-stepper v-model="e1">
         <v-stepper-header>
-          <v-stepper-step :complete="e1 > 1" step="1"> </v-stepper-step>
-          <v-divider></v-divider>
+          <!-- <v-stepper-step :complete="e1 > 1" step="1"> </v-stepper-step>
+          <v-divider></v-divider> -->
           <v-stepper-step :complete="e1 > 2" step="2"> </v-stepper-step>
           <v-divider></v-divider>
           <v-stepper-step :complete="e1 > 3" step="3"> </v-stepper-step>
@@ -14,7 +14,8 @@
         </v-stepper-header> 
   
         <v-stepper-items>
-          <v-stepper-content step="1">
+          <!--  -->
+          <!-- <v-stepper-content step="1">
             <v-form ref="step1" lazy-validation>
               <v-row justify="space-between" class="mb-4">
                 <v-col cols="12" md="3">
@@ -89,7 +90,8 @@
             <div class="d-flex">
               <v-btn color="primary" @click="nextStep1"> Continue </v-btn>
             </div>
-          </v-stepper-content>
+          </v-stepper-content> -->
+          <!--  -->
   
           <v-stepper-content step="2">
             <v-form ref="step2" lazy-validation>
@@ -263,11 +265,10 @@
   <script>
   import { mapState } from 'vuex';
   import { mapActions } from 'vuex';
-  // import { router } from 'vue-router';
-  // import pdfGenerator from "@/helpers/pdfGenerator.js";
   import { defineAsyncComponent } from 'vue';
   
   export default {
+    
     name: 'InspectionFormActuators',
     components: {
       CoreCustomSelect: defineAsyncComponent(() =>
@@ -283,7 +284,8 @@
   
     data: () => ({
       continueInspectionLater: JSON.parse(localStorage.getItem('continueInspectionLater')) || [],
-      e1: 1,
+      getPendingInspection:[],
+      e1: 2,
       step1: null,
       step2: null,
       modalSubmit: false,
@@ -293,20 +295,20 @@
       nextButton: false,
       select: { state: '', item: 'Select one' },
       observacionesIniciales: ['All Good'],
-      date: '',
+      // date: '',
       totalInspection: {
-        id: 'PO-123123',
+        id: '',
         date: '',
-        technical: 'Eden',
-        orderQuantity: '1000',
-        testSampleSize: '100',
-        observaciones: 'All Good',
+        technical: '',
+        orderQuantity: '',
+        testSampleSize: '',
+        observaciones: '',
         data: [],
       },
       tmpData: {
-        actuatorModel: '1005-X',
-        actuatorSerialNumber: '123123123',
-        controlPack: '21312312321',
+        actuatorModel: '',
+        actuatorSerialNumber: '',
+        controlPack: '',
         visual: 'Good',
         waterInspection: 'Good',
         operationalTest: 'Good',
@@ -346,6 +348,8 @@
       },
     },
     created() {
+      // this.getPendingInspection = 
+
       // if(){
       // this.tmpData.observaciones = [...this.observacionesIniciales];
       // }

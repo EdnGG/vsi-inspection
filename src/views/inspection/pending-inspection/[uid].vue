@@ -18,20 +18,23 @@
 
 <script>
 import pendingInspection from '@/components/inspection/pending-inspection/PendingInspection.vue';
-
-import { db } from '@/firebase';
 import { mapState, mapActions } from 'vuex';
+
 export default {
+  props: {
+    currentInspection: {
+      type: Object,
+      required: true,
+    },
+  },
   components: {
     pendingInspection,
   },
   name: 'pending-inspections-id',
   data() {
     return {
-      currentInspection: {
-        data: [],
-      },
-      currentDataId: null,
+
+      pendingInspection: currentInspection || [],
       isLoading: false,
       dialog: false,
       dialogDelete: false,
@@ -90,29 +93,6 @@ export default {
       });
       this.close();
     },
-    async deleteItemConfirm() {
-      try {
-        this.currentInspection.data.splice(this.editedIndex, 1);
-        await this.deleteActuator({
-          uid: this.$route.params.uid,
-          data: this.currentInspection,
-        });
-        this.closeDelete();
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    editItem(item) {
-      this.editedIndex = this.currentInspection.data.indexOf(item);
-      this.editedItem = { ...item };
-      this.dialog = true;
-    },
-    deleteItem(item) {
-      this.editedIndex = this.currentInspection.data.indexOf(item);
-      this.editedItem = { ...item };
-      this.dialogDelete = true;
-    },
-
     close() {
       this.dialog = false;
       this.$nextTick(() => {
@@ -120,7 +100,6 @@ export default {
         this.editedIndex = -1;
       });
     },
-
     closeDelete() {
       this.dialogDelete = false;
       this.$nextTick(() => {
