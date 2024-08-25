@@ -1,9 +1,11 @@
 <template>
     <v-container>
+      <!-- {{ getPendingInspection.data }}
+      {{ getPendingInspection.data.length }}
+      {{ getPendingInspection.observaciones }} -->
       <v-stepper v-model="e1">
         <v-stepper-header>
-          <!-- <v-stepper-step :complete="e1 > 1" step="1"> </v-stepper-step>
-          <v-divider></v-divider> -->
+          
           <v-stepper-step :complete="e1 > 2" step="2"> </v-stepper-step>
           <v-divider></v-divider>
           <v-stepper-step :complete="e1 > 3" step="3"> </v-stepper-step>
@@ -14,10 +16,7 @@
         </v-stepper-header> 
   
         <v-stepper-items>
-          <!--  -->
-         
-          <!--  -->
-  
+      
           <v-stepper-content step="2">
             <v-form ref="step2" lazy-validation>
               <v-row justify="space-between" class="mb-4">
@@ -126,14 +125,7 @@
               >
                 Finish Inspection
               </v-btn>
-              
-              <v-btn 
-                color="warning"   
-                @click="saveAndContinueLater" 
-                class="mr-2"
-              >
-                Save and continue later
-              </v-btn>
+            
             </div>
           </v-stepper-content>
   
@@ -145,7 +137,7 @@
                     clearable
                     clear-icon="mdi-close-circle"
                     label="Final notes:"
-                    v-model.trim="totalInspection.observaciones"></v-textarea>
+                    v-model.trim="getPendingInspection.observaciones"></v-textarea>
                 </v-container>
               </v-col>
             </v-row>
@@ -208,16 +200,12 @@
     },    
     data: () => ({
       continueInspectionLater: JSON.parse(localStorage.getItem('continueInspectionLater')) || [],
-      getPendingInspection:[],
+      getPendingInspection:[], // contains the pending inspections getting from query once the component is created
       e1: 2,
       step1: null,
       step2: null,
       modalSubmit: false,
-      firstVal: false,
-      menuDate: false,
-      prevButton: false,
-      nextButton: false,
-      select: { state: '', item: 'Select one' },
+      firstVal: false, 
       observacionesIniciales: ['All Good'],
       totalInspection: {
         id: '',
@@ -243,24 +231,6 @@
     }),
     computed: {
       ...mapState(['inspections', 'allInspections']),
-      datosArray() {
-        return [
-          this.inspection.data.visual,
-          this.inspection.data.waterInspection,
-          this.inspection.data.operationalTest,
-          this.inspection.data.wireCompartiment,
-          this.inspection.data.handwheelBoltPatern,
-        ].filter((item) => {
-          if (item) {
-            return item;
-          }
-        });
-      },
-      hide() {
-        return {
-          display: this.firstVal ? 'none' : 'block',
-        };
-      },
     },
     watch: {
       'tmpData.observaciones': function (newVal) {
@@ -294,9 +264,28 @@
           this.tmpData.observaciones,
         );
       },
+      // addActuator({ step }) {
+      //   if (this.tmpData.actuatorModel) {
+      //     this.totalInspection.data.push({ ...this.tmpData });
+      //     this.tmpData = {
+      //       actuatorModel: '',
+      //       actuatorSerialNumber: '',
+      //       controlPack: '',
+      //       visual: 'Good',
+      //       waterInspection: 'Good',
+      //       operationalTest: 'Good',
+      //       wireCompartiment: 'Good',
+      //       handwheelBoltPatern: 'Good',
+      //       observaciones: ['All Good'],
+      //     };
+      //   }
+      //   this.$refs.step2.reset();
+      //   this.e1 = step;
+      // },
       addActuator({ step }) {
-        if (this.tmpData.actuatorModel) {
-          this.totalInspection.data.push({ ...this.tmpData });
+        if (this.getPendingInspection.data) {
+          this.getPendingInspection.data.push({ ...this.tmpData });
+
           this.tmpData = {
             actuatorModel: '',
             actuatorSerialNumber: '',
@@ -309,7 +298,6 @@
             observaciones: ['All Good'],
           };
         }
-  
         this.$refs.step2.reset();
         this.e1 = step;
       },
@@ -317,23 +305,11 @@
         this.getPendingInspection = this.$route.query.item;
         console.log('Pending Inspection from query', this.getPendingInspection);
       },
-      saveAndContinueLater() {
-        // save the inspections and continue later
-        console.log('saveAndContinueLater');
-        this.addActuator({ step: 4 })
-        
-        this.continueInspectionLater.push(this.totalInspection)
-        
-        localStorage.setItem('continueInspectionLater', JSON.stringify(this.continueInspectionLater))
-  
-        this.$router.push({name :'details'})
-        console.log('continue Inspection Later: ', this.continueInspectionLater);
-  
-      },
       submit() {
         try {
-          this.addInspection(this.totalInspection);
+          this.addInspection(this.getPendingInspection);
           this.modalSubmit = false;
+          localStorage.removeItem('continueInspectionLater');
         } catch (err) {
           console.log(`Error: ${err}`);
         }
