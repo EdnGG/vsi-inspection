@@ -311,8 +311,7 @@ exports.sendEmail = functions.firestore
                                           <tbody>
                                             <tr>
                                               <td style="width: 150px">
-                                              <img alt height="auto"
-                                              src="https://valvesolutions.com/wp-content/uploads/2020/12/Valve-Solutions-Logo-1-150x72-1.png"
+                                              <img alt="Valve Solutions Logo" height="auto"
                                               style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
                                               width="150">
                                                 

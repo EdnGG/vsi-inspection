@@ -21,12 +21,12 @@ import pendingInspection from '@/components/inspection/pending-inspection/Pendin
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  props: {
-    currentInspection: {
-      type: Object,
-      required: true,
-    },
-  },
+  // props: {
+  //   currentInspection: {
+  //     type: Object,
+  //     required: true,
+  //   },
+  // },
   components: {
     pendingInspection,
   },
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
 
-      pendingInspection: currentInspection || [],
+      pendingInspection: [],
       isLoading: false,
       dialog: false,
       dialogDelete: false,

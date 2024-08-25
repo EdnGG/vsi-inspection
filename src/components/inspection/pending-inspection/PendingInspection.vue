@@ -15,82 +15,7 @@
   
         <v-stepper-items>
           <!--  -->
-          <!-- <v-stepper-content step="1">
-            <v-form ref="step1" lazy-validation>
-              <v-row justify="space-between" class="mb-4">
-                <v-col cols="12" md="3">
-                  <v-text-field
-                    v-model.trim="totalInspection.id"
-                    :rules="inspectionRules"
-                    :counter="10"
-                    label="VSI Purchase Order Number"
-                    required></v-text-field>
-                </v-col>
-                <v-col cols="12" md="3">
-                  <v-menu
-                    ref="menuDate"
-                    v-model="menuDate"
-                    :close-on-content-click="false"
-                    :return-value.sync="date"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="totalInspection.date"
-                        label="Date"
-                        prepend-icon="mdi-calendar"
-                        :rules="inspectionRules"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"></v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="totalInspection.date"
-                      no-title
-                      scrollable>
-                      <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="menuDate = false">
-                        Cancel
-                      </v-btn>
-                      <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.menuDate.save(date)">
-                        OK
-                      </v-btn>
-                    </v-date-picker>
-                  </v-menu>
-                </v-col>
-                <v-col cols="12" md="3">
-                  <v-text-field
-                    v-model.trim="totalInspection.technical"
-                    :rules="inspectionRules"
-                    label="Inspected by"
-                    required></v-text-field>
-                </v-col>
-                <v-col cols="12" md="3">
-                  <v-text-field
-                    v-model.trim="totalInspection.orderQuantity"
-                    :rules="inspectionRules"
-                    :counter="10"
-                    label="Order Quantity"
-                    required></v-text-field>
-                </v-col>
-                <v-col cols="12" md="3">
-                  <v-text-field
-                    v-model.trim="totalInspection.testSampleSize"
-                    :rules="inspectionRules"
-                    :counter="10"
-                    label="Test Sample Size"
-                    required></v-text-field>
-                </v-col>
-              </v-row>
-            </v-form>
-            <div class="d-flex">
-              <v-btn color="primary" @click="nextStep1"> Continue </v-btn>
-            </div>
-          </v-stepper-content> -->
+         
           <!--  -->
   
           <v-stepper-content step="2">
@@ -280,8 +205,7 @@
       CoreCustomSelectDetails: defineAsyncComponent(() => 
         import('@/components/core/CustomSelectDetails.vue'),
       ),
-    },
-  
+    },    
     data: () => ({
       continueInspectionLater: JSON.parse(localStorage.getItem('continueInspectionLater')) || [],
       getPendingInspection:[],
@@ -295,7 +219,6 @@
       nextButton: false,
       select: { state: '', item: 'Select one' },
       observacionesIniciales: ['All Good'],
-      // date: '',
       totalInspection: {
         id: '',
         date: '',
@@ -344,16 +267,11 @@
         if (newVal.length === 0) {
           this.tmpData.observaciones = [...this.observacionesIniciales];
         }
-        // console.log('Observaciones actualizadas a:', newVal);
       },
     },
     created() {
-      // this.getPendingInspection = 
-
-      // if(){
-      // this.tmpData.observaciones = [...this.observacionesIniciales];
-      // }
-      // console.log('Observaciones iniciales: ', this.observacionesIniciales);
+      this.getPendingInspectionFronQuery()
+      
     },
     methods: {
       ...mapActions('inspection', ['addInspection', 'continueLaterInspection']),
@@ -394,6 +312,10 @@
   
         this.$refs.step2.reset();
         this.e1 = step;
+      },
+      getPendingInspectionFronQuery() {
+        this.getPendingInspection = this.$route.query.item;
+        console.log('Pending Inspection from query', this.getPendingInspection);
       },
       saveAndContinueLater() {
         // save the inspections and continue later

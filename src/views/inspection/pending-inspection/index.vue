@@ -99,10 +99,8 @@ export default {
     this.getInspectionFromLocalStorage();
   },
   created() {
-    // this.getInspectionFromLocalStorage();
   },
   computed: {
-    // ...mapState('inspection', ['']),
 
   },
   methods: {
@@ -120,13 +118,13 @@ export default {
       console.log('this.pendingInspections', this.pendingInspections);
     },
     showPendingInspection(item) {
-      console.log('Pending Inspection', item);
+      console.log('Pending Inspection Item', item);
       this.$router.push({
         name: 'pending-inspections-id',
         params: { id: item.id },
+        query: { item },
       })
-      // this.currentData = item;
-      // this.modalShowData = true;
+      
     },
   },
 };
