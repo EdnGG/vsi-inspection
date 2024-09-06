@@ -1,8 +1,8 @@
 <template>
     <v-container>
-      <!-- {{ getPendingInspection.data }}
+      {{ getPendingInspection.data }}
       {{ getPendingInspection.data.length }}
-      {{ getPendingInspection.observaciones }} -->
+      {{ getPendingInspection.observaciones }}
       <v-stepper v-model="e1">
         <v-stepper-header>
           
@@ -120,7 +120,7 @@
               </v-btn>
               <v-btn
                 color="primary"
-                @click="addActuator({ step: 5 })"
+                @click="finishInspection({ step: 5 })"
                 class="mr-2"
               >
                 Finish Inspection
@@ -269,28 +269,28 @@
 
 
 
-      // addActuator({ step }) {
-      //   if (this.getPendingInspection.data) {
-      //     this.getPendingInspection.data.push({ ...this.tmpData });
-
-      //     this.tmpData = {
-      //       actuatorModel: '',
-      //       actuatorSerialNumber: '',
-      //       controlPack: '',
-      //       visual: 'Good',
-      //       waterInspection: 'Good',
-      //       operationalTest: 'Good',
-      //       wireCompartiment: 'Good',
-      //       handwheelBoltPatern: 'Good',
-      //       observaciones: ['All Good'],
-      //     };
-      //   }
-      //   this.$refs.step2.reset();
-      //   this.e1 = step;
-      // },
-
-
       addActuator({ step }) {
+        if (this.getPendingInspection.data) {
+          this.getPendingInspection.data.push({ ...this.tmpData });
+
+          this.tmpData = {
+            actuatorModel: '',
+            actuatorSerialNumber: '',
+            controlPack: '',
+            visual: 'Good',
+            waterInspection: 'Good',
+            operationalTest: 'Good',
+            wireCompartiment: 'Good',
+            handwheelBoltPatern: 'Good',
+            observaciones: ['All Good'],
+          };
+        }
+        this.$refs.step2.reset();
+        this.e1 = step;
+      },
+
+
+      finishInspection({ step }) {
       if (this.tmpData.actuatorModel) {
         
         this.totalInspection.data.push({ ...this.tmpData });
