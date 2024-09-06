@@ -79,7 +79,7 @@ export default {
     if (this.selectedValue.length === 0 && this.value.length) {
       this.selectedValue = [...this.value];
       // this.selectedValue = this.value.length ? [...this.value] : ['All Good'];
-      console.log('this.selectedValue: ', this.selectedValue);
+      // console.log('this.selectedValue: ', this.selectedValue);
     }
   },
   methods: {
@@ -92,11 +92,11 @@ export default {
   },
   watch: {
     value(newVal) {
-      console.log('newVal from watch', newVal);
+      // console.log('newVal from watch', newVal);
       if (JSON.stringify(newVal) !== JSON.stringify(this.selectedValue)) {
         this.selectedValue = [...newVal];
       }
-      console.log('this.selectedValue: ', this.selectedValue);
+      // console.log('this.selectedValue: ', this.selectedValue);
       // if (newVal !== this.selectedValue) {
       //   this.selectedValue = [...newVal];
       // }

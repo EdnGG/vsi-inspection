@@ -207,6 +207,8 @@
       modalSubmit: false,
       firstVal: false, 
       observacionesIniciales: ['All Good'],
+      lastActuatorSerialNumber: '',
+      lastControlPack: '',
       totalInspection: {
         id: '',
         date: '',
@@ -264,9 +266,13 @@
           this.tmpData.observaciones,
         );
       },
+
+
+
       // addActuator({ step }) {
-      //   if (this.tmpData.actuatorModel) {
-      //     this.totalInspection.data.push({ ...this.tmpData });
+      //   if (this.getPendingInspection.data) {
+      //     this.getPendingInspection.data.push({ ...this.tmpData });
+
       //     this.tmpData = {
       //       actuatorModel: '',
       //       actuatorSerialNumber: '',
@@ -282,25 +288,41 @@
       //   this.$refs.step2.reset();
       //   this.e1 = step;
       // },
-      addActuator({ step }) {
-        if (this.getPendingInspection.data) {
-          this.getPendingInspection.data.push({ ...this.tmpData });
 
-          this.tmpData = {
-            actuatorModel: '',
-            actuatorSerialNumber: '',
-            controlPack: '',
-            visual: 'Good',
-            waterInspection: 'Good',
-            operationalTest: 'Good',
-            wireCompartiment: 'Good',
-            handwheelBoltPatern: 'Good',
-            observaciones: ['All Good'],
-          };
-        }
-        this.$refs.step2.reset();
-        this.e1 = step;
-      },
+
+      addActuator({ step }) {
+      if (this.tmpData.actuatorModel) {
+        
+        this.totalInspection.data.push({ ...this.tmpData });
+
+        this.lastActuatorSerialNumber = this.tmpData.actuatorSerialNumber
+        this.lastControlPack = this.tmpData.controlPack
+
+        console.log(this.lastActuatorSerialNumber, this.lastControlPack)
+
+        this.tmpData = {
+          actuatorModel: '',
+          actuatorSerialNumber: this.lastActuatorSerialNumber,
+          controlPack: this.lastControlPack,
+          visual: 'Good',
+          waterInspection: 'Good',
+          operationalTest: 'Good',
+          wireCompartiment: 'Good',
+          handwheelBoltPatern: 'Good',
+          observaciones: ['All Good'],
+        };
+        console.log('tmpData despues de reiniciar: ', this.tmpData)
+      }
+      
+      // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
+    this.$nextTick(() => {
+      this.$refs.step2.resetValidation();  // Reiniciar validación sin afectar datos
+    });
+    this.e1 = step;
+    console.log('tmpData: ', this.tmpData)
+    },
+
+
       getPendingInspectionFronQuery() {
         this.getPendingInspection = this.$route.query.item;
         console.log('Pending Inspection from query', this.getPendingInspection);

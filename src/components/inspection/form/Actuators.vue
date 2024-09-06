@@ -266,6 +266,7 @@ import { mapActions } from 'vuex';
 // import { router } from 'vue-router';
 // import pdfGenerator from "@/helpers/pdfGenerator.js";
 import { defineAsyncComponent } from 'vue';
+import InspectionFormActuators from '@/components/inspection/form/Actuators.vue';
 
 export default {
   name: 'InspectionFormActuators',
@@ -291,6 +292,8 @@ export default {
     menuDate: false,
     prevButton: false,
     nextButton: false,
+    lastControlPack : '',
+    lastActuatorSerialNumber: '',
     select: { state: '', item: 'Select one' },
     observacionesIniciales: ['All Good'],
     date: '',
@@ -338,12 +341,24 @@ export default {
     },
   },
   watch: {
+    'tmpData.actuatorSerialNumber': function(newVal, oldVal){
+      // console.log('NewVal: ', newVal)
+      // console.log('OldVal: ', oldVal)
+
+    }
+    ,
     'tmpData.observaciones': function (newVal) {
       if (newVal.length === 0) {
         this.tmpData.observaciones = [...this.observacionesIniciales];
       }
       // console.log('Observaciones actualizadas a:', newVal);
     },
+  },
+  mounted(){
+    // console.log('Mounted!')
+  },
+  updated() {
+    // console.log('updated!')
   },
   created() {
     // if(){
@@ -372,13 +387,22 @@ export default {
         this.tmpData.observaciones,
       );
     },
+
+
     addActuator({ step }) {
       if (this.tmpData.actuatorModel) {
+        
         this.totalInspection.data.push({ ...this.tmpData });
+
+        this.lastActuatorSerialNumber = this.tmpData.actuatorSerialNumber
+        this.lastControlPack = this.tmpData.controlPack
+
+        console.log(this.lastActuatorSerialNumber, this.lastControlPack)
+
         this.tmpData = {
           actuatorModel: '',
-          actuatorSerialNumber: '',
-          controlPack: '',
+          actuatorSerialNumber: this.lastActuatorSerialNumber,
+          controlPack: this.lastControlPack,
           visual: 'Good',
           waterInspection: 'Good',
           operationalTest: 'Good',
@@ -386,11 +410,56 @@ export default {
           handwheelBoltPatern: 'Good',
           observaciones: ['All Good'],
         };
+        console.log('tmpData despues de reiniciar: ', this.tmpData)
       }
-
-      this.$refs.step2.reset();
-      this.e1 = step;
+      
+      // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
+    this.$nextTick(() => {
+      this.$refs.step2.resetValidation();  // Reiniciar validación sin afectar datos
+    });
+    this.e1 = step;
+    console.log('tmpData: ', this.tmpData)
     },
+
+
+
+//     addActuator({ step }) {
+//   if (this.tmpData.actuatorModel) {
+//     // Clonar el objeto para evitar referencias reactivas
+//     const clonedTmpData = JSON.parse(JSON.stringify(this.tmpData));
+
+//     // Guardar el actuador actual en totalInspection.data
+//     this.totalInspection.data.push(clonedTmpData);
+
+//     // Extraer los valores antes de reiniciar tmpData
+//     const lastActuatorSerialNumber = clonedTmpData.actuatorSerialNumber;
+//     const lastControlPack = clonedTmpData.controlPack;
+    
+//     console.log('Ultimo Serial Number:', lastActuatorSerialNumber);
+//     console.log('Ultimo Control Pack:', lastControlPack);
+
+//     // Reiniciar tmpData conservando los valores deseados
+//     this.tmpData = {
+//       actuatorModel: '',
+//       actuatorSerialNumber: lastActuatorSerialNumber, // Conservar el valor anterior
+//       controlPack: lastControlPack, // Conservar el valor anterior
+//       visual: 'Good',
+//       waterInspection: 'Good',
+//       operationalTest: 'Good',
+//       wireCompartiment: 'Good',
+//       handwheelBoltPatern: 'Good',
+//       observaciones: ['All Good'],
+//     };
+
+//     console.log('tmpData despues de reiniciar:', this.tmpData);
+//   }
+
+//   // Reiniciar el formulario después de actualizar los datos, no antes
+//   this.$refs.step2.reset();
+//   this.e1 = step;
+// },
+
+
     saveAndContinueLater() {
       // save the inspections and continue later
       console.log('saveAndContinueLater');

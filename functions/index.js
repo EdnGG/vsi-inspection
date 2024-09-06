@@ -1,18 +1,6 @@
 require('dotenv').config();
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-
-// const PDFDocument = require('pdfkit');
-
-// const fs = require('fs');
-// const path = require('path');
-// const os = require('os');
-
-// temporal
-// const pdfmake = require('pdfmake/build/pdfmake.js');
-// const vfs_fonts = require('pdfmake/build/vfs_fonts.js');
-// pdfmake.vfs = vfs_fonts.pdfMake.vfs;
-
 // const sgMail = require('@sendgrid/mail');
 const mailgun = require('mailgun-js');
 
@@ -28,109 +16,12 @@ exports.sendEmail = functions.firestore
     const doc = snap.data();
     console.log('doc: ', doc);
 
-    // +================================================================================================
-
-    // const pdfPath = path.join(os.tmpdir(), `report.pdf`);
-
-    // const pdfDoc = new PDFDocument();
-    // const writeStream = fs.createWriteStream(pdfPath);
-
-    // pdfDoc.pipe(writeStream);
-
-    // pdfDoc.text('Inspection Report', { align: 'center', size: 18 });
-    // pdfDoc.text(JSON.stringify(doc, null, 2));
-
-    // pdfDoc.end();
-
-    // // Espera a que el documento PDF se termine de escribir en el archivo
-    // await new Promise((resolve) => writeStream.on('finish', resolve));
-    // const pdfBuffer = fs.readFileSync(pdfPath);
-
-    //================================================================================================
-
-    //  USANDO LA TABLA DE PDFMAKE
-
-    // const docDefinition = {
-    //   content: [
-    //     {
-    //       text: 'Inspection Report',
-    //       fontSize: 18,
-    //       alignment: 'center',
-    //       margin: [0, 0, 0, 20],
-    //     },
-    //     {
-    //       text: `Date: ${snap.data().inspection.date}`,
-    //       fontSize: 14,
-    //       margin: [0, 0, 0, 10],
-    //     },
-    //     {
-    //       text: `Technical: ${snap.data().inspection.technical}`,
-    //       fontSize: 14,
-    //       margin: [0, 0, 0, 10],
-    //     },
-    //     {
-    //       text: `Order Quantity: ${snap.data().inspection.orderQuantity}`,
-    //       fontSize: 14,
-    //       margin: [0, 0, 0, 10],
-    //     },
-    //     {
-    //       text: `Test Sample Size: ${snap.data().inspection.testSampleSize}`,
-    //       fontSize: 14,
-    //       margin: [0, 0, 0, 20],
-    //     },
-    //     {
-    //       table: {
-    //         headerRows: 1,
-    //         widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
-    //         body: [
-    //           [
-    //             'Actuator Model',
-    //             'Actuator Serial Number',
-    //             'Control Pack',
-    //             'Visual',
-    //             'Water Inspection',
-    //             'Operational Test',
-    //             'Wire Compartment',
-    //             'Handwheel Bolt Pattern',
-    //             'Observations',
-    //           ],
-    //           ...snap
-    //             .data()
-    //             .inspection.data.map((item) => [
-    //               item.actuatorModel,
-    //               item.actuatorSerialNumber,
-    //               item.controlPack,
-    //               item.visual,
-    //               item.waterInspection,
-    //               item.operationalTest,
-    //               item.wireCompartiment,
-    //               item.handwheelBoltPatern,
-    //               item.observaciones,
-    //             ]),
-    //         ],
-    //       },
-    //       margin: [0, 0, 0, 20],
-    //     },
-    //     { text: `Observaciones: ${snap.data().observaciones}`, fontSize: 14 },
-    //   ],
-    // };
-
-    // const pdfDoc = pdfmake.createPdf(docDefinition);
-
-    // await new Promise((resolve, reject) => {
-    //   const writeStream = fs.createWriteStream(pdfPath);
-    //   pdfDoc.getStream().pipe(writeStream);
-    //   writeStream.on('finish', resolve);
-    //   writeStream.on('error', reject);
-    // });
-
     const data = {
-      from: "Mailgun Sandbox <postmaster@valvesolutions.info>",
+      from: "noreply@valvesolutions.info",
       // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}, ${process.env.EMAIL_RECEIPE_6}, ${process.env.EMAIL_RECEIPE_7}, ${process.env.EMAIL_RECEIPE_8}, ${process.env.EMAIL_RECEIPE_9}`,
       // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_7}, ${process.env.EMAIL_RECEIPE_1}`,
-      to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_6}, ${process.env.EMAIL_RECEIPE_9}`,
+      to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_6}, ${process.env.EMAIL_RECEIPE_9}, ${process.env.EMAIL_RECEIPE_10}`,
       // Agrega tu email para qu ete lleguen las notificaciones
-      // to: `${process.env.EMAIL_ADMIN}`,
       subject: 'Incomming Inspection Report',
       text: `Electric Actuators Inspection Report
 
@@ -146,7 +37,6 @@ exports.sendEmail = functions.firestore
       - Technical Name: ${snap.data().inspection.technical}
 
       Visit our website for more information.`,
-      // attachment: pdfBuffer,
 
       html: `
       <!DOCTYPE html>
