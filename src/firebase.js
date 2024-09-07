@@ -1,6 +1,3 @@
-// import { initializeApp } from 'firebase/app';
-// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
@@ -15,14 +12,7 @@ const firebaseConfig = {
   appId: process.env.VUE_APP_APP_ID,
 };
 
-// Initialize Firebase
-
-// const app = initializeApp(firebaseConfig);
-// const db = getFirestore(app);
-
-// if (!firebase.app.length) {
 firebase.initializeApp(firebaseConfig);
-// }
 
 const db = firebase.firestore();
 const auth = firebase.auth();

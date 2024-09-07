@@ -201,10 +201,13 @@ exports.sendEmail = functions.firestore
                                           <tbody>
                                             <tr>
                                               <td style="width: 150px">
-                                              <img alt="Valve Solutions Logo" height="auto"
-                                              style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
-                                              width="150">
-                                                
+                                              <img 
+                                              
+                                                src="https://valvesolutions.com/wp-content/uploads/2024/08/Valve-Solutions-Logo_85h.png"
+                                                alt="Valve Solutions Logo" height="auto"
+                                                style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
+                                                width="150"
+                                              >  
                                               </td>
                                             </tr>
                                           </tbody>

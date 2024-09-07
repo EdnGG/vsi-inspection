@@ -95,7 +95,6 @@
                     :value="tmpData.observaciones"
                     @input="updateObservaciones($event)"
                     >
-                    <!-- :defaultValue="'All Good'" -->
                   >
                   </core-custom-select-details>
                  
@@ -165,7 +164,6 @@
               </v-card>
             </v-dialog>
             <div class="d-flex">
-              <!-- Actualizar tmpData anterior -->
               <v-btn text @click="e1 = 4" class="mr-2"> Back </v-btn>
               <v-btn color="primary" @click="modalSubmit = true">
                 End inspection
@@ -184,7 +182,7 @@
   
   export default {
     
-    name: 'InspectionFormActuators',
+    name: 'PendingInspection',
     components: {
       CoreCustomSelect: defineAsyncComponent(() =>
         import('@/components/core/CustomSelect.vue'),
@@ -280,29 +278,14 @@
 
 
       finishInspection({ step }) {
-      // Agregar el último actuator al array de data
-      this.addActuator({ step: 4 })
-      if (this.tmpData.actuatorModel) {
-        
-        this.totalInspection.data.push({ ...this.tmpData });
-       
-        this.tmpData = {
-          actuatorModel: '',
-          actuatorSerialNumber: '',
-          controlPack: '',
-          visual: 'Good',
-          waterInspection: 'Good',
-          operationalTest: 'Good',
-          wireCompartiment: 'Good',
-          handwheelBoltPatern: 'Good',
-          observaciones: ['All Good'],
-        };
-        // console.log('tmpData despues de reiniciar: ', this.tmpData)
-      }
-    
-    this.$refs.step2.reset();
-    this.e1 = step;
-    },
+        // Agregar el último actuator al array de data
+        this.addActuator({ step: 4 })
+        if (this.tmpData.actuatorModel) {
+          this.totalInspection.data.push({ ...this.tmpData });   
+        }
+        this.$refs.step2.reset();
+        this.e1 = step;
+      },
       getPendingInspectionFronQuery() {
         this.getPendingInspection = this.$route.query.item;
         // console.log('Pending Inspection from query', this.getPendingInspection);

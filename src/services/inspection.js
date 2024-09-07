@@ -2,7 +2,6 @@ import { db } from '../firebase';
 
 export const getPaginationLength = async (collection) => {
   const querySnapshot = await db.collection(collection).get();
-  // console.log('size: ', querySnapshot.size);
   return querySnapshot.size;
 };
 

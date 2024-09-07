@@ -171,7 +171,6 @@
                   :value="tmpData.observaciones"
                   @input="updateObservaciones($event)"
                   >
-                  <!-- :defaultValue="'All Good'" -->
                 >
                 </core-custom-select-details>
                
@@ -248,7 +247,6 @@
             </v-card>
           </v-dialog>
           <div class="d-flex">
-            <!-- Actualizar tmpData anterior -->
             <v-btn text @click="e1 = 4" class="mr-2"> Back </v-btn>
             <v-btn color="primary" @click="modalSubmit = true">
               End inspection
@@ -263,10 +261,9 @@
 <script>
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
-// import { router } from 'vue-router';
-// import pdfGenerator from "@/helpers/pdfGenerator.js";
+
 import { defineAsyncComponent } from 'vue';
-import InspectionFormActuators from '@/components/inspection/form/Actuators.vue';
+// import InspectionFormActuators from '@/components/inspection/form/Actuators.vue';
 
 export default {
   name: 'InspectionFormActuators',
