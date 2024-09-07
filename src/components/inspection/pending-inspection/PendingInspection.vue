@@ -1,8 +1,6 @@
 <template>
     <v-container>
-      {{ getPendingInspection.data }}
-      {{ getPendingInspection.data.length }}
-      {{ getPendingInspection.observaciones }}
+     
       <v-stepper v-model="e1">
         <v-stepper-header>
           
@@ -261,8 +259,6 @@
           this.lastActuatorSerialNumber = this.tmpData.actuatorSerialNumber
           this.lastControlPack = this.tmpData.controlPack
 
-          console.log(this.lastActuatorSerialNumber, this.lastControlPack)
-
           this.tmpData = {
             actuatorModel: '',
             actuatorSerialNumber: this.lastActuatorSerialNumber,
@@ -284,6 +280,8 @@
 
 
       finishInspection({ step }) {
+      // Agregar el último actuator al array de data
+      this.addActuator({ step: 4 })
       if (this.tmpData.actuatorModel) {
         
         this.totalInspection.data.push({ ...this.tmpData });
@@ -299,16 +297,15 @@
           handwheelBoltPatern: 'Good',
           observaciones: ['All Good'],
         };
-        console.log('tmpData despues de reiniciar: ', this.tmpData)
+        // console.log('tmpData despues de reiniciar: ', this.tmpData)
       }
     
     this.$refs.step2.reset();
     this.e1 = step;
-    console.log('tmpData: ', this.tmpData)
     },
       getPendingInspectionFronQuery() {
         this.getPendingInspection = this.$route.query.item;
-        console.log('Pending Inspection from query', this.getPendingInspection);
+        // console.log('Pending Inspection from query', this.getPendingInspection);
       },
       submit() {
         try {

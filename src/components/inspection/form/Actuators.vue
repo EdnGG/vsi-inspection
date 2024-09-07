@@ -345,7 +345,6 @@ export default {
       if (newVal.length === 0) {
         this.tmpData.observaciones = [...this.observacionesIniciales];
       }
-      // console.log('Observaciones actualizadas a:', newVal);
     },
   },
   created() {
@@ -383,7 +382,7 @@ export default {
           handwheelBoltPatern: 'Good',
           observaciones: ['All Good'],
         };
-        console.log('tmpData despues de reiniciar: ', this.tmpData)
+        // console.log('tmpData despues de reiniciar: ', this.tmpData)
       }
       
     // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
@@ -391,12 +390,11 @@ export default {
       this.$refs.step2.resetValidation();  // Reiniciar validación sin afectar datos
     });
     this.e1 = step;
-    console.log('tmpData: ', this.tmpData)
+    // console.log('tmpData: ', this.tmpData)
     },
 
     saveAndContinueLater() {
       // save the inspections and continue later
-      console.log('saveAndContinueLater');
       this.addActuator({ step: 4 })
       
       this.continueInspectionLater.push(this.totalInspection)
@@ -404,7 +402,7 @@ export default {
       localStorage.setItem('continueInspectionLater', JSON.stringify(this.continueInspectionLater))
 
       this.$router.push({name :'details'})
-      console.log('continue Inspection Later: ', this.continueInspectionLater);
+      // console.log('continue Inspection Later: ', this.continueInspectionLater);
 
     },
     submit() {
