@@ -70,8 +70,8 @@ export default {
       userLogin: {
         // email: '',
         // password: '',
-        email: "usertest1@mail.com",
-        password: "123123123",
+        email: "",
+        password: "",
       },
     };
   },

@@ -413,7 +413,7 @@ export default {
         console.log('tmpData despues de reiniciar: ', this.tmpData)
       }
       
-      // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
+    // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
     this.$nextTick(() => {
       this.$refs.step2.resetValidation();  // Reiniciar validación sin afectar datos
     });
