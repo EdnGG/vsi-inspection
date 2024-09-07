@@ -200,7 +200,7 @@
     },    
     data: () => ({
       continueInspectionLater: JSON.parse(localStorage.getItem('continueInspectionLater')) || [],
-      getPendingInspection:[], // contains the pending inspections getting from query once the component is created
+      getPendingInspection:[], 
       e1: 2,
       step1: null,
       step2: null,
@@ -243,7 +243,6 @@
     },
     created() {
       this.getPendingInspectionFronQuery()
-      
     },
     methods: {
       ...mapActions('inspection', ['addInspection', 'continueLaterInspection']),
@@ -252,22 +251,8 @@
         this.tmpData[field] = value.state;
       },
       updateObservaciones(event) {
-        console.log(
-          'Antes de actualizar el valor observaciones: ',
-          this.tmpData.observaciones,
-        );
-        console.log(
-          'Valor que recibe el padre del hijo updateObservaciones(event) : ',
-          event,
-        );
         this.tmpData.observaciones = [...event];
-        console.log(
-          'Despues de actualizar el valor observaciones: ',
-          this.tmpData.observaciones,
-        );
       },
-
-
 
       addActuator({ step }) {
         if (this.getPendingInspection.data) {
@@ -289,10 +274,8 @@
             handwheelBoltPatern: 'Good',
             observaciones: ['All Good'],
           };
-          console.log('tmpData despues de reiniciar: ', this.tmpData)
         }
-        // this.$refs.step2.reset();
-        // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
+      // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
       this.$nextTick(() => {
         this.$refs.step2.resetValidation();  // Reiniciar validación sin afectar datos
       });
@@ -304,16 +287,11 @@
       if (this.tmpData.actuatorModel) {
         
         this.totalInspection.data.push({ ...this.tmpData });
-
-        this.lastActuatorSerialNumber = this.tmpData.actuatorSerialNumber
-        this.lastControlPack = this.tmpData.controlPack
-
-        console.log(this.lastActuatorSerialNumber, this.lastControlPack)
-
+       
         this.tmpData = {
           actuatorModel: '',
-          actuatorSerialNumber: this.lastActuatorSerialNumber,
-          controlPack: this.lastControlPack,
+          actuatorSerialNumber: '',
+          controlPack: '',
           visual: 'Good',
           waterInspection: 'Good',
           operationalTest: 'Good',
@@ -323,16 +301,11 @@
         };
         console.log('tmpData despues de reiniciar: ', this.tmpData)
       }
-      
-      // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
-    this.$nextTick(() => {
-      this.$refs.step2.resetValidation();  // Reiniciar validación sin afectar datos
-    });
+    
+    this.$refs.step2.reset();
     this.e1 = step;
     console.log('tmpData: ', this.tmpData)
     },
-
-
       getPendingInspectionFronQuery() {
         this.getPendingInspection = this.$route.query.item;
         console.log('Pending Inspection from query', this.getPendingInspection);

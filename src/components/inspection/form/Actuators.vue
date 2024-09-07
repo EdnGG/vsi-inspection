@@ -341,24 +341,12 @@ export default {
     },
   },
   watch: {
-    'tmpData.actuatorSerialNumber': function(newVal, oldVal){
-      // console.log('NewVal: ', newVal)
-      // console.log('OldVal: ', oldVal)
-
-    }
-    ,
     'tmpData.observaciones': function (newVal) {
       if (newVal.length === 0) {
         this.tmpData.observaciones = [...this.observacionesIniciales];
       }
       // console.log('Observaciones actualizadas a:', newVal);
     },
-  },
-  mounted(){
-    // console.log('Mounted!')
-  },
-  updated() {
-    // console.log('updated!')
   },
   created() {
     // if(){
@@ -373,21 +361,8 @@ export default {
       this.tmpData[field] = value.state;
     },
     updateObservaciones(event) {
-      console.log(
-        'Antes de actualizar el valor observaciones: ',
-        this.tmpData.observaciones,
-      );
-      console.log(
-        'Valor que recibe el padre del hijo updateObservaciones(event) : ',
-        event,
-      );
       this.tmpData.observaciones = [...event];
-      console.log(
-        'Despues de actualizar el valor observaciones: ',
-        this.tmpData.observaciones,
-      );
     },
-
 
     addActuator({ step }) {
       if (this.tmpData.actuatorModel) {
@@ -396,8 +371,6 @@ export default {
 
         this.lastActuatorSerialNumber = this.tmpData.actuatorSerialNumber
         this.lastControlPack = this.tmpData.controlPack
-
-        console.log(this.lastActuatorSerialNumber, this.lastControlPack)
 
         this.tmpData = {
           actuatorModel: '',
@@ -420,45 +393,6 @@ export default {
     this.e1 = step;
     console.log('tmpData: ', this.tmpData)
     },
-
-
-
-//     addActuator({ step }) {
-//   if (this.tmpData.actuatorModel) {
-//     // Clonar el objeto para evitar referencias reactivas
-//     const clonedTmpData = JSON.parse(JSON.stringify(this.tmpData));
-
-//     // Guardar el actuador actual en totalInspection.data
-//     this.totalInspection.data.push(clonedTmpData);
-
-//     // Extraer los valores antes de reiniciar tmpData
-//     const lastActuatorSerialNumber = clonedTmpData.actuatorSerialNumber;
-//     const lastControlPack = clonedTmpData.controlPack;
-    
-//     console.log('Ultimo Serial Number:', lastActuatorSerialNumber);
-//     console.log('Ultimo Control Pack:', lastControlPack);
-
-//     // Reiniciar tmpData conservando los valores deseados
-//     this.tmpData = {
-//       actuatorModel: '',
-//       actuatorSerialNumber: lastActuatorSerialNumber, // Conservar el valor anterior
-//       controlPack: lastControlPack, // Conservar el valor anterior
-//       visual: 'Good',
-//       waterInspection: 'Good',
-//       operationalTest: 'Good',
-//       wireCompartiment: 'Good',
-//       handwheelBoltPatern: 'Good',
-//       observaciones: ['All Good'],
-//     };
-
-//     console.log('tmpData despues de reiniciar:', this.tmpData);
-//   }
-
-//   // Reiniciar el formulario después de actualizar los datos, no antes
-//   this.$refs.step2.reset();
-//   this.e1 = step;
-// },
-
 
     saveAndContinueLater() {
       // save the inspections and continue later
