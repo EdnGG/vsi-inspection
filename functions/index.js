@@ -18,8 +18,8 @@ exports.sendEmail = functions.firestore
 
     const data = {
       from: "noreply@valvesolutions.info",
-      to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}, ${process.env.EMAIL_RECEIPE_6}, ${process.env.EMAIL_RECEIPE_7}, ${process.env.EMAIL_RECEIPE_8}, ${process.env.EMAIL_RECEIPE_11}, ${process.env.EMAIL_RECEIPE_12}`,
-      // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_7}, ${process.env.EMAIL_RECEIPE_1}`,
+      // to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_1}, ${process.env.EMAIL_RECEIPE_4}, ${process.env.EMAIL_RECEIPE_5}, ${process.env.EMAIL_RECEIPE_6}, ${process.env.EMAIL_RECEIPE_7}, ${process.env.EMAIL_RECEIPE_11}`,
+      to: `${process.env.EMAIL_ADMIN}, ${process.env.EMAIL_RECEIPE_6}`,
       
       subject: 'Incomming Inspection Report',
       text: `Electric Actuators Inspection Report

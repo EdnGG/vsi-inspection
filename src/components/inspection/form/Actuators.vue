@@ -208,7 +208,6 @@
             </v-btn>
           </div>
         </v-stepper-content>
-
         <v-stepper-content step="5">
           <v-row>
             <v-col cols="12">
@@ -300,14 +299,15 @@ export default {
       technical: '',
       orderQuantity: '',
       testSampleSize: '',
-      observaciones: 'All Good',
+      observaciones: 'Actuators were inspected using signals 2-10, 4-20 and their worked as expected',
+      // checar linea de arriba
       data: [],
     },
     tmpData: {
       actuatorModel: '',
       actuatorSerialNumber: '',
       controlPack: '',
-      visual: 'Good',
+      visual: 'Good', 
       waterInspection: 'Good',
       operationalTest: 'Good',
       wireCompartiment: 'Good',
@@ -389,7 +389,6 @@ export default {
     this.e1 = step;
     // console.log('tmpData: ', this.tmpData)
     },
-
     saveAndContinueLater() {
       // save the inspections and continue later
       this.addActuator({ step: 4 })
@@ -400,7 +399,6 @@ export default {
 
       this.$router.push({name :'details'})
       // console.log('continue Inspection Later: ', this.continueInspectionLater);
-
     },
     submit() {
       try {

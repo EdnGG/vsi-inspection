@@ -96,9 +96,10 @@ export default {
     
   },
   mounted() {
-    this.getInspectionFromLocalStorage();
+    // this.getInspectionFromLocalStorage();
   },
   created() {
+    this.getInspectionFromLocalStorage();
   },
   computed: {
 
@@ -115,7 +116,7 @@ export default {
         localStorage.getItem('continueInspectionLater'),
       );
 
-      console.log('this.pendingInspections', this.pendingInspections);
+      console.log('this.pendingInspections from views/index', this.pendingInspections);
     },
     showPendingInspection(item) {
       console.log('Pending Inspection Item', item);

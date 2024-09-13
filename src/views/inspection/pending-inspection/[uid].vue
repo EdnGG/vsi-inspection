@@ -69,7 +69,7 @@ export default {
   created() {
     this.isLoading = true;
     this.currentDataId = this.$route.params.id;
-    console.log('this.currentDataId', this.currentDataId);
+    console.log('PO de inspection from views/[uid]: ', this.currentDataId);
   },
   computed: {
     formTitle() {

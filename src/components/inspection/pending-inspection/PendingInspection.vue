@@ -1,6 +1,8 @@
 <template>
     <v-container>
-     
+     {{ getPendingInspection.data }}
+      {{ getPendingInspection.data.length }}
+      {{ getPendingInspection.observaciones }}
       <v-stepper v-model="e1">
         <v-stepper-header>
           
@@ -113,7 +115,7 @@
                 class="mr-2"
                 color="success"
                 @click="addActuator({ step: 2 })">
-                Add Actuator
+                Add Actuator 
               </v-btn>
               <v-btn
                 color="primary"
@@ -122,10 +124,16 @@
               >
                 Finish Inspection
               </v-btn>
-            
+
+              <v-btn 
+              color="warning"   
+              @click="saveAndContinueLater" 
+              class="mr-2"
+            >
+              Save and continue later
+            </v-btn>
             </div>
           </v-stepper-content>
-  
           <v-stepper-content step="5">
             <v-row>
               <v-col cols="12">
@@ -211,7 +219,8 @@
         technical: '',
         orderQuantity: '',
         testSampleSize: '',
-        observaciones: '',
+        observaciones: 'Actuators were inspected using signals 2-10, 4-20 and their worked as expected',
+        // checar la linea de arriba
         data: [],
       },
       tmpData: {
@@ -250,7 +259,38 @@
         this.tmpData.observaciones = [...event];
       },
 
+// 
+      addFinalActuator({ step }) {
+              console.log(this.getPendingInspection.data)
+              if (this.getPendingInspection.data) {
+                this.getPendingInspection.data.push({ ...this.tmpData });
+
+                this.lastActuatorSerialNumber = this.tmpData.actuatorSerialNumber
+                this.lastControlPack = this.tmpData.controlPack
+
+                this.tmpData = {
+                  actuatorModel: '',
+                  actuatorSerialNumber: this.lastActuatorSerialNumber,
+                  controlPack: this.lastControlPack,
+                  visual: 'Good',
+                  waterInspection: 'Good',
+                  operationalTest: 'Good',
+                  wireCompartiment: 'Good',
+                  handwheelBoltPatern: 'Good',
+                  observaciones: ['All Good'],
+                };
+              }
+            // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
+            this.$nextTick(() => {
+              this.$refs.step2.resetValidation();  // Reiniciar validación sin afectar datos
+            });
+              this.e1 = step;
+            },
+
+
+// 
       addActuator({ step }) {
+        console.log(this.getPendingInspection.data)
         if (this.getPendingInspection.data) {
           this.getPendingInspection.data.push({ ...this.tmpData });
 
@@ -275,8 +315,6 @@
       });
         this.e1 = step;
       },
-
-
       finishInspection({ step }) {
         // Agregar el último actuator al array de data
         this.addActuator({ step: 4 })
@@ -288,8 +326,45 @@
       },
       getPendingInspectionFronQuery() {
         this.getPendingInspection = this.$route.query.item;
-        // console.log('Pending Inspection from query', this.getPendingInspection);
+        console.log('objeto obtenido en created:', this.getPendingInspection)
       },
+
+      
+
+
+     saveAndContinueLater() {
+  // Agregar el actuador actual a totalInspection.data
+  this.addActuator({ step: 4 });
+
+  // Verificar que totalInspection tiene datos
+  console.log('Contenido de totalInspection después de addActuator:', this.totalInspection);
+
+  if (!this.totalInspection || !this.totalInspection.data || this.totalInspection.data.length === 0) {
+    console.error('Error: totalInspection no tiene datos para guardar.');
+    return;
+  }
+
+  // Crear una copia profunda de totalInspection
+  const newInspection = JSON.parse(JSON.stringify(this.totalInspection));
+
+  // Reiniciar continueInspectionLater y agregar la nueva inspección
+  this.continueInspectionLater = [newInspection];
+
+  // Guardar en localStorage
+  localStorage.setItem('continueInspectionLater', JSON.stringify(this.continueInspectionLater));
+
+  // Confirmar que los datos se guardaron correctamente
+  console.log('Datos guardados en localStorage:', JSON.parse(localStorage.getItem('continueInspectionLater')));
+
+  // Redirigir
+  this.$router.push({ name: 'details' });
+},
+
+
+
+
+
+
       submit() {
         try {
           this.addInspection(this.getPendingInspection);
