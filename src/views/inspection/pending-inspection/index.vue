@@ -2,14 +2,14 @@
   <v-container fluid>
     <v-container>
       <div id="view_inspection--title">
-      <v-row class="text-center">
-        <v-col cols="12" sm="12" justify-center align-center >
-          <h1>Pending Inspection Reports</h1>
-        </v-col>
-      </v-row>
-    </div> 
+        <v-row class="text-center">
+          <v-col cols="12" sm="12" justify-center align-center>
+            <h1>Pending Inspection Reports</h1>
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
-    
+
     <v-container v-if="!pendingInspections">
       <v-row class="text-center">
         <v-col cols="12" sm="12" justify-center align-center>
@@ -18,19 +18,20 @@
       </v-row>
     </v-container>
 
-
-    <v-container class="d-flex d-wrap"> 
+    <v-container class="d-flex d-wrap">
       <v-row>
         <v-col
-        cols="12" sm="12" md="6" lg="4" xl="3"
-        v-for="(item, i) in pendingInspections" 
-        :key="i" > 
-        
+          cols="12"
+          sm="12"
+          md="6"
+          lg="4"
+          xl="3"
+          v-for="(item, i) in pendingInspections"
+          :key="i">
           <v-card>
             <v-img
               src="../../../../public/img/actuator.jpeg"
-              height="200px"
-            ></v-img>
+              height="200px"></v-img>
             <v-card-title>
               <span class="mr-2"> # {{ item.id }} </span>
               <v-chip small> {{ item.date }}</v-chip>
@@ -46,23 +47,17 @@
 
             <v-card-title>Inspection</v-card-title>
             <v-card-actions>
-             
               <v-btn
                 color="deep-purple lighten-2"
                 text
-                @click="showPendingInspection(item)"
-              >
+                @click="showPendingInspection(item)">
                 Go back to Inspection
               </v-btn>
             </v-card-actions>
-          </v-card> 
-        
-          
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
-
-
   </v-container>
 </template>
 
@@ -70,7 +65,6 @@
 import { defineAsyncComponent } from 'vue';
 
 import { mapState, mapActions } from 'vuex';
-
 
 export default {
   components: {
@@ -88,22 +82,18 @@ export default {
       totalInspections: null,
       message: 'No Inspections to show',
       currentData: null,
-      pendingInspections: null,
+      pendingInspections: [],
       modalShowData: false,
     };
   },
-  updated() {
-    
-  },
+  updated() {},
   mounted() {
     // this.getInspectionFromLocalStorage();
   },
   created() {
     this.getInspectionFromLocalStorage();
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     ...mapActions('inspection', [
       'updatingInspection',
@@ -111,12 +101,18 @@ export default {
       'getPagination',
       'pendingInspection',
     ]),
-    getInspectionFromLocalStorage() {
-      this.pendingInspections = JSON.parse(
-        localStorage.getItem('continueInspectionLater'),
-      );
 
-      console.log('this.pendingInspections from views/index', this.pendingInspections);
+    getInspectionFromLocalStorage() {
+      let data = JSON.parse(localStorage.getItem('continueInspectionLater'));
+      if (data) {
+        this.pendingInspections = Array.isArray(data) ? data : [data];
+      } else {
+        this.pendingInspections = [];
+      }
+      console.log(
+        'this.pendingInspections from views/index',
+        this.pendingInspections,
+      );
     },
     showPendingInspection(item) {
       console.log('Pending Inspection Item', item);
@@ -124,8 +120,7 @@ export default {
         name: 'pending-inspections-id',
         params: { id: item.id },
         query: { item },
-      })
-      
+      });
     },
   },
 };

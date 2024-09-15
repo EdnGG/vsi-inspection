@@ -19,11 +19,15 @@
             <v-row justify="space-between" class="mb-4">
               <v-col cols="12" md="3">
                 <v-text-field
-                  v-model.trim="totalInspection.id"
+                  v-model="totalInspection.id"
                   :rules="inspectionRules"
                   :counter="10"
                   label="VSI Purchase Order Number"
-                  required></v-text-field>
+                  required
+                  @input="totalInspection.id = totalInspection.id.toUpperCase()" 
+                  autofocus
+                >
+                </v-text-field>
               </v-col>
               <v-col cols="12" md="3">
                 <v-menu
@@ -63,10 +67,12 @@
               </v-col>
               <v-col cols="12" md="3">
                 <v-text-field
-                  v-model.trim="totalInspection.technical"
+                  v-model="totalInspection.technical"
                   :rules="inspectionRules"
                   label="Inspected by"
-                  required></v-text-field>
+                  required
+                  @input="totalInspection.technical = totalInspection.technical.toUpperCase()"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" md="3">
                 <v-text-field
@@ -74,7 +80,9 @@
                   :rules="inspectionRules"
                   :counter="10"
                   label="Order Quantity"
-                  required></v-text-field>
+                  required
+                  @input="totalInspection.orderQuantity = totalInspection.orderQuantity.toUpperCase()"
+                  ></v-text-field>
               </v-col>
               <v-col cols="12" md="3">
                 <v-text-field
@@ -82,7 +90,9 @@
                   :rules="inspectionRules"
                   :counter="10"
                   label="Test Sample Size"
-                  required></v-text-field>
+                  required
+                  @input="totalInspection.testSampleSize = totalInspection.testSampleSize.toUpperCase()"
+                  ></v-text-field>
               </v-col>
             </v-row>
           </v-form>
@@ -111,7 +121,9 @@
                 <v-text-field
                   v-model="tmpData.controlPack"
                   label="Control Pack Model"
-                  required></v-text-field>
+                  required
+                  @input="tmpData.controlPack = tmpData.controlPack.toUpperCase()"
+                  ></v-text-field>
               </v-col>
             </v-row>
           </v-form>
@@ -208,6 +220,7 @@
             </v-btn>
           </div>
         </v-stepper-content>
+
         <v-stepper-content step="5">
           <v-row>
             <v-col cols="12">
@@ -216,7 +229,9 @@
                   clearable
                   clear-icon="mdi-close-circle"
                   label="Final notes:"
-                  v-model.trim="totalInspection.observaciones"></v-textarea>
+                  v-model.trim="totalInspection.observaciones"
+                  @input="totalInspection.observaciones = totalInspection.observaciones.toUpperCase()"
+                ></v-textarea>
               </v-container>
             </v-col>
           </v-row>
@@ -344,18 +359,26 @@ export default {
       }
     },
   },
-  created() {
-    // if(){
-    // this.tmpData.observaciones = [...this.observacionesIniciales];
-    // }
-    // console.log('Observaciones iniciales: ', this.observacionesIniciales);
-  },
+  created() {},
   methods: {
     ...mapActions('inspection', ['addInspection', 'continueLaterInspection']),
+
+    nextStep1() {
+      if (this.$refs.step1.validate()) {
+        this.e1 = 2;
+      }
+    },
+    
+    nextStep2() {
+      if (this.$refs.step2.validate()) {
+        this.e1 = 3;
+      }
+    },
 
     updateValue(field, value) {
       this.tmpData[field] = value.state;
     },
+
     updateObservaciones(event) {
       this.tmpData.observaciones = [...event];
     },
@@ -389,6 +412,7 @@ export default {
     this.e1 = step;
     // console.log('tmpData: ', this.tmpData)
     },
+
     saveAndContinueLater() {
       // save the inspections and continue later
       this.addActuator({ step: 4 })
@@ -400,6 +424,7 @@ export default {
       this.$router.push({name :'details'})
       // console.log('continue Inspection Later: ', this.continueInspectionLater);
     },
+
     submit() {
       try {
         this.addInspection(this.totalInspection);
@@ -408,16 +433,7 @@ export default {
         console.log(`Error: ${err}`);
       }
     },
-    nextStep1() {
-      if (this.$refs.step1.validate()) {
-        this.e1 = 2;
-      }
-    },
-    nextStep2() {
-      if (this.$refs.step2.validate()) {
-        this.e1 = 3;
-      }
-    },
+    
   },
 };
 </script>
