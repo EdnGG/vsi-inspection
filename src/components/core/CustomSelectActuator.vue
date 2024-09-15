@@ -33,6 +33,8 @@ export default {
       '1005-S-XL',
       '1005-XL-24VAC',
       '1005-S-XL-24VAC',
+      '1005-XL-24DC',
+      '1005-S-XL-24DC',
       '1005-SX-LA-24VAC',
       '1005-SX',
       '1010-X',

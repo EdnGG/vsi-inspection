@@ -62,11 +62,15 @@ export default {
         'Push button damaged',
         'Wrong serial number on actuator',
         'Wrong serial number on control pack',
+        'Wrong serial number on box',
+        'Screws missing on control pack',
+        'Damaged screws on actuator',
         'No grease on gears',
         'Noise on gears when moving',
-        'Diagram on the back is not glued',
-        'Diagram on the back is missing',
-        'Diagram on the back is wrong',
+        'Electric Diagram on the back is not glued',
+        'Electric Diagram on the back is missing',
+        'Electric Diagram on the back is wrong',
+        'Other'
       ],
     };
   },
