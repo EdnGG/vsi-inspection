@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <h3>
-      <!-- GET PENDING INSPECTION / LOCAL S: {{ getPendingInspection.data }} --> -->
+      <!-- GET PENDING INSPECTION / LOCAL S: {{ getPendingInspection.data }} -->
       <!-- {{ getPendingInspection.length }} -->
     </h3>
     <h3>
-      <!-- TOTAL INSPECTION DATA: {{ totalInspection.data }} TOTAL INSPECTION: -->
+      <!-- TOTAL INSPECTION DATA: {{ totalInspection.data }} -->
       <!-- TOTAL INSPECTION: {{ totalInspection }} -->
     </h3>
     <v-stepper v-model="e1">
@@ -227,7 +227,7 @@ export default {
       orderQuantity: '',
       testSampleSize: '',
       observaciones:
-        'Actuators were inspected using signals 2-10, 4-20 and their worked as expected',
+        'ACTUATORS WERE INSPECTED USING SIGNALS 2-10, 4-20 AND THEIR WORKED AS EXPECTED',
       data: [],
     },
     tmpData: {

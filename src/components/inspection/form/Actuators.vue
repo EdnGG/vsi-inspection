@@ -1,5 +1,13 @@
 <template>
   <v-container>
+    <h3>
+      <!-- GET PENDING INSPECTION / LOCAL S: {{ continueInspectionLater }} -->
+      <!-- {{ getPendingInspection.length }} -->
+    </h3>
+    <h3>
+      <!-- TOTAL INSPECTION DATA: {{ totalInspection.data }} -->
+      <!-- TOTAL INSPECTION: {{ totalInspection }} -->
+    </h3>
     <v-stepper v-model="e1">
       <v-stepper-header>
         <v-stepper-step :complete="e1 > 1" step="1"> </v-stepper-step>
@@ -314,7 +322,7 @@ export default {
       technical: '',
       orderQuantity: '',
       testSampleSize: '',
-      observaciones: 'Actuators were inspected using signals 2-10, 4-20 and their worked as expected',
+      observaciones: 'ACTUATORS WERE INSPECTED USING SIGNALS 2-10, 4-20 AND THEIR WORKED AS EXPECTED',
       // checar linea de arriba
       data: [],
     },
@@ -385,12 +393,36 @@ export default {
 
     addActuator({ step }) {
       if (this.tmpData.actuatorModel) {
-        
         this.totalInspection.data.push({ ...this.tmpData });
 
-        this.lastActuatorSerialNumber = this.tmpData.actuatorSerialNumber
-        this.lastControlPack = this.tmpData.controlPack
+        this.continueInspectionLater.push(this.totalInspection)
 
+
+        // Obtener el array existente de inspecciones pendientes o inicializarlo
+        let continueInspectionLaterTmp =
+          JSON.parse(localStorage.getItem('continueInspectionLater')) || [];
+
+        // Si ya existe una inspección con el mismo ID, la reemplazamos
+        const index = continueInspectionLaterTmp.findIndex(
+          (inspection) => inspection.id === this.totalInspection.id,
+        );
+        if (index !== -1) {
+          continueInspectionLaterTmp[index] = { ...this.totalInspection };
+        } else {
+          continueInspectionLaterTmp.push({ ...this.totalInspection });
+        }
+
+        // Guardar el array actualizado en localStorage
+        localStorage.setItem(
+          'continueInspectionLater',
+          JSON.stringify(continueInspectionLaterTmp),
+        );
+
+        // Mantener los valores de actuatorSerialNumber y controlPack
+        this.lastActuatorSerialNumber = this.tmpData.actuatorSerialNumber;
+        this.lastControlPack = this.tmpData.controlPack;
+
+        // Reiniciar tmpData, manteniendo los valores necesarios
         this.tmpData = {
           actuatorModel: '',
           actuatorSerialNumber: this.lastActuatorSerialNumber,
@@ -402,25 +434,47 @@ export default {
           handwheelBoltPatern: 'Good',
           observaciones: ['All Good'],
         };
-        // console.log('tmpData despues de reiniciar: ', this.tmpData)
+
+        // Avanzar al siguiente paso
+        this.e1 = step;
+
+        // Resetear validación del formulario
+        this.$nextTick(() => {
+          this.$refs.step2.resetValidation();
+        });
+      } else {
+        console.error(
+          'No se pudo agregar el actuador. Datos incompletos en tmpData.',
+        );
       }
-      
-    // Reset manual del formulario, excepto para los campos actuatorSerialNumber y controlPack
-    this.$nextTick(() => {
-      this.$refs.step2.resetValidation();  // Reiniciar validación sin afectar datos
-    });
-    this.e1 = step;
-    // console.log('tmpData: ', this.tmpData)
     },
 
     saveAndContinueLater() {
       // save the inspections and continue later
       this.addActuator({ step: 4 })
-      
-      this.continueInspectionLater.push(this.totalInspection)
-      
-      localStorage.setItem('continueInspectionLater', JSON.stringify(this.continueInspectionLater))
+      // this.continueInspectionLater.push(this.totalInspection)
+      // localStorage.setItem('continueInspectionLater', JSON.stringify(this.continueInspectionLater))
+      // Obtener el array existente de inspecciones pendientes o inicializarlo
+      let continueInspectionLaterTmp =
+          JSON.parse(localStorage.getItem('continueInspectionLater')) || [];
 
+        // Si ya existe una inspección con el mismo ID, la reemplazamos
+        const index = continueInspectionLaterTmp.findIndex(
+          (inspection) => inspection.id === this.totalInspection.id,
+        );
+        if (index !== -1) {
+          continueInspectionLaterTmp[index] = { ...this.totalInspection };
+        } else {
+          continueInspectionLaterTmp.push({ ...this.totalInspection });
+        }
+
+        // Guardar el array actualizado en localStorage
+        localStorage.setItem(
+          'continueInspectionLater',
+          JSON.stringify(continueInspectionLaterTmp),
+        );
+      
+      
       this.$router.push({name :'details'})
       // console.log('continue Inspection Later: ', this.continueInspectionLater);
     },
