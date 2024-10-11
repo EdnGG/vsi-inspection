@@ -283,9 +283,7 @@
 <script>
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
-
 import { defineAsyncComponent } from 'vue';
-// import InspectionFormActuators from '@/components/inspection/form/Actuators.vue';
 
 export default {
   name: 'InspectionFormActuators',
@@ -397,7 +395,6 @@ export default {
 
         this.continueInspectionLater.push(this.totalInspection)
 
-
         // Obtener el array existente de inspecciones pendientes o inicializarlo
         let continueInspectionLaterTmp =
           JSON.parse(localStorage.getItem('continueInspectionLater')) || [];
@@ -452,9 +449,6 @@ export default {
     saveAndContinueLater() {
       // save the inspections and continue later
       this.addActuator({ step: 4 })
-      // this.continueInspectionLater.push(this.totalInspection)
-      // localStorage.setItem('continueInspectionLater', JSON.stringify(this.continueInspectionLater))
-      // Obtener el array existente de inspecciones pendientes o inicializarlo
       let continueInspectionLaterTmp =
           JSON.parse(localStorage.getItem('continueInspectionLater')) || [];
 
@@ -474,9 +468,7 @@ export default {
           JSON.stringify(continueInspectionLaterTmp),
         );
       
-      
       this.$router.push({name :'details'})
-      // console.log('continue Inspection Later: ', this.continueInspectionLater);
     },
 
     submit() {

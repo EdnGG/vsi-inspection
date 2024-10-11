@@ -24,7 +24,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm(
-      "If you leave this page, all data it's going to be lost!",
+      "Are you sure you want to leave? you have unsaved changes!",
     );
     if (answer) {
       next();

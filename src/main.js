@@ -10,14 +10,12 @@ import { auth } from './firebase.js';
 
 auth.onAuthStateChanged((user) => {
   if (user) {
-    // console.log('user: ', user);
     const userDetected = {
       uid: user.uid,
       email: user.email,
     };
     store.dispatch('authentication/isUserActive', userDetected);
   } else {
-    // console.log("user false: ", user);
     store.dispatch('authentication/isUserActive', user);
   }
 });

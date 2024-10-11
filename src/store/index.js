@@ -22,23 +22,8 @@ export default new Vuex.Store({
     palletsPBFNO: [],
     palletsPBF: [],
     drawerMenu: false,
-    // snackbar: {
-    //   show: false,
-    //   text: '',
-    // },
   },
   mutations: {
-    // SHOW_SNACKBAR (state, payload) {
-    //   let timeout = 0
-    //   if (state.snackbar.show) {
-    //     state.snackbar.show = false
-    //     timeout = 300
-    //   }
-    //   setTimeout(() => {
-    //     state.snackbar.show = true,
-    //       state.snackbar.text = payload
-    //   }, timeout)
-    // },
     CHANGE_DRAWER_MENU(state, payload) {
       state.drawerMenu = payload;
     },
@@ -80,21 +65,17 @@ export default new Vuex.Store({
       });
     },
     isUserActive({ commit }, user) {
-      // console.log('user from actions/isUserActive: ', user);
       commit('SET_USER', user);
     },
     savePallet({ commit }, payload) {
-      // console.log('payload: ', payload);
       commit('SAVE_PALLET', payload);
       db.collection('desmet-pallets-pbfno')
         .add({
-          // payload
           palletNumber: payload.palletNumber,
           item: payload.items,
           image: payload.image,
         })
         .then((docRef) => {
-          // console.log('Document written with ID: ', docRef.id);
         })
         .catch((error) => {
           console.error('Error adding document: ', error);
@@ -108,7 +89,6 @@ export default new Vuex.Store({
       db.collection('desmetOrder')
         .add({ desmetOrder: payload })
         .then((docRef) => {
-          // console.log('Document written with ID: ', docRef.id);
         })
         .catch((error) => {
           console.error('Error adding document: ', error);

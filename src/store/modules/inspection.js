@@ -8,7 +8,6 @@ import {
 } from '../../services';
 
 import { showSnackbar } from '../../helpers/snackbar';
-// import { indexOf } from "core-js/core/array";
 
 export default {
   namespaced: true,
@@ -50,7 +49,6 @@ export default {
     },
     CONTINUE_LATER_INSPECTION(state, payload) {
       state.pendingInspection = payload;
-      // state.continueLaterInspection = localStorage.getItem('continueLaterInspection');
     },
   },
   actions: {
@@ -66,7 +64,6 @@ export default {
       }
     },
     async updatingInspection({ commit }, payload) {
-      // console.log('payload: ', payload);
       try {
         await updateDocument('inspections', payload.uid, {
           inspection: payload.data,
@@ -84,8 +81,6 @@ export default {
         });
         router.push('/inspection/details');
         showSnackbar.success(commit, 'inspection added');
-        // console.log('Document written with ID: ', doc);
-        // commit('ADD_INSPECTION', payload);
       } catch (error) {
         showSnackbar.error(commit, error.message);
         console.error('Error adding document: ', error.message);
@@ -93,8 +88,6 @@ export default {
     },
     async getInspections({ commit, state }, { limit, startAfter }) {
       try {
-        // if (state.pagination.disabled) return;
-        // console.log('startAfter: ', startAfter);
         const { data, lastVisible, total } = await getAllDocuments(
           'inspections',
           {
@@ -102,7 +95,6 @@ export default {
             lastVisible: startAfter,
           },
         );
-        // debugger;
         commit('SET_LAST_DOCUMENT', lastVisible);
         commit('GET_INSPECTIONS', data);
       } catch (error) {
@@ -113,8 +105,6 @@ export default {
     addActuatorToInspection({ commit }, payload) {
       console.log('Payload: ', payload);
       Object.entries(payload).forEach(([key, value]) => {
-        // console.log('key: ', key);
-        // console.log('value: ', value);
         if (value === '') {
           return showSnackbar.error(commit, 'Please fill all fields');
         } else {
@@ -128,7 +118,6 @@ export default {
       localStorage.setItem('continueLaterInspection', JSON.stringify(payload));
       commit('CONTINUE_LATER_INSPECTION', payload);
       router.push('/inspection/pending-inspection');
-      // showSnackbar.success(commit, 'inspection saved for later');
     },
   },
 

@@ -99,26 +99,12 @@ const routes = [
         name: 'notFound',
         component: () =>
           import(
-            /* webpackChunkName: "details" */ '../views/notFound/index.vue'
+            /* webpackChunkName: "not-found" */ '../views/notFound/index.vue'
           ),
         meta: { requiresAuth: true },
       },
     ],
   },
-  // {
-  //   path: '/desmet/packing',
-  //   name: 'DesmetPacking',
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ '../views/desmet/packing.vue'),
-  //   meta: { requiresAuth: true },
-  // },
-  // {
-  //   path: '/desmet/pallets',
-  //   name: 'DesmetPallets',
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ '../views/desmet/pallets.vue'),
-  //   meta: { requiresAuth: true },
-  // },
   {
     path: '/about',
     name: 'About',
