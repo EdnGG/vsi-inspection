@@ -78,7 +78,7 @@ const pdfGenerator = (
     ],
     [
       {
-        content: 'DISPOSE OF BLANK FORMS AFTER 11/7/2023',
+        content: 'DISPOSE OF BLANK FORMS AFTER 11/7/2025',
         colSpan: 9,
         styles: footerStyles,
       },
